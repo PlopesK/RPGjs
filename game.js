@@ -21,7 +21,7 @@ class Sprite {
     }
 
     draw () {
-        cont.drawImage(this.image, -566, -560)
+        cont.drawImage(this.image, this.position.x, this.position.y)
     }
 }
 
@@ -32,6 +32,55 @@ const background = new Sprite ({
     },
     image: backImg,
 })
+
+const keys = {
+    w: {
+        pressed: false
+    },
+
+    a: {
+        pressed: false
+    },
+
+    s: {
+        pressed: false
+    },
+
+    d: {
+        pressed: false
+    }
+}
+
+let lastKey = '';
+const keyMap = {
+  'ArrowUp': 'w',
+  'ArrowLeft': 'a',
+  'ArrowDown': 's',
+  'ArrowRight': 'd',
+  'w': 'w',
+  'a': 'a',
+  's': 's',
+  'd': 'd',
+};
+
+window.addEventListener("keydown", (e) => {
+    const key = keyMap[e.key.toLowerCase()];
+    if (key && !keys[key].pressed) {
+        keys[key].pressed = true;
+        lastKey = key;
+    }
+});
+
+window.addEventListener("keyup", (e) => {
+    const key = keyMap[e.key.toLowerCase()];
+    if (key) {
+        keys[key].pressed = false;
+    }
+
+    if (key === lastKey) {
+        lastKey = Object.keys(keys).find(k => keys[k].pressed) || null;
+    }
+});
 
 function animate() {
     console.log("loaded");
@@ -49,21 +98,10 @@ function animate() {
         playerImg.height,
     ); //Image, Crop X, Crop Y, Crop Width, Crop Height, 
       // Image X, Image Y, Image Width, Image Height
+
+      if (keys.w.pressed && lastKey === 'w') background.position.y += 3
+      else if (keys.s.pressed && lastKey === 's') background.position.y -= 3
+      else if (keys.a.pressed && lastKey === 'a') background.position.x += 3
+      else if (keys.d.pressed && lastKey === 'd') background.position.x -= 3
 }
 animate();
-
-window.addEventListener("keydown", (e) => {
-    switch (e.key) {
-        case 'ArrowUp' || 'W':
-            break;
-
-        case 'ArrowLeft' || 'A':
-            break;
-
-        case 'ArrowDown' || 'S':
-            break;
-
-        case 'ArrowRight' || 'D':
-            break;
-    }
-})
