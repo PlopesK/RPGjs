@@ -62,7 +62,7 @@ const keyMap = {
 };
 
 window.addEventListener("keydown", (e) => {
-    const key = keyMap[e.key.toLowerCase()];
+    const key = keyMap[e.key];
     if (key && !keys[key].pressed) {
         keys[key].pressed = true;
         lastKey = key;
@@ -70,7 +70,7 @@ window.addEventListener("keydown", (e) => {
 });
 
 window.addEventListener("keyup", (e) => {
-    const key = keyMap[e.key.toLowerCase()];
+    const key = keyMap[e.key];
     if (key) {
         keys[key].pressed = false;
     }
@@ -78,27 +78,44 @@ window.addEventListener("keyup", (e) => {
     if (key === lastKey) {
         lastKey = Object.keys(keys).find(k => keys[k].pressed) || null;
     }
+
+    player.frames.val = 0;
 });
 
 //      Rendering (In line order)      //
 const backImg = new Image();
-backImg.src = './img/PelletTown.png'
+backImg.src = './img/PelletTown.png';
 
 const foregroundImg = new Image();
-foregroundImg.src = './img/foreground.png'
+foregroundImg.src = './img/foreground.png';
 
-const playerImg = new Image();
-playerImg.src = './img/playerDown.png'
+const playerImgs = {
+  down: new Image(),
+  up: new Image(),
+  left: new Image(),
+  right: new Image()
+};
+
+playerImgs.down.src = './img/playerDown.png';
+playerImgs.up.src = './img/playerUp.png';
+playerImgs.left.src = './img/playerLeft.png';
+playerImgs.right.src = './img/playerRight.png';
 
 const player = new Sprite ({
     position: {
         x: canvas.width / 2 - (192 / 4) / 2, //Sprite Image Static Width
         y: canvas.height / 2 - 68 / 2, //Sprite Image Static Height
     },
-    image: playerImg,
+    image: playerImgs.down,
     frames: {
         max: 4 //Number of frames in the sprite
     },
+    sprites: {
+        up: playerImgs.up,
+        left: playerImgs.left,
+        down: playerImgs.down,
+        right: playerImgs.right
+    }
 });
 
 const background = new Sprite ({
@@ -145,17 +162,23 @@ function animate() {
     };
 
     let moving = true;
+    player.moving = false;
     if (keys.w.pressed && lastKey === 'w') {
         movePlayer('w');
+        player.image = player.sprites.up;
     } else if (keys.s.pressed && lastKey === 's') {
         movePlayer('s');
+        player.image = player.sprites.down;
     } else if (keys.a.pressed && lastKey === 'a') {
         movePlayer('a');
+        player.image = player.sprites.left;
     } else if (keys.d.pressed && lastKey === 'd') {
         movePlayer('d');
+        player.image = player.sprites.right;
     }
 
     function movePlayer(direction) {
+        player.moving = true;
         const { x, y } = directions[direction];
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i];
@@ -169,6 +192,7 @@ function animate() {
                 }
             })) {
                 moving = false;
+                player.moving = false;
                 break;
             }
         }
