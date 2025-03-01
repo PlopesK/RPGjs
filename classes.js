@@ -40,15 +40,17 @@ class Sprite {
 class Boundary {
     static width = 48;
     static height = 48;
+    static buffer = 10;
 
     constructor ({position}) {
         this.position = position;
         this.width = Boundary.width;
         this.height = Boundary.height;
+        this.buffer = Boundary.buffer;
     }
 
     draw() {
         cont.fillStyle = "rgba(255, 0, 0, 0)";
-        cont.fillRect(this.position.x, this.position.y, this.width, this.height);
+        cont.fillRect(this.position.x, this.position.y, this.width, this.height, this.buffer);
     }
 }

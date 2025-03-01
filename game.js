@@ -156,9 +156,9 @@ const foreground = new Sprite ({
 const movables = [background, ...boundaries, foreground, ...battleZones]; // '...' call all items inside a array
 function rectangleCollision({rectangle1, rectangle2}) {
     return (
-        rectangle1.position.x + rectangle1.width >= rectangle2.position.x && //Left collision
-        rectangle1.position.x <= rectangle2.position.x + rectangle2.width && //Right collision
-        rectangle1.position.y <= rectangle2.position.y + rectangle2.height && //Bottom collision
+        rectangle1.position.x + rectangle1.width >= rectangle2.position.x + rectangle2.buffer * 2 && //Left collision
+        rectangle1.position.x <= rectangle2.position.x + rectangle2.width - rectangle2.buffer * 2 && //Right collision
+        rectangle1.position.y <= rectangle2.position.y + rectangle2.height - rectangle2.buffer * 2 && //Bottom collision
         rectangle1.position.y + rectangle1.height >= rectangle2.position.y //Top collision 
     )
 }
