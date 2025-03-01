@@ -103,10 +103,10 @@ window.addEventListener("keyup", (e) => {
 
 //      Rendering (In line order)      //
 const backImg = new Image();
-backImg.src = './img/PelletTown.png';
+backImg.src = './assets/img/PelletTown.png';
 
 const foregroundImg = new Image();
-foregroundImg.src = './img/foreground.png';
+foregroundImg.src = './assets/img/foreground.png';
 
 const playerImgs = {
   down: new Image(),
@@ -115,10 +115,10 @@ const playerImgs = {
   right: new Image()
 };
 
-playerImgs.down.src = './img/playerDown.png';
-playerImgs.up.src = './img/playerUp.png';
-playerImgs.left.src = './img/playerLeft.png';
-playerImgs.right.src = './img/playerRight.png';
+playerImgs.down.src = './assets/img/playerDown.png';
+playerImgs.up.src = './assets/img/playerUp.png';
+playerImgs.left.src = './assets/img/playerLeft.png';
+playerImgs.right.src = './assets/img/playerRight.png';
 
 const player = new Sprite ({
     position: {
