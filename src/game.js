@@ -226,29 +226,33 @@ function animate() {
             }
         }
 
-    for (let i = 0; i < battleZones.length; i++) {
-        const battleZone = battleZones[i];
-        const overlappingArea = calculateOverlappingArea(player, battleZone);
-        if (rectangleCollision({ rectangle1: player, rectangle2: battleZone }) 
-            && overlappingArea < (player.width * player.height) / 2 
-            && Math.random() < 0.005) 
-        {
-            console.log("Activating battle!");
-            battle.initiated = true;
-            break;
+        for (let i = 0; i < battleZones.length; i++) {
+            const battleZone = battleZones[i];
+            const overlappingArea = calculateOverlappingArea(player, battleZone);
+            if (
+                rectangleCollision({
+                    rectangle1: player,
+                    rectangle2: battleZone
+                }) &&
+                overlappingArea > (player.width * player.height) / 2 &&
+                Math.random() < 0.005
+            ) {
+                console.log("Activating battle!");
+                battle.initiated = true;
+                break;
+            }
         }
-    }
 
-    function calculateOverlappingArea(rectangle1, rectangle2) {
-        return (Math.min(
-            rectangle1.position.x + rectangle1.width, 
-            rectangle2.position.x + rectangle2.width
-        ) - Math.max(rectangle1.position.x, rectangle2.position.x)
-        * Math.min(
-            rectangle1.position.y + rectangle1.height,
-            rectangle2.position.y + rectangle2.height
-        ) - Math.max(rectangle1.position.y, rectangle2.position.y));
-    }
+        function calculateOverlappingArea(rectangle1, rectangle2) {
+            return (Math.min(
+                rectangle1.position.x + rectangle1.width, 
+                rectangle2.position.x + rectangle2.width
+            ) - Math.max(rectangle1.position.x, rectangle2.position.x))
+            * (Math.min(
+                rectangle1.position.y + rectangle1.height,
+                rectangle2.position.y + rectangle2.height
+            ) - Math.max(rectangle1.position.y, rectangle2.position.y));
+        }
 
         if (moving) {
             movables.forEach((movable) => {
