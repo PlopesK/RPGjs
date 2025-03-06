@@ -235,10 +235,16 @@ function animate() {
                     rectangle2: battleZone
                 }) &&
                 overlappingArea > (player.width * player.height) / 2 &&
-                Math.random() < 0.005
+                Math.random() < 0.01
             ) {
                 console.log("Activating battle!");
                 battle.initiated = true;
+                gsap.to('.transition', {
+                    duration: 0.5,
+                    repeat: 4,
+                    yoyo: true,
+                    opacity: 1,
+                });
                 break;
             }
         }
