@@ -5,11 +5,6 @@ body {
     zoom: 1 !important;
 }
 
-canvas {
-    width: 100% !important;
-    height: 100% !important;
-}
-
 .hidden {
     display: none !important;
     opacity: 0;

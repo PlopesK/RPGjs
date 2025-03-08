@@ -169,7 +169,7 @@ const battle = {
 
 // ----------- Animating ----------- //
 function animate() {
-    window.requestAnimationFrame(animate);
+    const animationId = window.requestAnimationFrame(animate);
     background.draw(); //Layer 1
     boundaries.forEach((boundary) => { //Layer 2
         boundary.draw();
@@ -226,6 +226,7 @@ function animate() {
             }
         }
 
+        //  Battle Zone //
         for (let i = 0; i < battleZones.length; i++) {
             const battleZone = battleZones[i];
             const overlappingArea = calculateOverlappingArea(player, battleZone);
@@ -237,13 +238,21 @@ function animate() {
                 overlappingArea > (player.width * player.height) / 2 &&
                 Math.random() < 0.01
             ) {
-                console.log("Activating battle!");
+                window.cancelAnimationFrame(animationId) //Cancel Map animation loop
                 battle.initiated = true;
                 gsap.to('.transition', {
                     duration: 0.5,
                     repeat: 4,
                     yoyo: true,
                     opacity: 1,
+                    onComplete() {
+                        gsap.to('.transition', {
+                            opacity: 1,
+                            duration: 0.5,
+                        });
+
+                        animateBattle()
+                    }
                 });
                 break;
             }
@@ -269,3 +278,7 @@ function animate() {
     }
 }
 animate();
+
+function animateBattle() {
+    window.requestAnimationFrame(animateBattle);
+}
