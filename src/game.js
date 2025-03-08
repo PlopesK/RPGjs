@@ -249,11 +249,17 @@ function animate() {
                         gsap.to('.transition', {
                             opacity: 1,
                             duration: 0.5,
+                            onComplete() {
+                                animateBattle()
+                                gsap.to('.transition', {
+                                    opacity: 0,
+                                    duration: 0.5,
+                                });
+                            }
                         });
-
-                        animateBattle()
                     }
                 });
+                
                 break;
             }
         }
@@ -279,6 +285,25 @@ function animate() {
 }
 animate();
 
+// Battle Zone Creation //
+const battleBackgroundImg = new Image();
+battleBackgroundImg.src = './assets/img/battleBackground.png';
+
+function drawBackground() {
+    cont.clearRect(0, 0, canvas.width, canvas.height);
+    
+    const scale = Math.max(canvas.width / battleBackgroundImg.width, canvas.height / battleBackgroundImg.height);
+    const newWidth = battleBackgroundImg.width * scale;
+    const newHeight = battleBackgroundImg.height * scale;
+
+    const x = (canvas.width - newWidth) / 2;
+    const y = (canvas.height - newHeight) / 2;
+
+    cont.drawImage(battleBackgroundImg, x, y, newWidth, newHeight);
+}
+
+// Rendering Battle Sequence //
 function animateBattle() {
     window.requestAnimationFrame(animateBattle);
+    drawBackground();
 }
