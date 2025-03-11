@@ -1,5 +1,5 @@
 class Sprite {
-    constructor({position, image, frames = { max: 1}, sprites, animation = false}) {
+    constructor({position, image, frames = { max: 1, hold: 10}, sprites, animation = false}) {
         this.position = position
         this.image = image
         this.frames = {...frames, val: 0, elapsed: 0}
@@ -30,7 +30,7 @@ class Sprite {
 
         if (this.frames.max > 1) {
             this.frames.elapsed++;
-            if (this.frames.elapsed % 8 === 0) {
+            if (this.frames.elapsed % this.frames.hold === 0) {
                 this.frames.val = (this.frames.val + 1) % this.frames.max;
             }
         }

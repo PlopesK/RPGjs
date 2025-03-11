@@ -127,7 +127,8 @@ const player = new Sprite ({
     },
     image: playerImgs.down,
     frames: {
-        max: 4 //Number of frames in the sprite
+        max: 4, //Number of frames in the sprite
+        hold: 10 
     },
     sprites: {
         up: playerImgs.up,
@@ -283,7 +284,6 @@ function animate() {
         }
     }
 }
-animate();
 
 // Battle Zone Creation //
 const battleBackgroundImg = new Image();
@@ -306,6 +306,9 @@ function drawBackground() {
 const draggleImg = new Image();
 draggleImg.src = './assets/img/draggleSprite.png';
 
+const embyImg = new Image();
+embyImg.src = './assets/img/embySprite.png';
+
 const draggle = new Sprite({
     position: {
         x: canvas.width - 300,
@@ -314,15 +317,31 @@ const draggle = new Sprite({
     image: draggleImg,
     frames: {
         max: 4,
+        hold: 30
     },
     animation: true
-})
+});
+
+const emby = new Sprite({
+    position: {
+        x: 380,
+        y: canvas.height - 250
+    },
+    image: embyImg,
+    frames: {
+        max: 4,
+        hold: 30
+    },
+    animation: true
+});
 
 // Rendering Battle Sequence //
 function animateBattle() {
     window.requestAnimationFrame(animateBattle);
     drawBackground();
     draggle.draw();
+    emby.draw();
 }
 
-//animateBattle();
+//animate();
+animateBattle();
