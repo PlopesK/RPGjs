@@ -1,6 +1,7 @@
 //      Canvas      //
 const canvas = document.querySelector("canvas");
 const cont = canvas.getContext("2d"); //Context
+const actButtons = document.querySelector(".actions");
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -171,6 +172,8 @@ const battle = {
 // ----------- Animating ----------- //
 function animate() {
     const animationId = window.requestAnimationFrame(animate);
+    actButtons.classList.add("hidden");
+
     background.draw(); //Layer 1
     boundaries.forEach((boundary) => { //Layer 2
         boundary.draw();
@@ -315,14 +318,15 @@ const draggle = new Sprite({
         max: 4,
         hold: 30
     },
-    animation: true
+    animation: true,
+    scale: 1.2
 });
 
 const embyImg = new Image();
 embyImg.src = './assets/img/embySprite.png';
 const emby = new Sprite({
     position: {
-        x: 350,
+        x: 360,
         y: canvas.height - 340
     },
     image: embyImg,
@@ -334,13 +338,38 @@ const emby = new Sprite({
     scale: 2
 });
 
+// Animations to monsters //
+const initialPositions = {
+  emby: { x: canvas.width + 300, y: emby.position.y },
+  draggle: { x: -300, y: draggle.position.y }
+};
+
+const finalPositions = {
+  emby: { x: 360, y: canvas.height - 340 },
+  draggle: { x: canvas.width - 300, y: 100 }
+};
+
+emby.position.x = initialPositions.emby.x;
+draggle.position.x = initialPositions.draggle.x;
+const speed = 30;
+
 // Rendering Battle Sequence //
 function animateBattle() {
-    window.requestAnimationFrame(animateBattle);
-    drawBackground();
-    draggle.draw();
-    emby.draw();
+  window.requestAnimationFrame(animateBattle);
+  actButtons.classList.remove("hidden");
+
+  drawBackground();
+  draggle.draw();
+  emby.draw();
+
+  if (draggle.position.x < finalPositions.draggle.x) {
+    draggle.position.x = Math.min(draggle.position.x + speed, finalPositions.draggle.x);
+  }
+
+  if (emby.position.x > finalPositions.emby.x) {
+    emby.position.x = Math.max(emby.position.x - speed, finalPositions.emby.x);
+  }
 }
 
-animate();
-//animateBattle();
+//animate();
+animateBattle();
