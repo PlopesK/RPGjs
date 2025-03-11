@@ -188,8 +188,8 @@ function animate() {
         d: { x: -size, y: 0 },
     };
 
-    let moving = true;
-    player.moving = false;
+    let animation = true;
+    player.animation = false;
 
     if (battle.initiated) return;
     if (keys.w.pressed && lastKey === 'w') {
@@ -207,7 +207,7 @@ function animate() {
     }
 
     function movePlayer(direction) {
-        player.moving = true;
+        player.animation = true;
         const { x, y } = directions[direction];
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i];
@@ -220,8 +220,8 @@ function animate() {
                     } 
                 }
             }) ) {
-                moving = false;
-                player.moving = false;
+                animation = false;
+                player.animation = false;
                 break;
             }
         }
@@ -275,7 +275,7 @@ function animate() {
             ) - Math.max(rectangle1.position.y, rectangle2.position.y));
         }
 
-        if (moving) {
+        if (animation) {
             movables.forEach((movable) => {
                 movable.position.x += x;
                 movable.position.y += y;
@@ -302,8 +302,27 @@ function drawBackground() {
     cont.drawImage(battleBackgroundImg, x, y, newWidth, newHeight);
 }
 
+// Battle Elements //
+const draggleImg = new Image();
+draggleImg.src = './assets/img/draggleSprite.png';
+
+const draggle = new Sprite({
+    position: {
+        x: canvas.width - 300,
+        y: 100
+    },
+    image: draggleImg,
+    frames: {
+        max: 4,
+    },
+    animation: true
+})
+
 // Rendering Battle Sequence //
 function animateBattle() {
     window.requestAnimationFrame(animateBattle);
     drawBackground();
+    draggle.draw();
 }
+
+//animateBattle();
