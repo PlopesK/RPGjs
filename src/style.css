@@ -33,3 +33,8 @@ body {
     pointer-events: none;
     opacity: 0;
 }
+
+.playerMonster {
+    width: 50%;
+    height: auto;
+}

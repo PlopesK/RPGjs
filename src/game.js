@@ -305,10 +305,6 @@ function drawBackground() {
 // Battle Elements //
 const draggleImg = new Image();
 draggleImg.src = './assets/img/draggleSprite.png';
-
-const embyImg = new Image();
-embyImg.src = './assets/img/embySprite.png';
-
 const draggle = new Sprite({
     position: {
         x: canvas.width - 300,
@@ -322,17 +318,20 @@ const draggle = new Sprite({
     animation: true
 });
 
+const embyImg = new Image();
+embyImg.src = './assets/img/embySprite.png';
 const emby = new Sprite({
     position: {
-        x: 380,
-        y: canvas.height - 250
+        x: 350,
+        y: canvas.height - 340
     },
     image: embyImg,
     frames: {
         max: 4,
         hold: 30
     },
-    animation: true
+    animation: true,
+    scale: 2
 });
 
 // Rendering Battle Sequence //
@@ -343,5 +342,5 @@ function animateBattle() {
     emby.draw();
 }
 
-//animate();
-animateBattle();
+animate();
+//animateBattle();
