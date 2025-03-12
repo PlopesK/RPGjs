@@ -244,25 +244,7 @@ function animate() {
             ) {
                 window.cancelAnimationFrame(animationId) //Cancel Map animation loop
                 battle.initiated = true;
-                gsap.to('.transition', {
-                    duration: 0.5,
-                    repeat: 4,
-                    yoyo: true,
-                    opacity: 1,
-                    onComplete() {
-                        gsap.to('.transition', {
-                            opacity: 1,
-                            duration: 0.5,
-                            onComplete() {
-                                animateBattle()
-                                gsap.to('.transition', {
-                                    opacity: 0,
-                                    duration: 0.5,
-                                });
-                            }
-                        });
-                    }
-                });
+                startBattleTransition();
                 
                 break;
             }
@@ -286,6 +268,16 @@ function animate() {
             });
         }
     }
+}
+
+function startBattleTransition() {
+    const tl = gsap.timeline();
+
+    tl.to('.transition', { duration: 0.5, opacity: 1, repeat: 2, yoyo: true })
+      .to('.transition', { duration: 0.3, opacity: 0 })
+      .to('.transition', { duration: 1, opacity: 1, scale: 5, backgroundColor: 'black', ease: "power2.inOut", zIndex: 300 })
+      .to('.transition', { duration: 0.5, opacity: 1, onComplete: animateBattle })
+      .to('.transition', { duration: 0.5, scale: 0, opacity: 0, ease: "power2.inOut" });
 }
 
 // Battle Zone Creation //
@@ -371,5 +363,5 @@ function animateBattle() {
   }
 }
 
-//animate();
-animateBattle();
+animate();
+//animateBattle();
