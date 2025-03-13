@@ -1,3 +1,24 @@
+@font-face {
+    font-family: 'PokeFont';
+    src: url('../assets/font/PKMN_RBYGSC.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    /* Credits: https://www.dafont.com/pkmn-rbygsc.font*/
+}
+
+:root {
+    --default-border: 6px double black;
+    --default-radius: 10px;
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    letter-spacing: 2px;
+    font-family: PokeFont, Verdana, Geneva, Tahoma, sans-serif;
+}
+
 body {
     margin: 0;
     overflow: hidden;
@@ -42,12 +63,43 @@ canvas {
 
 .actions {
     background-color: rgba(255, 255, 255, 0.7);
-    width: 100%;
-    height: 23%;
+    width: 98%;
+    height: 25%;
     position: absolute;
     bottom: 0;
-    border-top: 4px black solid;
+    left: 0;
+
+    padding: 0.5% 0.5%;
+    margin: 1% 1% 1% 1%;
+    
+    border: var(--default-border);
+    border-radius: var(--default-radius);
     animation: actIntro 0.4s linear;
+    display: flex;
+    flex-direction: row;
+}
+
+.actions > * {
+    transition: all 0.2s ease-in-out;
+    width: 50%;
+    height: 100%;
+}
+
+.options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.optBtn {
+    margin: 1%;
+    border: var(--default-border);
+    font-size: large;
+    font-weight: bolder;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
 
 @keyframes actIntro {

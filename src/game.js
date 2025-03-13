@@ -319,7 +319,7 @@ embyImg.src = './assets/img/embySprite.png';
 const emby = new Sprite({
     position: {
         x: 360,
-        y: canvas.height - 340
+        y: canvas.height - 350
     },
     image: embyImg,
     frames: {
@@ -363,5 +363,5 @@ function animateBattle() {
   }
 }
 
-animate();
-//animateBattle();
+//animate();
+animateBattle();
