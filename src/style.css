@@ -7,8 +7,11 @@
 }
 
 :root {
-    --default-border: 6px double black;
-    --default-radius: 10px;
+    --normal-border: 0.5vh double black;
+    --larger-border: 1vh double black;
+    --border-radius: 2vh;
+
+    --font-size: 2.5vh;
 }
 
 * {
@@ -59,24 +62,33 @@ canvas {
     transform: scale(1);
     opacity: 0;
     z-index: 100;
+
+    background-image: url(../assets/img/battle.png);
+    background-size: 10%;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .actions {
     background-color: rgba(255, 255, 255, 0.7);
     width: 98%;
-    height: 25%;
+    height: 26%;
     position: absolute;
     bottom: 0;
     left: 0;
 
     padding: 0.5% 0.5%;
-    margin: 1% 1% 1% 1%;
+    margin: 1% 1% 0.5% 1%;
     
-    border: var(--default-border);
-    border-radius: var(--default-radius);
+    border: var(--larger-border);
+    border-radius: var(--border-radius);
     animation: actIntro 0.4s linear;
     display: flex;
     flex-direction: row;
+
+    font-size: var(--font-size);
+    font-weight: bolder;
+    color: black;
 }
 
 .actions > * {
@@ -85,21 +97,47 @@ canvas {
     height: 100%;
 }
 
-.options {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+.description {
+    margin-right: 1%;
+    height: 100%;
+    border: var(--normal-border);
+    font-weight: normal !important;
 }
 
-.optBtn {
-    margin: 1%;
-    border: var(--default-border);
-    font-size: large;
-    font-weight: bolder;
-    color: black;
+.description, .optBtn {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    list-style: none;
+    gap: 3%;
+}
+
+.options > * {
+    border: var(--normal-border);
+    margin: 0;
+}
+
+.optBtn {
     cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+#select {
+    color: transparent;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.optBtn:hover > #select {
+    color: black;
+}
+
+.optBtn:hover {
+    transform: scale(1.02);
 }
 
 @keyframes actIntro {

@@ -319,7 +319,7 @@ embyImg.src = './assets/img/embySprite.png';
 const emby = new Sprite({
     position: {
         x: 360,
-        y: canvas.height - 350
+        y: canvas.height - 360
     },
     image: embyImg,
     frames: {
@@ -337,7 +337,7 @@ const initialPositions = {
 };
 
 const finalPositions = {
-  emby: { x: 360, y: canvas.height - 340 },
+  emby: { x: 360, y: canvas.height - 360 },
   draggle: { x: canvas.width - 300, y: 100 }
 };
 
@@ -363,5 +363,5 @@ function animateBattle() {
   }
 }
 
-//animate();
-animateBattle();
+animate();
+//animateBattle();
