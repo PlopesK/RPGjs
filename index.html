@@ -15,15 +15,29 @@
 
             <canvas></canvas>
             <div class="actions hidden">
-                <span class="description">
-                    <p id="info">ITEM DESCRIPTION</p>
-                </span>
-                <span class="options">
-                    <div class="optBtn" id="opt1"> <p id="select">&raquo;</p> ATTACK </div>
-                    <div class="optBtn" id="opt2"> <p id="select">&raquo;</p> ITEMS </div>
-                    <div class="optBtn" id="opt3"> <p id="select">&raquo;</p> SPECS </div>
-                    <div class="optBtn" id="opt4"> <p id="select">&raquo;</p> RUN </div>
-                </span>
+                <menu class="startBattle">
+                    <span class="description">
+                        <p id="info">ITEM DESCRIPTION</p>
+                    </span>
+                    <span class="options">
+                        <button class="optBtn" id="opt1"> <p id="select">&#10148;</p> ATTACK </button>
+                        <button class="optBtn" id="opt2"> <p id="select">&#10148;</p> ITEMS </button>
+                        <button class="optBtn" id="opt3"> <p id="select">&#10148;</p> SPECS </button>
+                        <button class="optBtn" id="opt4"> <p id="select">&#10148;</p> RUN </button>
+                    </span>
+                </menu>
+
+                <menu class="battleAtk hidden">
+                    <span class="options">
+                        <button class="optBtn" id="atk1"> <p id="select">&#10148;</p> ATTACK1 </button>
+                        <button class="optBtn" id="atk2"> <p id="select">&#10148;</p> ATTACK2 </button>
+                        <button class="optBtn" id="atk3"> <p id="select">&#10148;</p> ATTACK3 </button>
+                        <button class="optBtn" id="atk4"> <p id="select">&#10148;</p> ATTACK4 </button>
+                    </span>
+                    <span class="description">
+                        <p id="atkInfo">ATTACK DESCRIPTION</p>
+                    </span>
+                </menu>
             </div>
 
             <div class="message hidden"></div>

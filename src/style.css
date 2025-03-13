@@ -11,7 +11,7 @@
     --larger-border: 1vh double black;
     --border-radius: 2vh;
 
-    --font-size: 2.5vh;
+    --font-size: 2.6vh;
 }
 
 * {
@@ -20,6 +20,13 @@
     margin: 0;
     letter-spacing: 2px;
     font-family: PokeFont, Verdana, Geneva, Tahoma, sans-serif;
+    outline: transparent;
+    image-rendering: crisp-edges;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 body {
@@ -69,6 +76,7 @@ canvas {
     background-repeat: no-repeat;
 }
 
+/* //////////////// Battle Actions config //////////////// */
 .actions {
     background-color: rgba(255, 255, 255, 0.7);
     width: 98%;
@@ -76,22 +84,35 @@ canvas {
     position: absolute;
     bottom: 0;
     left: 0;
-
-    padding: 0.5% 0.5%;
     margin: 1% 1% 0.5% 1%;
     
     border: var(--larger-border);
     border-radius: var(--border-radius);
     animation: actIntro 0.4s linear;
-    display: flex;
-    flex-direction: row;
 
     font-size: var(--font-size);
     font-weight: bolder;
     color: black;
 }
 
-.actions > * {
+@keyframes actIntro {
+    from {
+        height: 0px;
+    } to {
+        height: 23%;
+    }
+}
+
+.startBattle {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    padding: 1%;
+}
+
+.startBattle > * {
     transition: all 0.2s ease-in-out;
     width: 50%;
     height: 100%;
@@ -122,6 +143,13 @@ canvas {
     margin: 0;
 }
 
+/* //////////////// Button config //////////////// */
+
+button {
+    background-color: white !important;
+    color: black !important;
+}
+
 .optBtn {
     cursor: pointer;
     transition: all 0.2s ease-in-out;
@@ -140,10 +168,6 @@ canvas {
     transform: scale(1.02);
 }
 
-@keyframes actIntro {
-    from {
-        height: 0px;
-    } to {
-        height: 23%;
-    }
+.optBtn:active {
+    transform: scale(0.98);
 }

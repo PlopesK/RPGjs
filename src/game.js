@@ -363,5 +363,5 @@ function animateBattle() {
   }
 }
 
-animate();
-//animateBattle();
+//animate();
+animateBattle();
