@@ -157,7 +157,10 @@ button {
 
 #select {
     color: transparent;
-    transition: opacity 0.2s ease-in-out;
+}
+  
+#select.selected {
+    color: black;
 }
 
 .optBtn:hover > #select {

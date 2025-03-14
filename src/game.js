@@ -53,19 +53,20 @@ battleZonesMap.forEach((row, i) => {
 //      Player Movement      //
 const keys = {
     w: {
-        pressed: false
+        pressed: false,
+        keyCode: 87
     },
-
     a: {
-        pressed: false
+        pressed: false,
+        keyCode: 65
     },
-
     s: {
-        pressed: false
+        pressed: false,
+        keyCode: 83
     },
-
     d: {
-        pressed: false
+        pressed: false,
+        keyCode: 68
     }
 }
 
@@ -100,6 +101,57 @@ window.addEventListener("keyup", (e) => {
     }
 
     player.frames.val = 0;
+});
+
+// Battle Options //
+const options = document.querySelector('.options');
+const buttons = options.querySelectorAll('.optBtn');
+const optionsArray = Array.from(buttons);
+let selectedOption = null;
+
+document.addEventListener('keydown', (e) => {
+  const key = keyMap[e.key];
+
+  if (['w', 'a', 's', 'd'].includes(key)) {
+    if (!selectedOption) {
+      selectedOption = buttons[0];
+    }
+
+    buttons.forEach(button => {
+      button.querySelector('#select').classList.remove('selected');
+    });
+
+    const currentIndex = optionsArray.indexOf(selectedOption);
+    let newIndex = currentIndex;
+
+    const navigationMap = {
+      [keys.w.keyCode]: (currentIndex - 1 + optionsArray.length) % optionsArray.length,
+      [keys.s.keyCode]: (currentIndex + 1) % optionsArray.length,
+      [keys.a.keyCode]: (currentIndex - 1 + optionsArray.length) % optionsArray.length,
+      [keys.d.keyCode]: (currentIndex + 1) % optionsArray.length
+    };
+
+    const specialCases = {
+      [keys.w.keyCode]: {
+        3: 1,
+        2: 0,
+        1: 2,
+      },
+      [keys.s.keyCode]: {
+        1: 3,
+        0: 2,
+        2: 1,
+      },
+    };
+
+    newIndex = navigationMap[keys[key].keyCode];
+    if (specialCases[keys[key].keyCode] && specialCases[keys[key].keyCode][currentIndex]) {
+      newIndex = specialCases[keys[key].keyCode][currentIndex];
+    }
+
+    selectedOption = optionsArray[newIndex];
+    selectedOption.querySelector('#select').classList.add('selected');
+  }
 });
 
 //      Rendering (In line order)      //
