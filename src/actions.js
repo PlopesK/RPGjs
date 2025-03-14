@@ -28,6 +28,10 @@ const keyMap = {
   'a': 'a',
   's': 's',
   'd': 'd',
+  'W': 'w',
+  'A': 'a',
+  'S': 's',
+  'D': 'd',
 };
 
 window.addEventListener("keydown", (e) => {
@@ -100,34 +104,66 @@ function manageOptions(buttons) {
     },
   };
 
-  const handleKeydown = (e) => {
-    const key = keyMap[e.key];
-
-    if (['w', 'a', 's', 'd'].includes(key)) {
-      if (!selectedOption) {
-        selectedOption = optionsArray[0];
+  // ------------------ Handle Key animations ------------------ //
+  class KeyHandler {
+    constructor(navigationKeys, zKey, returnKey) {
+      this.navigationKeys = navigationKeys;
+      this.zKey = zKey;
+      this.returnKey = returnKey;
+      this.selectedOption = null;
+    }
+  
+    handleNavigationKey(key, optionsArray, navigationMap, specialCases) {
+      if (!this.selectedOption) {
+        this.selectedOption = optionsArray[0];
       }
-
+  
       optionsArray.forEach(button => {
         button.querySelector('#select').classList.remove('selected');
         button.classList.remove('selected');
       });
-
-      const currentIndex = optionsArray.indexOf(selectedOption);
+  
+      const currentIndex = optionsArray.indexOf(this.selectedOption);
       let newIndex = navigationMap[keys[key].keyCode](currentIndex);
-
+  
       if (currentIndex === 2 && key === 'w') {
         newIndex = 0;
       }
       if (specialCases[keys[key].keyCode] && specialCases[keys[key].keyCode][currentIndex]) {
         newIndex = specialCases[keys[key].keyCode][currentIndex];
       }
-      selectedOption = optionsArray[newIndex];
-      selectedOption.querySelector('#select').classList.add('selected');
-      selectedOption.classList.add('selected');
+  
+      this.selectedOption = optionsArray[newIndex];
+      this.selectedOption.querySelector('#select').classList.add('selected');
+      this.selectedOption.classList.add('selected');
     }
-  };
+  
+    handleZKey(optionsArray) {
+      if (this.selectedOption && optionsArray.indexOf(this.selectedOption) === 0 && this.selectedOption.id === 'attack') {
+        openMenuAtk();
+      }
+    }
+  
+    handleKeydown(e, optionsArray, navigationMap, specialCases) {
+      const key = keyMap[e.key];
+    
+      if (this.navigationKeys.includes(key)) {
+          this.handleNavigationKey(key, optionsArray, navigationMap, specialCases);
+      } else if (this.zKey.includes(e.key)) {
+          this.handleZKey(optionsArray);
+      } else if (this.returnKey.includes(e.key)) {
+          returnStart();
+      }
+    }
+  }
+  const keyHandler = new KeyHandler(
+    ['w', 'a', 's', 'd'], 
+    ['z', 'Z', 'Enter', ' '],
+    ['x', 'X', 'Backspace']
+  );
+  window.addEventListener('keydown', (e) => keyHandler.handleKeydown(e, optionsArray, navigationMap, specialCases));
 
+  // ------------------ Handle mouse animations ------------------ //
   const handleMouseover = (button) => {
     optionsArray.forEach(otherButton => {
       otherButton.querySelector('#select').classList.remove('selected');
@@ -137,6 +173,12 @@ function manageOptions(buttons) {
     button.querySelector('#select').classList.add('selected');
     button.classList.add('selected');
     selectedOption = button;
+
+    if (selectedOption && optionsArray.indexOf(selectedOption) === 0 && selectedOption.id === 'attack') {
+      button.addEventListener('click', () => {
+        openMenuAtk();
+      });
+    }
   };
 
   const handleMouseout = (button) => {
@@ -148,14 +190,13 @@ function manageOptions(buttons) {
   };
 
   const cleanup = () => {
-    window.removeEventListener('keydown', handleKeydown);
+    window.removeEventListener('keydown', KeyHandler.handleKeydown);
     optionsArray.forEach(button => {
       button.removeEventListener('mouseover', () => handleMouseover(button));
       button.removeEventListener('mouseout', () => handleMouseout(button));
     });
   };
 
-  window.addEventListener('keydown', handleKeydown);
   optionsArray.forEach(button => {
     button.addEventListener('mouseover', () => handleMouseover(button));
     button.addEventListener('mouseout', () => handleMouseout(button));
@@ -168,6 +209,13 @@ function openMenuAtk() {
   battleAtkMenu.classList.remove("hidden");
   startBattleMenu.classList.add("hidden");
   const cleanup = manageOptions(battleAtkButtons);
+  return cleanup;
+}
+
+function returnStart() {
+  startBattleMenu.classList.remove("hidden");
+  battleAtkMenu.classList.add("hidden");
+  const cleanup = manageOptions(startBattleButtons);
   return cleanup;
 }
 
