@@ -125,11 +125,11 @@ document.addEventListener('keydown', (e) => {
     let newIndex = currentIndex;
 
     const navigationMap = {
-      [keys.w.keyCode]: (currentIndex - 1 + optionsArray.length) % optionsArray.length,
-      [keys.s.keyCode]: (currentIndex + 1) % optionsArray.length,
-      [keys.a.keyCode]: (currentIndex - 1 + optionsArray.length) % optionsArray.length,
-      [keys.d.keyCode]: (currentIndex + 1) % optionsArray.length
-    };
+        [keys.w.keyCode]: (currentIndex - 1 + optionsArray.length) % optionsArray.length,
+        [keys.s.keyCode]: (currentIndex + 1) % optionsArray.length,
+        [keys.a.keyCode]: (currentIndex - 1 + optionsArray.length) % optionsArray.length,
+        [keys.d.keyCode]: (currentIndex + 1) % optionsArray.length
+      };
 
     const specialCases = {
       [keys.w.keyCode]: {
@@ -145,10 +145,12 @@ document.addEventListener('keydown', (e) => {
     };
 
     newIndex = navigationMap[keys[key].keyCode];
-    if (specialCases[keys[key].keyCode] && specialCases[keys[key].keyCode][currentIndex]) {
-      newIndex = specialCases[keys[key].keyCode][currentIndex];
+    if (currentIndex === 2 && key === 'w') {
+        newIndex = 0;
     }
-
+    if (specialCases[keys[key].keyCode] && specialCases[keys[key].keyCode][currentIndex]) {
+        newIndex = specialCases[keys[key].keyCode][currentIndex];
+    }
     selectedOption = optionsArray[newIndex];
     selectedOption.querySelector('#select').classList.add('selected');
   }
