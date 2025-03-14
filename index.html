@@ -15,19 +15,19 @@
 
             <canvas></canvas>
             <div class="actions hidden">
-                <menu class="startBattle">
+                <menu class="startBattle battle ">
                     <span class="description">
                         <p id="info">ITEM DESCRIPTION</p>
                     </span>
                     <span class="options">
-                        <button class="optBtn" id="opt1"> <p id="select">&#10148;</p> ATTACK </button>
+                        <button class="optBtn" id="opt1" onclick="openMenuAtk()"> <p id="select">&#10148;</p> ATTACK </button>
                         <button class="optBtn" id="opt2"> <p id="select">&#10148;</p> SPECS </button>
                         <button class="optBtn" id="opt3"> <p id="select">&#10148;</p> ITEMS </button>
                         <button class="optBtn" id="opt4"> <p id="select">&#10148;</p> RUN </button>
                     </span>
                 </menu>
 
-                <menu class="battleAtk hidden">
+                <menu class="battleAtk battle hidden ">
                     <span class="options">
                         <button class="optBtn" id="atk1"> <p id="select">&#10148;</p> ATTACK1 </button>
                         <button class="optBtn" id="atk2"> <p id="select">&#10148;</p> ATTACK2 </button>
@@ -46,6 +46,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js" integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="data/collisions.js"></script>
         <script src="src/classes.js"></script>
+        <script src="src/actions.js"></script>
         <script src="src/game.js"></script>
     </body>
 

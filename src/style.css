@@ -103,7 +103,7 @@ canvas {
     }
 }
 
-.startBattle {
+.actions > * {
     position: absolute;
     display: flex;
     flex-direction: row;
@@ -112,17 +112,19 @@ canvas {
     padding: 1%;
 }
 
-.startBattle > * {
+.battle > * {
     transition: all 0.2s ease-in-out;
     width: 50%;
     height: 100%;
 }
 
 .description {
+    margin-left: 1%;
     margin-right: 1%;
     height: 100%;
     border: var(--normal-border);
     font-weight: normal !important;
+    cursor: help;
 }
 
 .description, .optBtn {
@@ -157,19 +159,20 @@ button {
 
 #select {
     color: transparent;
+    transform: scale(1);
 }
   
 #select.selected {
     color: black;
 }
 
-.optBtn:hover > #select {
-    color: black;
-}
-
-.optBtn:hover {
-    transform: scale(1.02);
-}
+.optBtn {
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .optBtn.selected {
+    transform: scale(1.05);
+  }
 
 .optBtn:active {
     transform: scale(0.98);

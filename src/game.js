@@ -50,112 +50,6 @@ battleZonesMap.forEach((row, i) => {
     });
 })
 
-//      Player Movement      //
-const keys = {
-    w: {
-        pressed: false,
-        keyCode: 87
-    },
-    a: {
-        pressed: false,
-        keyCode: 65
-    },
-    s: {
-        pressed: false,
-        keyCode: 83
-    },
-    d: {
-        pressed: false,
-        keyCode: 68
-    }
-}
-
-let lastKey = '';
-const keyMap = {
-  'ArrowUp': 'w',
-  'ArrowLeft': 'a',
-  'ArrowDown': 's',
-  'ArrowRight': 'd',
-  'w': 'w',
-  'a': 'a',
-  's': 's',
-  'd': 'd',
-};
-
-window.addEventListener("keydown", (e) => {
-    const key = keyMap[e.key];
-    if (key && !keys[key].pressed) {
-        keys[key].pressed = true;
-        lastKey = key;
-    }
-});
-
-window.addEventListener("keyup", (e) => {
-    const key = keyMap[e.key];
-    if (key) {
-        keys[key].pressed = false;
-    }
-
-    if (key === lastKey) {
-        lastKey = Object.keys(keys).find(k => keys[k].pressed) || null;
-    }
-
-    player.frames.val = 0;
-});
-
-// Battle Options //
-const options = document.querySelector('.options');
-const buttons = options.querySelectorAll('.optBtn');
-const optionsArray = Array.from(buttons);
-let selectedOption = null;
-
-document.addEventListener('keydown', (e) => {
-  const key = keyMap[e.key];
-
-  if (['w', 'a', 's', 'd'].includes(key)) {
-    if (!selectedOption) {
-      selectedOption = buttons[0];
-    }
-
-    buttons.forEach(button => {
-      button.querySelector('#select').classList.remove('selected');
-    });
-
-    const currentIndex = optionsArray.indexOf(selectedOption);
-    let newIndex = currentIndex;
-
-    const navigationMap = {
-        [keys.w.keyCode]: (currentIndex - 1 + optionsArray.length) % optionsArray.length,
-        [keys.s.keyCode]: (currentIndex + 1) % optionsArray.length,
-        [keys.a.keyCode]: (currentIndex - 1 + optionsArray.length) % optionsArray.length,
-        [keys.d.keyCode]: (currentIndex + 1) % optionsArray.length
-      };
-
-    const specialCases = {
-      [keys.w.keyCode]: {
-        3: 1,
-        2: 0,
-        1: 2,
-      },
-      [keys.s.keyCode]: {
-        1: 3,
-        0: 2,
-        2: 1,
-      },
-    };
-
-    newIndex = navigationMap[keys[key].keyCode];
-    if (currentIndex === 2 && key === 'w') {
-        newIndex = 0;
-    }
-    if (specialCases[keys[key].keyCode] && specialCases[keys[key].keyCode][currentIndex]) {
-        newIndex = specialCases[keys[key].keyCode][currentIndex];
-    }
-    selectedOption = optionsArray[newIndex];
-    selectedOption.querySelector('#select').classList.add('selected');
-  }
-});
-
 //      Rendering (In line order)      //
 const backImg = new Image();
 backImg.src = './assets/img/PelletTown.png';
@@ -325,6 +219,7 @@ function animate() {
 }
 
 function startBattleTransition() {
+    manageOptions(startBattleButtons);
     const tl = gsap.timeline();
 
     tl.to('.transition', { duration: 0.5, opacity: 1, repeat: 2, yoyo: true })
