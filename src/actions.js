@@ -104,7 +104,6 @@ function manageOptions(buttons) {
     },
   };
 
-  // ------------------ Handle Key animations ------------------ //
   class KeyHandler {
     constructor(navigationKeys, zKey, returnKey) {
       this.navigationKeys = navigationKeys;
@@ -112,56 +111,57 @@ function manageOptions(buttons) {
       this.returnKey = returnKey;
       this.selectedOption = null;
     }
-  
+
     handleNavigationKey(key, optionsArray, navigationMap, specialCases) {
       if (!this.selectedOption) {
         this.selectedOption = optionsArray[0];
       }
-  
+
       optionsArray.forEach(button => {
         button.querySelector('#select').classList.remove('selected');
         button.classList.remove('selected');
       });
-  
+
       const currentIndex = optionsArray.indexOf(this.selectedOption);
       let newIndex = navigationMap[keys[key].keyCode](currentIndex);
-  
+
       if (currentIndex === 2 && key === 'w') {
         newIndex = 0;
       }
       if (specialCases[keys[key].keyCode] && specialCases[keys[key].keyCode][currentIndex]) {
         newIndex = specialCases[keys[key].keyCode][currentIndex];
       }
-  
+
       this.selectedOption = optionsArray[newIndex];
       this.selectedOption.querySelector('#select').classList.add('selected');
       this.selectedOption.classList.add('selected');
     }
-  
+
     handleZKey(optionsArray) {
       if (this.selectedOption && optionsArray.indexOf(this.selectedOption) === 0 && this.selectedOption.id === 'attack') {
         openMenuAtk();
       }
     }
-  
+
     handleKeydown(e, optionsArray, navigationMap, specialCases) {
       const key = keyMap[e.key];
-    
+
       if (this.navigationKeys.includes(key)) {
-          this.handleNavigationKey(key, optionsArray, navigationMap, specialCases);
+        this.handleNavigationKey(key, optionsArray, navigationMap, specialCases);
       } else if (this.zKey.includes(e.key)) {
-          this.handleZKey(optionsArray);
+        this.handleZKey(optionsArray);
       } else if (this.returnKey.includes(e.key)) {
-          returnStart();
+        returnStart();
       }
     }
   }
   const keyHandler = new KeyHandler(
     ['w', 'a', 's', 'd'], 
-    ['z', 'Z', 'Enter', ' '],
-    ['x', 'X', 'Backspace']
+    ['z', 'Z', 'Enter', ' ', 'j', 'J'],
+    ['x', 'X', 'Backspace', 'k', 'K']
   );
-  window.addEventListener('keydown', (e) => keyHandler.handleKeydown(e, optionsArray, navigationMap, specialCases));
+  const handleKeydown = (e) => keyHandler.handleKeydown(e, optionsArray, navigationMap, specialCases);
+  window.addEventListener('keydown', handleKeydown);
 
   // ------------------ Handle mouse animations ------------------ //
   const handleMouseover = (button) => {
@@ -206,17 +206,18 @@ function manageOptions(buttons) {
 }
 
 function openMenuAtk() {
-  battleAtkMenu.classList.remove("hidden");
-  startBattleMenu.classList.add("hidden");
-  const cleanup = manageOptions(battleAtkButtons);
-  return cleanup;
+  toggleMenuVisibility(battleAtkMenu, startBattleMenu);
+  return manageOptions(battleAtkButtons);
 }
 
 function returnStart() {
-  startBattleMenu.classList.remove("hidden");
-  battleAtkMenu.classList.add("hidden");
-  const cleanup = manageOptions(startBattleButtons);
-  return cleanup;
+  toggleMenuVisibility(startBattleMenu, battleAtkMenu);
+  return manageOptions(startBattleButtons);
+}
+
+function toggleMenuVisibility(showMenu, hideMenu) {
+  showMenu.classList.remove("hidden");
+  hideMenu.classList.add("hidden");
 }
 
 const cleanup = manageOptions(startBattleButtons);
