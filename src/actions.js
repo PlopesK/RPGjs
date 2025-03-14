@@ -57,27 +57,21 @@ const buttons = options.querySelectorAll('.optBtn');
 const optionsArray = Array.from(buttons);
 let selectedOption = null;
 
-const startBattleMenu = document.querySelector('.startBattle');
-const battleAtkMenu = document.querySelector('.battleAtk');
-
-const startBattleOptions = startBattleMenu.querySelector('.options');
-const battleAtkOptions = battleAtkMenu.querySelector('.options');
-
-const startBattleButtons = startBattleOptions.querySelectorAll('.optBtn');
-const battleAtkButtons = battleAtkOptions.querySelectorAll('.optBtn');
-
 const menus = {
   startBattle: {
-    menu: startBattleMenu,
-    options: startBattleOptions,
-    buttons: startBattleButtons,
+    menu: document.querySelector('.startBattle'),
+    options: document.querySelector('.startBattle .options'),
+    buttons: document.querySelector('.startBattle .options').querySelectorAll('.optBtn'),
   },
   battleAtk: {
-    menu: battleAtkMenu,
-    options: battleAtkOptions,
-    buttons: battleAtkButtons,
+    menu: document.querySelector('.battleAtk'),
+    options: document.querySelector('.battleAtk .options'),
+    buttons: document.querySelector('.battleAtk .options').querySelectorAll('.optBtn'),
   },
 };
+
+const { menu: startBattleMenu, options: startBattleOptions, buttons: startBattleButtons } = menus.startBattle;
+const { menu: battleAtkMenu, options: battleAtkOptions, buttons: battleAtkButtons } = menus.battleAtk;
 
 const currentMenu = menus.startBattle;
 let keydownEvent = null;
