@@ -168,11 +168,15 @@ button {
 
 .optBtn {
     transition: transform 0.2s ease-in-out;
-  }
+}
   
-  .optBtn.selected {
+.optBtn.selected {
     transform: scale(1.05);
-  }
+}
+
+.optBtn.selected > #select {
+    color: black;
+}
 
 .optBtn:active {
     transform: scale(0.98);

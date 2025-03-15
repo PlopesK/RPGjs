@@ -219,7 +219,7 @@ function animate() {
 }
 
 function startBattleTransition() {
-    manageOptions(startBattleButtons);
+    toggleMenu('startBattle');
     const tl = gsap.timeline();
 
     tl.to('.transition', { duration: 0.5, opacity: 1, repeat: 2, yoyo: true })
@@ -312,5 +312,5 @@ function animateBattle() {
   }
 }
 
-//animate();
-animateBattle();
+animate();
+//animateBattle();
