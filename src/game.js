@@ -219,13 +219,12 @@ function animate() {
 }
 
 function startBattleTransition() {
-    toggleMenu('startBattle');
     const tl = gsap.timeline();
 
     tl.to('.transition', { duration: 0.5, opacity: 1, repeat: 2, yoyo: true })
       .to('.transition', { duration: 0.3, opacity: 0 })
       .to('.transition', { duration: 1, opacity: 1, scale: 5, backgroundColor: 'black', ease: "power2.inOut", zIndex: 300 })
-      .to('.transition', { duration: 0.5, opacity: 1, onComplete: animateBattle })
+      .to('.transition', { duration: 0.5, opacity: 1, onComplete: () => {animateBattle(), toggleMenu('startBattle')} })
       .to('.transition', { duration: 0.5, scale: 0, opacity: 0, ease: "power2.inOut" });
 }
 

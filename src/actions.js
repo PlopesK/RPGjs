@@ -2,19 +2,15 @@
 const keys = {
     w: {
         pressed: false,
-        keyCode: 87
     },
     a: {
         pressed: false,
-        keyCode: 65
     },
     s: {
         pressed: false,
-        keyCode: 83
     },
     d: {
         pressed: false,
-        keyCode: 68
     }
 }
 
@@ -63,7 +59,6 @@ const menus = {
   battleAtk: document.querySelector('.battleAtk')
 };
 
-// Mapeia botões dentro de cada menu
 const menuOptions = {
   startBattle: Array.from(menus.startBattle.querySelectorAll('.optBtn')),
   battleAtk: Array.from(menus.battleAtk.querySelectorAll('.optBtn'))
@@ -108,13 +103,24 @@ function handleAction() {
   }
 }
 
-// Menus Control //
+function addHoverEvents() {
+  menuOptions[currentMenu].forEach(button => {
+    button.addEventListener('mouseover', () => {
+      updateSelection(menuOptions[currentMenu].indexOf(button));
+    });
+    button.addEventListener('click', () => {
+      handleAction();
+    });
+  });
+}
+
 function toggleMenu(newMenu) {
   menus[currentMenu].classList.add('hidden');
   menus[newMenu].classList.remove('hidden');
   currentMenu = newMenu;
   selectedOption = null;
   updateSelection(0);
+  addHoverEvents();
 }
 
 function handleKeydown(e) {
@@ -130,7 +136,4 @@ function handleKeydown(e) {
 }
 
 window.addEventListener('keydown', handleKeydown);
-menuOptions.startBattle.forEach(button => {
-  button.addEventListener('mouseover', () => updateSelection(menuOptions.startBattle.indexOf(button)));
-  button.addEventListener('click', handleAction);
-});
+addHoverEvents();

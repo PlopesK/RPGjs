@@ -74,6 +74,8 @@ canvas {
     background-size: 10%;
     background-position: center;
     background-repeat: no-repeat;
+
+    border: 2vh double #274A9D;
 }
 
 /* //////////////// Battle Actions config //////////////// */
@@ -159,11 +161,8 @@ button {
 
 #select {
     color: transparent;
+    opacity: 0;
     transform: scale(1);
-}
-  
-#select.selected {
-    color: black;
 }
 
 .optBtn {
@@ -176,6 +175,7 @@ button {
 
 .optBtn.selected > #select {
     color: black;
+    opacity: 1;
 }
 
 .optBtn:active {
