@@ -70,7 +70,7 @@ canvas {
     opacity: 0;
     z-index: 100;
 
-    background-image: url(../assets/img/battle.png);
+    background-image: url(../assets/img/Battle/battle.png);
     background-size: 10%;
     background-position: center;
     background-repeat: no-repeat;
@@ -123,10 +123,16 @@ canvas {
 .description {
     margin-left: 1%;
     margin-right: 1%;
+    padding: 2%;
     height: 100%;
     border: var(--normal-border);
     font-weight: normal !important;
+    text-align: center;
     cursor: help;
+}
+
+.description > * {
+    letter-spacing: 6px;
 }
 
 .description, .optBtn {

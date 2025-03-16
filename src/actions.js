@@ -54,6 +54,48 @@ window.addEventListener("keyup", (e) => {
 });
 
 // Battle Options //
+function createBattleMenu() {
+  return `
+    <div class="actions hidden">
+      <menu class="startBattle battle">
+        <span class="description">
+          <p class="info">ITEM DESCRIPTION</p>
+        </span>
+        <span class="options">
+          ${["attack", "specs", "items", "run"]
+            .map(
+              (id, index) => `
+              <button class="optBtn ${index === 0 ? "selected" : ""}" id="${id}">
+                <p id="select">&#10148;</p> ${id.toUpperCase()}
+              </button>
+            `
+            )
+            .join("")}
+        </span>
+      </menu>
+
+      <menu class="battleAtk battle hidden">
+        <span class="options">
+          ${["atk1", "atk2", "atk3", "atk4"]
+            .map(
+              (id, index) => `
+              <button class="optBtn ${index === 0 ? "selected" : ""}" id="${id}">
+                <p id="select">&#10148;</p> ATTACK${index + 1}
+              </button>
+            `
+            )
+            .join("")}
+        </span>
+        <span class="description">
+            <p class="info"> DESCRIPTION </p>
+        </span>
+      </menu>
+    </div>
+  `;
+}
+document.body.innerHTML += createBattleMenu();
+
+// Setting menus
 const menus = {
   startBattle: document.querySelector('.startBattle'),
   battleAtk: document.querySelector('.battleAtk')
@@ -76,10 +118,39 @@ const specialCases = {
   s: { 1: 3, 0: 2, 2: 1 }
 };
 
+const descriptions = {
+  menus: {
+    startBattle: {
+      attack: "Launch a attack on the oponent.",
+      specs: "View your character's stats and abilities.",
+      items: "Use an item from your inventory.",
+      run: "Attempt to escape from the battle.",
+    },
+    battleAtk: {
+      atk1: "A strong melee attack!",
+      atk2: "A ranged attack with a bow.",
+      atk3: "A magic fireball spell.",
+      atk4: "A defensive counter move."
+    }
+  }
+};
+
+function updateDescription(text) {
+  const descriptionElements = document.querySelectorAll(".info");
+  descriptionElements.forEach(element => {
+    element.textContent = text.toUpperCase();
+  });
+}
+
 function updateSelection(index) {
   menuOptions[currentMenu].forEach(btn => btn.classList.remove('selected'));
   selectedOption = menuOptions[currentMenu][index];
   selectedOption.classList.add('selected');
+
+  const selectedId = selectedOption.id;
+  const descText = descriptions.menus[currentMenu][selectedId] || "No description available.";
+  console.log(descriptions.menus[currentMenu][selectedId])
+  updateDescription(descText);
 }
 
 function handleNavigation(key) {
@@ -136,4 +207,4 @@ function handleKeydown(e) {
 }
 
 window.addEventListener('keydown', handleKeydown);
-addHoverEvents();
+addHoverEvents(); // ---------------- Just for test reasons ---------------- //

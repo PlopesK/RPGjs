@@ -52,10 +52,10 @@ battleZonesMap.forEach((row, i) => {
 
 //      Rendering (In line order)      //
 const backImg = new Image();
-backImg.src = './assets/img/PelletTown.png';
+backImg.src = './assets/img/Map/PelletTown.png';
 
 const foregroundImg = new Image();
-foregroundImg.src = './assets/img/foreground.png';
+foregroundImg.src = './assets/img/Map/foreground.png';
 
 const playerImgs = {
   down: new Image(),
@@ -64,10 +64,10 @@ const playerImgs = {
   right: new Image()
 };
 
-playerImgs.down.src = './assets/img/playerDown.png';
-playerImgs.up.src = './assets/img/playerUp.png';
-playerImgs.left.src = './assets/img/playerLeft.png';
-playerImgs.right.src = './assets/img/playerRight.png';
+playerImgs.down.src = './assets/img/Player/playerDown.png';
+playerImgs.up.src = './assets/img/Player/playerUp.png';
+playerImgs.left.src = './assets/img/Player/playerLeft.png';
+playerImgs.right.src = './assets/img/Player/playerRight.png';
 
 const player = new Sprite ({
     position: {
@@ -230,7 +230,7 @@ function startBattleTransition() {
 
 // Battle Zone Creation //
 const battleBackgroundImg = new Image();
-battleBackgroundImg.src = './assets/img/battleBackground.png';
+battleBackgroundImg.src = './assets/img/Battle/battleBackground.png';
 
 function drawBackground() {
     cont.clearRect(0, 0, canvas.width, canvas.height);
@@ -247,7 +247,7 @@ function drawBackground() {
 
 // Battle Elements //
 const draggleImg = new Image();
-draggleImg.src = './assets/img/draggleSprite.png';
+draggleImg.src = './assets/img/Companion/draggleSprite.png';
 const draggle = new Sprite({
     position: {
         x: canvas.width - 300,
@@ -263,7 +263,7 @@ const draggle = new Sprite({
 });
 
 const embyImg = new Image();
-embyImg.src = './assets/img/embySprite.png';
+embyImg.src = './assets/img/Companion/embySprite.png';
 const emby = new Sprite({
     position: {
         x: 360,
@@ -311,5 +311,5 @@ function animateBattle() {
   }
 }
 
-animate();
-//animateBattle();
+//animate();
+animateBattle();
