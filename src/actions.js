@@ -135,6 +135,13 @@ const descriptions = {
   }
 };
 
+const runChance = {
+  run: {
+    successful: "You escaped the battle!",
+    failure: "You tried to run but couldn't escape!"
+  }
+}
+
 function updateDescription(text) {
   const descriptionElements = document.querySelectorAll(".info");
   descriptionElements.forEach(element => {
@@ -149,7 +156,6 @@ function updateSelection(index) {
 
   const selectedId = selectedOption.id;
   const descText = descriptions.menus[currentMenu][selectedId] || "No description available.";
-  console.log(descriptions.menus[currentMenu][selectedId])
   updateDescription(descText);
 }
 
@@ -171,6 +177,12 @@ function handleNavigation(key) {
 function handleAction() {
   if (selectedOption?.id === 'attack' && currentMenu === 'startBattle') {
     toggleMenu('battleAtk');
+  } else if (selectedOption?.id === 'run' && currentMenu === 'startBattle') {
+    if (Math.random() < 0.7) {
+      updateDescription(runChance.run.successful);
+    } else {
+      updateDescription(runChance.run.failure);
+    }
   }
 }
 
