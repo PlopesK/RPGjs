@@ -3,6 +3,7 @@
     src: url('../assets/font/PKMN_RBYGSC.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
+    font-display: swap;
     /* Credits: https://www.dafont.com/pkmn-rbygsc.font*/
 }
 
