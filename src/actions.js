@@ -59,7 +59,7 @@ function createBattleMenu() {
     <div class="actions hidden">
       <menu class="startBattle battle">
         <span class="description">
-          <p class="info">ITEM DESCRIPTION</p>
+          <p class="info">LAUNCH A ATTACK ON THE OPPONENT</p>
         </span>
         <span class="options">
           ${["attack", "specs", "items", "run"]
@@ -121,7 +121,7 @@ const specialCases = {
 const descriptions = {
   menus: {
     startBattle: {
-      attack: "Launch a attack on the oponent.",
+      attack: "Launch a attack on the opponent.",
       specs: "View your character's stats and abilities.",
       items: "Use an item from your inventory.",
       run: "Attempt to escape from the battle.",
