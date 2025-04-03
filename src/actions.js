@@ -54,16 +54,23 @@ window.addEventListener("keyup", (e) => {
 });
 
 // Battle Options //
+const attacks = {
+  atk1: { name: "Tackle", damage: 10 },
+  atk2: { name: "Attack 2", damage: 20 },
+  atk3: { name: "Attack 3", damage: 30 },
+  atk4: { name: "Attack 4", damage: 40 }
+}
+
 function createBattleMenu() {
   return `
-    <div class="health enemy">
+    <div class="health hEnemy">
       <p>Draggle</p>
       <span class="healthBar">
         <span class="HP"></span>
       </span>
     </div>
 
-    <div class="health player">
+    <div class="health hPlayer">
       <p>Emby</p>
       <span class="healthBar">
         <span class="HP"></span>
@@ -90,11 +97,11 @@ function createBattleMenu() {
 
       <menu class="battleAtk battle hidden">
         <span class="options">
-          ${["atk1", "atk2", "atk3", "atk4"]
+          ${Object.keys(attacks)
             .map(
               (id, index) => `
-              <button class="optBtn ${index === 0 ? "selected" : ""}" id="${id}">
-                <p id="select">&#10148;</p> ATTACK${index + 1}
+                <button class="optBtn ${index === 0 ? "selected" : ""}" id="${id}">
+                <p id="select">&#10148;</p> ${attacks[id].name.toUpperCase()} 
               </button>
             `
             )
