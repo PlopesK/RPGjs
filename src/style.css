@@ -11,8 +11,10 @@
     --normal-border: 0.5vh double black;
     --larger-border: 1vh double black;
     --border-radius: 2vh;
+    --small-radius: 1vh;
 
     --font-size: 2.6vh;
+    --HP-color: forestgreen;
 }
 
 * {
@@ -187,4 +189,52 @@ button {
 
 .optBtn:active {
     transform: scale(0.98);
+}
+
+/* //////////////// Health Bar //////////////// */
+.health {
+    position: absolute;
+    background-color: white;
+    width: 25%;
+    height: 12%;
+    border: var(--normal-border);
+    border-radius: var(--border-radius);
+    padding: 1.8vh;
+    transition: all 0.2s ease-in-out;
+}
+
+.health p {
+    font-size: var(--font-size);
+}
+
+.health > * {
+    transition: all 0.2s ease-in-out;
+}
+
+.enemy {
+    top: 5%;
+    left: 3%;
+}
+
+.player {
+    bottom: 30%;
+    right: 3%;
+}
+
+.healthBar {
+    display: block;
+    margin-top: 2vh;
+    background-color: #ccc;
+    height: 2vh;
+    width: 100%;
+    border: var(--normal-border);
+    border-radius: var(--small-radius);
+}
+
+.HP {
+    display: block;
+    background-color: var(--HP-color);
+    height: 100%;
+    width: 100%;
+    border-radius: 0.5vh;
 }

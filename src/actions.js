@@ -56,6 +56,20 @@ window.addEventListener("keyup", (e) => {
 // Battle Options //
 function createBattleMenu() {
   return `
+    <div class="health enemy">
+      <p>Draggle</p>
+      <span class="healthBar">
+        <span class="HP"></span>
+      </span>
+    </div>
+
+    <div class="health player">
+      <p>Emby</p>
+      <span class="healthBar">
+        <span class="HP"></span>
+      </span>
+    </div>
+
     <div class="actions hidden">
       <menu class="startBattle battle">
         <span class="description">
