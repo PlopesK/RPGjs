@@ -54,16 +54,23 @@ window.addEventListener("keyup", (e) => {
 });
 
 // Battle Options //
+const attacks = {
+  atk1: { name: "Tackle", damage: 20 },
+  atk2: { name: "Ember", damage: 30 },
+  atk3: { name: "Bite", damage: 10 },
+  atk4: { name: "Defense", damage: 0 }
+}
+
 function createBattleMenu() {
   return `
-    <div class="health enemy">
+    <div class="health hEnemy">
       <p>Draggle</p>
       <span class="healthBar">
         <span class="HP"></span>
       </span>
     </div>
 
-    <div class="health player">
+    <div class="health hPlayer">
       <p>Emby</p>
       <span class="healthBar">
         <span class="HP"></span>
@@ -90,11 +97,11 @@ function createBattleMenu() {
 
       <menu class="battleAtk battle hidden">
         <span class="options">
-          ${["atk1", "atk2", "atk3", "atk4"]
+          ${Object.keys(attacks)
             .map(
               (id, index) => `
-              <button class="optBtn ${index === 0 ? "selected" : ""}" id="${id}">
-                <p id="select">&#10148;</p> ATTACK${index + 1}
+                <button class="optBtn ${index === 0 ? "selected" : ""}" id="${id}">
+                <p id="select">&#10148;</p> ${attacks[id].name.toUpperCase()} 
               </button>
             `
             )
@@ -141,10 +148,10 @@ const descriptions = {
       run: "Attempt to escape from the battle.",
     },
     battleAtk: {
-      atk1: "A strong melee attack!",
-      atk2: "A ranged attack with a bow.",
-      atk3: "A magic fireball spell.",
-      atk4: "A defensive counter move."
+      atk1: "Run to hit your opponent with a melee attack!",
+      atk2: "A strong fire ball attack!",
+      atk3: "Bite your opponent!",
+      atk4: "A defensive move!"
     }
   }
 };
