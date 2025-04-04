@@ -54,26 +54,30 @@ window.addEventListener("keyup", (e) => {
 });
 
 // Battle Options //
-const attacks = {
-  atk1: { name: "Tackle", damage: 20 },
-  atk2: { name: "Ember", damage: 30 },
-  atk3: { name: "Bite", damage: 10 },
-  atk4: { name: "Defense", damage: 0 }
+const atkList = {
+  atk1: { name: "Tackle", damage: 20, type: "Normal" },
+  atk2: { name: "Ember", damage: 30, type: "Fire" },
+  atk3: { name: "Bite", damage: 10, type: "Normal" },
+  atk4: { name: "Defense", damage: 0, type: "Normal" }
 }
 
 function createBattleMenu() {
   return `
-    <div class="health hEnemy">
+    <div class="health" id="hEnemy">
       <p>Draggle</p>
       <span class="healthBar">
-        <span class="HP"></span>
+        <span class="HP" id="EnemyHP">
+          <p style="position: absolute" id="valueEn"></p>
+        </span>
       </span>
     </div>
 
-    <div class="health hPlayer">
+    <div class="health" id="hPlayer">
       <p>Emby</p>
       <span class="healthBar">
-        <span class="HP"></span>
+        <span class="HP" id="PlayerHP">
+         <p style="position: absolute" id="valuePl"></p>
+        </span>
       </span>
     </div>
 
@@ -97,11 +101,11 @@ function createBattleMenu() {
 
       <menu class="battleAtk battle hidden">
         <span class="options">
-          ${Object.keys(attacks)
+          ${Object.keys(atkList)
             .map(
               (id, index) => `
                 <button class="optBtn ${index === 0 ? "selected" : ""}" id="${id}">
-                <p id="select">&#10148;</p> ${attacks[id].name.toUpperCase()} 
+                <p id="select">&#10148;</p> ${atkList[id].name.toUpperCase()} 
               </button>
             `
             )
@@ -115,6 +119,8 @@ function createBattleMenu() {
   `;
 }
 document.body.innerHTML += createBattleMenu();
+// document.querySelector('#valuePl').textContent = emby.health; // to see HP number
+// document.querySelector('#valueEn').textContent = draggle.health; // to see HP number
 
 // Setting menus
 const menus = {
@@ -204,6 +210,8 @@ function handleAction() {
     } else {
       updateDescription(runChance.run.failure);
     }
+  } else if (selectedOption?.id === 'atk1' && currentMenu === 'battleAtk') {
+    emby.attack({ attack: atkList.atk1, recipient: draggle })
   }
 }
 

@@ -211,12 +211,12 @@ button {
     transition: all 0.2s ease-in-out;
 }
 
-.hEnemy {
+#hEnemy {
     top: 5%;
     left: 3%;
 }
 
-.hPlayer {
+#hPlayer {
     bottom: 30%;
     right: 3%;
 }
@@ -227,8 +227,8 @@ button {
     background-color: #ccc;
     height: 2vh;
     width: 100%;
-    border: var(--normal-border);
-    border-radius: var(--small-radius);
+    border: 0.5vh solid;
+    border-radius: 0.5vh;
 }
 
 .HP {
@@ -236,5 +236,5 @@ button {
     background-color: var(--HP-color);
     height: 100%;
     width: 100%;
-    border-radius: 0.5vh;
+    border-radius: 0.1vh;
 }

@@ -259,7 +259,10 @@ const draggle = new Sprite({
         hold: 30
     },
     animation: true,
-    scale: 1.2
+    scale: 1.2,
+    health: {
+        max: 150
+    }
 });
 
 const embyImg = new Image();

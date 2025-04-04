@@ -1,5 +1,5 @@
 class Sprite {
-    constructor({position, image, frames = { max: 1, hold: 10}, sprites, animation = false, scale = 1}) {
+    constructor({position, image, frames = { max: 1, hold: 10}, sprites, animation = false, scale = 1, health = { max: 100}}) {
         this.position = position
         this.image = image
         this.frames = {...frames, val: 0, elapsed: 0}
@@ -11,10 +11,15 @@ class Sprite {
         }
 
         this.animation = animation;
-        this.sprites = sprites
+        this.sprites = sprites;
+        this.opacity = 1;
+        this.health = health.max;
     }
 
     draw () {
+        cont.save() //Using 'Save' and 'Restore' makes the Global property affect 
+        // only the code whitin it
+        cont.globalAlpha = this.opacity
         cont.drawImage(
             this.image, 
             this.frames.val * this.width + 1, // Adiciona 1 pixel à esquerda
@@ -26,7 +31,9 @@ class Sprite {
             (this.width - 2) * this.scale,
             (this.height - 2) * this.scale,
         ); //Image, Crop X, Crop Y, Crop Width, Crop Height, 
-          // Image X, Image Y, Image Width, Image Height
+           // Image X, Image Y, Image Width, Image Height
+        cont.restore() //End of the Global effect
+
         if (!this.animation) return;
 
         if (this.frames.max > 1) {
@@ -34,6 +41,40 @@ class Sprite {
             if (this.frames.elapsed % this.frames.hold === 0) {
                 this.frames.val = (this.frames.val + 1) % this.frames.max;
             }
+        }
+    }
+
+    attack({attack, recipient}) {
+        const tl = gsap.timeline()
+
+        if (attack.name == "Tackle") {
+            tl.to(this.position, {
+                x: this.position.x - 20
+            }).to(this.position, {
+                x: this.position.x + 40,
+                duration: 0.1,
+                onComplete () {
+                    gsap.to("#EnemyHP", {
+                        width: attack.damage + '%',
+                    })
+
+                    // Hit animation //
+                    gsap.to(recipient.position, {
+                        x: recipient.position.x + 20,
+                        yoyo: true,
+                        repeat: 5,
+                        duration: 0.08
+                    })
+                    gsap.to(recipient, {
+                        opacity: 0,
+                        repeat: 5,
+                        yoyo: true,
+                        duration: 0.08
+                    })
+                }
+            }).to(this.position, {
+                x: this.position.x
+            })
         }
     }
 }
