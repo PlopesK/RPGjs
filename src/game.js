@@ -278,7 +278,7 @@ const emby = new Sprite({
         hold: 30
     },
     animation: true,
-    scale: 2
+    scale: 1.8
 });
 
 // Animations to monsters //

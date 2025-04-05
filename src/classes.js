@@ -1,8 +1,8 @@
 class Sprite {
-    constructor({position, image, frames = { max: 1, hold: 10}, sprites, animation = false, scale = 1, health = { max: 100}}) {
+    constructor({ position, image, frames = { max: 1, hold: 10 }, sprites, animation = false, scale = 1, health = { max: 100 } }) {
         this.position = position
         this.image = image
-        this.frames = {...frames, val: 0, elapsed: 0}
+        this.frames = { ...frames, val: 0, elapsed: 0 }
         this.scale = scale
 
         this.image.onload = () => {
@@ -13,15 +13,15 @@ class Sprite {
         this.animation = animation;
         this.sprites = sprites;
         this.opacity = 1;
-        this.health = health.max;
+        this.health = 100;
     }
 
-    draw () {
+    draw() {
         cont.save() //Using 'Save' and 'Restore' makes the Global property affect 
         // only the code whitin it
         cont.globalAlpha = this.opacity
         cont.drawImage(
-            this.image, 
+            this.image,
             this.frames.val * this.width + 1, // Adiciona 1 pixel à esquerda
             1, // Adiciona 1 pixel ao topo
             this.width - 2, // Reduz 2 pixels da largura
@@ -31,7 +31,7 @@ class Sprite {
             (this.width - 2) * this.scale,
             (this.height - 2) * this.scale,
         ); //Image, Crop X, Crop Y, Crop Width, Crop Height, 
-           // Image X, Image Y, Image Width, Image Height
+        // Image X, Image Y, Image Width, Image Height
         cont.restore() //End of the Global effect
 
         if (!this.animation) return;
@@ -44,19 +44,26 @@ class Sprite {
         }
     }
 
-    attack({attack, recipient}) {
+    attack({ attack, recipient }) {
         const tl = gsap.timeline()
 
-        if (attack.name == "Tackle") {
+        let movementDistance
+
+        if (attack.name === "Tackle") {
+            const movementDistance = recipient.position.x - this.position.x - 60;
+
             tl.to(this.position, {
-                x: this.position.x - 20
+                x: this.position.x - 30,
+                y: this.position.y
             }).to(this.position, {
-                x: this.position.x + 40,
+                x: recipient.position.x - 60,
+                y: recipient.position.y,
                 duration: 0.1,
-                onComplete () {
+                onComplete: () => {
+                    this.health -= attack.damage;
                     gsap.to("#EnemyHP", {
-                        width: attack.damage + '%',
-                    })
+                        width: this.health + '%',
+                    });
 
                     // Hit animation //
                     gsap.to(recipient.position, {
@@ -64,17 +71,18 @@ class Sprite {
                         yoyo: true,
                         repeat: 5,
                         duration: 0.08
-                    })
+                    });
                     gsap.to(recipient, {
                         opacity: 0,
                         repeat: 5,
                         yoyo: true,
                         duration: 0.08
-                    })
+                    });
                 }
             }).to(this.position, {
-                x: this.position.x
-            })
+                x: this.position.x,
+                y: this.position.y
+            });
         }
     }
 }
@@ -84,7 +92,7 @@ class Boundary {
     static height = 48;
     static buffer = 10;
 
-    constructor ({position}) {
+    constructor({ position }) {
         this.position = position;
         this.width = Boundary.width;
         this.height = Boundary.height;
