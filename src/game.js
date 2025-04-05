@@ -260,10 +260,6 @@ const draggle = new Sprite({
     },
     animation: true,
     scale: 1.2,
-    health: {
-        max: 150,
-        current: 150
-    },
     isEnemy: true,
 });
 

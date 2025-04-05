@@ -1,17 +1,17 @@
 //      Player Movement      //
 const keys = {
-    w: {
-        pressed: false,
-    },
-    a: {
-        pressed: false,
-    },
-    s: {
-        pressed: false,
-    },
-    d: {
-        pressed: false,
-    }
+  w: {
+    pressed: false,
+  },
+  a: {
+    pressed: false,
+  },
+  s: {
+    pressed: false,
+  },
+  d: {
+    pressed: false,
+  }
 }
 
 let lastKey = '';
@@ -33,34 +33,27 @@ function getMappedKey(key) {
 window.addEventListener("keydown", (e) => {
   const key = getMappedKey(e.key);
   if (key && keys[key]) {
-      if (!keys[key].pressed) {
-          keys[key].pressed = true;
-          lastKey = key;
-      }
+    if (!keys[key].pressed) {
+      keys[key].pressed = true;
+      lastKey = key;
+    }
   }
 });
 
 window.addEventListener("keyup", (e) => {
   const key = getMappedKey(e.key);
   if (key && keys[key]) {
-      keys[key].pressed = false;
+    keys[key].pressed = false;
   }
 
   if (key === lastKey) {
-      lastKey = Object.keys(keys).find(k => keys[k].pressed) || null;
+    lastKey = Object.keys(keys).find(k => keys[k].pressed) || null;
   }
 
   player.frames.val = 0;
 });
 
 // Battle Options //
-const atkList = {
-  atk1: { name: "Tackle", damage: 20, type: "Normal" },
-  atk2: { name: "Ember", damage: 30, type: "Fire" },
-  atk3: { name: "Bite", damage: 10, type: "Normal" },
-  atk4: { name: "Defense", damage: 0, type: "Normal" }
-}
-
 function createBattleMenu() {
   return `
     <div class="health" id="hEnemy">
@@ -88,28 +81,28 @@ function createBattleMenu() {
         </span>
         <span class="options">
           ${["attack", "specs", "items", "run"]
-            .map(
-              (id, index) => `
+      .map(
+        (id, index) => `
               <button class="optBtn ${index === 0 ? "selected" : ""}" id="${id}">
                 <p id="select">&#10148;</p> ${id.toUpperCase()}
               </button>
             `
-            )
-            .join("")}
+      )
+      .join("")}
         </span>
       </menu>
 
       <menu class="battleAtk battle hidden">
         <span class="options">
-          ${Object.keys(atkList)
-            .map(
-              (id, index) => `
+          ${Object.keys(characterAttacks)
+      .map(
+        (id, index) => `
                 <button class="optBtn ${index === 0 ? "selected" : ""}" id="${id}">
-                <p id="select">&#10148;</p> ${atkList[id].name.toUpperCase()} 
+                <p id="select">&#10148;</p> ${characterAttacks[id].name.toUpperCase()} 
               </button>
             `
-            )
-            .join("")}
+      )
+      .join("")}
         </span>
         <span class="description">
             <p class="info"> DESCRIPTION </p>
@@ -154,10 +147,10 @@ const descriptions = {
       run: "Attempt to escape from the battle.",
     },
     battleAtk: {
-      atk1: "Run to hit your opponent with a melee attack!",
-      atk2: "A strong fire ball attack!",
-      atk3: "Bite your opponent!",
-      atk4: "A defensive move!"
+      atk1: characterAttacks.atk1.description,
+      atk2: characterAttacks.atk2.description,
+      atk3: characterAttacks.atk3.description,
+      atk4: characterAttacks.atk4.description
     }
   }
 };
@@ -193,7 +186,7 @@ function handleNavigation(key) {
 
   const currentIndex = menuOptions[currentMenu].indexOf(selectedOption);
   let newIndex = (currentIndex + navigationMap[key] + menuOptions[currentMenu].length) % menuOptions[currentMenu].length;
-  
+
   if (specialCases[key] && specialCases[key][currentIndex] !== undefined) {
     newIndex = specialCases[key][currentIndex];
   }
@@ -211,7 +204,7 @@ function handleAction() {
       updateDescription(runChance.run.failure);
     }
   } else if (selectedOption?.id === 'atk1' && currentMenu === 'battleAtk') {
-    emby.attack({ attack: atkList.atk1, recipient: draggle })
+    emby.attack({ attack: characterAttacks.atk1, recipient: draggle })
   }
 }
 

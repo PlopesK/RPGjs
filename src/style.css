@@ -213,12 +213,12 @@ button {
 
 #hEnemy {
     top: 5%;
-    left: 3%;
+    left: 1.5%;
 }
 
 #hPlayer {
     bottom: 30%;
-    right: 3%;
+    right: 1.5%;
 }
 
 .healthBar {

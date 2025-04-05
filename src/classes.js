@@ -57,6 +57,10 @@ class Sprite {
     attack({ attack, recipient }) {
         const tl = gsap.timeline()
 
+        recipient.health.current -= attack.damage;
+        if (recipient.health.current < 0) recipient.health.current = 0;
+        const newHP = (recipient.health.current / recipient.health.max) * 100;
+
         let movementDistance = 20
         if(this.isEnemy) movementDistance = -20
 
@@ -72,15 +76,11 @@ class Sprite {
                 y: recipient.position.y,
                 duration: 0.1,
                 onComplete: () => {
-                    recipient.health.current -= attack.damage;
-                    if (recipient.health.current < 0) recipient.health.current = 0;
-                    const newHP = (recipient.health.current / recipient.health.max) * 100;
-                    
                     gsap.to(healthBar, {
                         width: newHP + '%',
                         onComplete: () => {
                             if (recipient.health.current <= 0) {
-                                gsap.to(recipient.healthBar, { opacity: 0, duration: 0.5 });
+                                gsap.to(recipient, { opacity: 0, duration: 0.5 });
                             }
                         }
                     });
