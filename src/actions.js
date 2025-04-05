@@ -94,15 +94,19 @@ function createBattleMenu() {
 
       <menu class="battleAtk battle hidden">
         <span class="options">
-          ${Object.keys(characterAttacks)
-      .map(
-        (id, index) => `
-                <button class="optBtn ${index === 0 ? "selected" : ""}" id="${id}">
+        ${Object.keys(characterAttacks)
+          .map(
+            (id, index) => `
+              <button 
+                class="optBtn ${index === 0 ? "selected" : ""}" 
+                id="${id}"
+                data-attack="${characterAttacks[id].name}"
+              >
                 <p id="select">&#10148;</p> ${characterAttacks[id].name.toUpperCase()} 
               </button>
             `
-      )
-      .join("")}
+          )
+          .join("")}
         </span>
         <span class="description">
             <p class="info"> DESCRIPTION </p>
@@ -203,8 +207,15 @@ function handleAction() {
     } else {
       updateDescription(runChance.run.failure);
     }
-  } else if (selectedOption?.id === 'atk1' && currentMenu === 'battleAtk') {
-    emby.attack({ attack: characterAttacks.atk1, recipient: draggle })
+  } else if (currentMenu === 'battleAtk') {
+    const attackName = selectedOption.dataset.attack;
+    const attackData = atkList[attackName];
+
+    if (attackData) {
+      emby.attack({ attack: attackData, recipient: draggle });
+    } else {
+      console.warn(`Ataque "${attackName}" não encontrado.`);
+    }
   }
 }
 
