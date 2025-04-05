@@ -261,8 +261,10 @@ const draggle = new Sprite({
     animation: true,
     scale: 1.2,
     health: {
-        max: 150
-    }
+        max: 150,
+        current: 150
+    },
+    isEnemy: true,
 });
 
 const embyImg = new Image();
@@ -278,7 +280,7 @@ const emby = new Sprite({
         hold: 30
     },
     animation: true,
-    scale: 1.8
+    scale: 1.9
 });
 
 // Animations to monsters //

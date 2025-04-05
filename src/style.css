@@ -227,6 +227,7 @@ button {
     background-color: #ccc;
     height: 2vh;
     width: 100%;
+    max-width: 100%;
     border: 0.5vh solid;
     border-radius: 0.5vh;
 }

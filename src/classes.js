@@ -1,5 +1,14 @@
 class Sprite {
-    constructor({ position, image, frames = { max: 1, hold: 10 }, sprites, animation = false, scale = 1, health = { max: 100 } }) {
+    constructor({ 
+        position, 
+        image, 
+        frames = { max: 1, hold: 10 }, 
+        sprites, 
+        animation = false, 
+        scale = 1, 
+        health = { max: 100, current: 100 },
+        isEnemy = false,
+    }) {
         this.position = position
         this.image = image
         this.frames = { ...frames, val: 0, elapsed: 0 }
@@ -13,7 +22,8 @@ class Sprite {
         this.animation = animation;
         this.sprites = sprites;
         this.opacity = 1;
-        this.health = 100;
+        this.health = health;
+        this.isEnemy = isEnemy
     }
 
     draw() {
@@ -47,22 +57,32 @@ class Sprite {
     attack({ attack, recipient }) {
         const tl = gsap.timeline()
 
-        let movementDistance
+        let movementDistance = 20
+        if(this.isEnemy) movementDistance = -20
+
+        let healthBar = '#EnemyHP'
+        if(this.isEnemy) healthBar = '#PlayerHP'
 
         if (attack.name === "Tackle") {
-            const movementDistance = recipient.position.x - this.position.x - 60;
-
             tl.to(this.position, {
-                x: this.position.x - 30,
+                x: this.position.x - movementDistance,
                 y: this.position.y
             }).to(this.position, {
-                x: recipient.position.x - 60,
+                x: recipient.position.x - movementDistance * 2,
                 y: recipient.position.y,
                 duration: 0.1,
                 onComplete: () => {
-                    this.health -= attack.damage;
-                    gsap.to("#EnemyHP", {
-                        width: this.health + '%',
+                    recipient.health.current -= attack.damage;
+                    if (recipient.health.current < 0) recipient.health.current = 0;
+                    const newHP = (recipient.health.current / recipient.health.max) * 100;
+                    
+                    gsap.to(healthBar, {
+                        width: newHP + '%',
+                        onComplete: () => {
+                            if (recipient.health.current <= 0) {
+                                gsap.to(recipient.healthBar, { opacity: 0, duration: 0.5 });
+                            }
+                        }
                     });
 
                     // Hit animation //

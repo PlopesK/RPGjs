@@ -119,8 +119,8 @@ function createBattleMenu() {
   `;
 }
 document.body.innerHTML += createBattleMenu();
-// document.querySelector('#valuePl').textContent = emby.health; // to see HP number
-// document.querySelector('#valueEn').textContent = draggle.health; // to see HP number
+// document.querySelector('#valuePl').textContent = emby.health.current; // to see HP number
+// document.querySelector('#valueEn').textContent = draggle.health.current; // to see HP number
 
 // Setting menus
 const menus = {
