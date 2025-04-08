@@ -150,12 +150,8 @@ const descriptions = {
       items: "Use an item from your inventory.",
       run: "Attempt to escape from the battle.",
     },
-    battleAtk: {
-      atk1: characterAttacks.atk1.description,
-      atk2: characterAttacks.atk2.description,
-      atk3: characterAttacks.atk3.description,
-      atk4: characterAttacks.atk4.description
-    }
+    battleAtk: Object.keys(characterAttacks).reduce((obj, key) => ({ 
+      ...obj, [key]: characterAttacks[key].description }), {})
   }
 };
 
@@ -199,23 +195,28 @@ function handleNavigation(key) {
 }
 
 function handleAction() {
-  if (selectedOption?.id === 'attack' && currentMenu === 'startBattle') {
-    toggleMenu('battleAtk');
-  } else if (selectedOption?.id === 'run' && currentMenu === 'startBattle') {
-    if (Math.random() < 0.7) {
-      updateDescription(runChance.run.successful);
-    } else {
-      updateDescription(runChance.run.failure);
-    }
-  } else if (currentMenu === 'battleAtk') {
-    const attackName = selectedOption.dataset.attack;
-    const attackData = atkList[attackName];
+  switch (currentMenu) {
+    case 'startBattle':
+      switch (selectedOption?.id) {
+        case 'attack':
+          toggleMenu('battleAtk');
+          break;
+        case 'run':
+          const runResult = Math.random() < 0.7 ? runChance.run.successful : runChance.run.failure;
+          updateDescription(runResult);
+          break;
+      }
+      break;
+    case 'battleAtk':
+      const attackName = selectedOption.dataset.attack;
+      const attackData = atkList[attackName];
 
-    if (attackData) {
-      emby.attack({ attack: attackData, recipient: draggle });
-    } else {
-      console.warn(`Ataque "${attackName}" não encontrado.`);
-    }
+      if (attackData) {
+        emby.attack({ attack: attackData, recipient: draggle, renderedSprites });
+      } else {
+        console.warn(`Ataque "${attackName}" não encontrado.`);
+      }
+      break;
   }
 }
 

@@ -1,11 +1,11 @@
 class Sprite {
-    constructor({ 
-        position, 
-        image, 
-        frames = { max: 1, hold: 10 }, 
-        sprites, 
-        animation = false, 
-        scale = 1, 
+    constructor({
+        position,
+        image,
+        frames = { max: 1, hold: 10 },
+        sprites,
+        animation = false,
+        scale = 1,
         health = { max: 100, current: 100 },
         isEnemy = false,
     }) {
@@ -54,55 +54,85 @@ class Sprite {
         }
     }
 
-    attack({ attack, recipient }) {
-        const tl = gsap.timeline()
+    attack({ attack, recipient, renderedSprites }) {
+        switch (attack.name) {
+            case 'Tackle':
+                const tl = gsap.timeline()
 
-        recipient.health.current -= attack.damage;
-        if (recipient.health.current < 0) recipient.health.current = 0;
-        const newHP = (recipient.health.current / recipient.health.max) * 100;
+                recipient.health.current -= attack.damage;
+                if (recipient.health.current < 0) recipient.health.current = 0;
+                const newHP = (recipient.health.current / recipient.health.max) * 100;
 
-        let movementDistance = 20
-        if(this.isEnemy) movementDistance = -20
+                let movementDistance = 20
+                if (this.isEnemy) movementDistance = -20
 
-        let healthBar = '#EnemyHP'
-        if(this.isEnemy) healthBar = '#PlayerHP'
+                let healthBar = '#EnemyHP'
+                if (this.isEnemy) healthBar = '#PlayerHP'
 
-        if (attack.name === "Tackle") {
-            tl.to(this.position, {
-                x: this.position.x - movementDistance,
-                y: this.position.y
-            }).to(this.position, {
-                x: recipient.position.x - movementDistance * 2,
-                y: recipient.position.y,
-                duration: 0.1,
-                onComplete: () => {
-                    gsap.to(healthBar, {
-                        width: newHP + '%',
-                        onComplete: () => {
-                            if (recipient.health.current <= 0) {
-                                gsap.to(recipient, { opacity: 0, duration: 0.5 });
+                tl.to(this.position, {
+                    x: this.position.x - movementDistance,
+                    y: this.position.y
+                }).to(this.position, {
+                    x: recipient.position.x - movementDistance * 2,
+                    y: recipient.position.y,
+                    duration: 0.1,
+                    onComplete: () => {
+                        gsap.to(healthBar, {
+                            width: newHP + '%',
+                            onComplete: () => {
+                                if (recipient.health.current <= 0) {
+                                    gsap.to(recipient, { opacity: 0, duration: 0.5 });
+                                }
                             }
-                        }
-                    });
+                        });
 
-                    // Hit animation //
-                    gsap.to(recipient.position, {
-                        x: recipient.position.x + 20,
-                        yoyo: true,
-                        repeat: 5,
-                        duration: 0.08
-                    });
-                    gsap.to(recipient, {
-                        opacity: 0,
-                        repeat: 5,
-                        yoyo: true,
-                        duration: 0.08
-                    });
-                }
-            }).to(this.position, {
-                x: this.position.x,
-                y: this.position.y
-            });
+                        // Hit animation //
+                        gsap.to(recipient.position, {
+                            x: recipient.position.x + 20,
+                            yoyo: true,
+                            repeat: 5,
+                            duration: 0.08
+                        });
+                        gsap.to(recipient, {
+                            opacity: 0,
+                            repeat: 5,
+                            yoyo: true,
+                            duration: 0.08
+                        });
+                    }
+                }).to(this.position, {
+                    x: this.position.x,
+                    y: this.position.y
+                });
+            break;
+
+            case 'FireBall':
+                const fireballImg = new Image()
+                fireballImg.src = './assets/img/Battle/fireball.png'
+                const fireball = new Sprite({
+                    position: {
+                        x: this.position.x,
+                        y: this.position.y
+                    },
+                    image: fireballImg,
+                    frames: {
+                        max: 4,
+                        hold: 10
+                    },
+                    animation: true,
+                    scale: 1.8
+                })
+
+                renderedSprites.push(fireball)
+
+                gsap.to(fireball.position, {
+                   x: recipient.position.x,
+                   y: recipient.position.y,
+                   onComplete: () => {
+                    renderedSprites.pop()
+                   }
+                })
+            break;
         }
     }
 }

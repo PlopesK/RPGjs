@@ -205,6 +205,7 @@ button {
 
 .health p {
     font-size: var(--font-size);
+    color: black !important;
 }
 
 .health > * {
@@ -228,7 +229,7 @@ button {
     height: 2vh;
     width: 100%;
     max-width: 100%;
-    border: 0.5vh solid;
+    border: 0.5vh solid black !important;
     border-radius: 0.5vh;
 }
 

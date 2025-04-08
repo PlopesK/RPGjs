@@ -295,6 +295,7 @@ draggle.position.x = initialPositions.draggle.x;
 const speed = 30;
 
 // Rendering Battle Sequence //
+const renderedSprites = []
 function animateBattle() {
   window.requestAnimationFrame(animateBattle);
   actButtons.classList.remove("hidden");
@@ -310,6 +311,10 @@ function animateBattle() {
   if (emby.position.x > finalPositions.emby.x) {
     emby.position.x = Math.max(emby.position.x - speed, finalPositions.emby.x);
   }
+
+  renderedSprites.forEach((sprite) => {
+    sprite.draw()
+  })
 }
 
 //animate();
