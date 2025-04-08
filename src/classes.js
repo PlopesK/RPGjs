@@ -8,6 +8,7 @@ class Sprite {
         scale = 1,
         health = { max: 100, current: 100 },
         isEnemy = false,
+        rotation = 0,
     }) {
         this.position = position
         this.image = image
@@ -24,11 +25,21 @@ class Sprite {
         this.opacity = 1;
         this.health = health;
         this.isEnemy = isEnemy
+        this.rotation = rotation
     }
 
     draw() {
         cont.save() //Using 'Save' and 'Restore' makes the Global property affect 
         // only the code whitin it
+        cont.translate(
+            this.position.x + this.width / 2, 
+            this.position.y + this.height / 2
+        ) //Get the Attacker position
+        cont.rotate(this.rotation)
+        cont.translate(
+            -this.position.x - this.width / 2, 
+            -this.position.y - this.height / 2
+        ) //Return to the point 0 of screen
         cont.globalAlpha = this.opacity
         cont.drawImage(
             this.image,
@@ -55,19 +66,27 @@ class Sprite {
     }
 
     attack({ attack, recipient, renderedSprites }) {
+        recipient.health.current -= attack.damage;
+        if (recipient.health.current < 0) recipient.health.current = 0;
+
+        let healthBar = '#EnemyHP'
+        let rotation = 1.5
+        let target = recipient.position.y
+        let firer = this.position.y + 80
+        if (this.isEnemy) {
+            healthBar = '#PlayerHP'
+            rotation = -2.5
+            target = recipient.position.y + 100
+            firer = this.position.y + 50
+        }
+
         switch (attack.name) {
+            // Tackle Anim //
             case 'Tackle':
                 const tl = gsap.timeline()
 
-                recipient.health.current -= attack.damage;
-                if (recipient.health.current < 0) recipient.health.current = 0;
-                const newHP = (recipient.health.current / recipient.health.max) * 100;
-
                 let movementDistance = 20
                 if (this.isEnemy) movementDistance = -20
-
-                let healthBar = '#EnemyHP'
-                if (this.isEnemy) healthBar = '#PlayerHP'
 
                 tl.to(this.position, {
                     x: this.position.x - movementDistance,
@@ -77,28 +96,7 @@ class Sprite {
                     y: recipient.position.y,
                     duration: 0.1,
                     onComplete: () => {
-                        gsap.to(healthBar, {
-                            width: newHP + '%',
-                            onComplete: () => {
-                                if (recipient.health.current <= 0) {
-                                    gsap.to(recipient, { opacity: 0, duration: 0.5 });
-                                }
-                            }
-                        });
-
-                        // Hit animation //
-                        gsap.to(recipient.position, {
-                            x: recipient.position.x + 20,
-                            yoyo: true,
-                            repeat: 5,
-                            duration: 0.08
-                        });
-                        gsap.to(recipient, {
-                            opacity: 0,
-                            repeat: 5,
-                            yoyo: true,
-                            duration: 0.08
-                        });
+                        takeHitAnim(recipient, healthBar)
                     }
                 }).to(this.position, {
                     x: this.position.x,
@@ -106,13 +104,14 @@ class Sprite {
                 });
             break;
 
+            // FireBall Anim //
             case 'FireBall':
                 const fireballImg = new Image()
                 fireballImg.src = './assets/img/Battle/fireball.png'
                 const fireball = new Sprite({
                     position: {
-                        x: this.position.x,
-                        y: this.position.y
+                        x: this.position.x + 10,
+                        y: firer
                     },
                     image: fireballImg,
                     frames: {
@@ -120,21 +119,52 @@ class Sprite {
                         hold: 10
                     },
                     animation: true,
-                    scale: 1.8
+                    scale: 1.2,
+                    rotation: rotation,
                 })
 
-                renderedSprites.push(fireball)
+                //renderedSprites.push(fireball)
+                renderedSprites.splice(1, 0, fireball)
 
                 gsap.to(fireball.position, {
-                   x: recipient.position.x,
-                   y: recipient.position.y,
-                   onComplete: () => {
-                    renderedSprites.pop()
-                   }
+                    x: recipient.position.x,
+                    y: target,
+                    onComplete: () => {
+                        renderedSprites.splice(1, 1),
+                        takeHitAnim(recipient, healthBar)
+                    }
                 })
             break;
         }
     }
+}
+
+// Hit animation function //
+function takeHitAnim(recipient, healthBarElement) {
+    const newHP = (recipient.health.current / recipient.health.max) * 100;
+
+    gsap.to(healthBarElement, {
+        width: newHP + '%',
+        onComplete: () => {
+            if (recipient.health.current <= 0) {
+                gsap.to(recipient, { opacity: 0, duration: 0.5 });
+            }
+        }
+    });
+
+    gsap.to(recipient.position, {
+        x: recipient.position.x + 20,
+        yoyo: true,
+        repeat: 5,
+        duration: 0.08
+    });
+
+    gsap.to(recipient, {
+        opacity: 0,
+        repeat: 5,
+        yoyo: true,
+        duration: 0.08
+    });
 }
 
 class Boundary {
