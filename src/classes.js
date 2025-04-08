@@ -70,7 +70,7 @@ class Sprite {
         if (recipient.health.current < 0) recipient.health.current = 0;
 
         let healthBar = '#EnemyHP'
-        let rotation = 1.5
+        let rotation = 1
         let target = recipient.position.y
         let firer = this.position.y + 80
         if (this.isEnemy) {
