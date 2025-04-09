@@ -9,6 +9,7 @@ class Sprite {
         health = { max: 100, current: 100 },
         isEnemy = false,
         rotation = 0,
+        name
     }) {
         this.position = position
         this.image = image
@@ -24,8 +25,9 @@ class Sprite {
         this.sprites = sprites;
         this.opacity = 1;
         this.health = health;
-        this.isEnemy = isEnemy
-        this.rotation = rotation
+        this.isEnemy = isEnemy;
+        this.rotation = rotation;
+        this.name = name
     }
 
     draw() {
@@ -66,6 +68,8 @@ class Sprite {
     }
 
     attack({ attack, recipient, renderedSprites }) {
+        menus.dialogueBox.innerHTML = `${this.name} used ${attack.name}`
+
         recipient.health.current -= attack.damage;
         if (recipient.health.current < 0) recipient.health.current = 0;
 
@@ -184,3 +188,6 @@ class Boundary {
         cont.fillRect(this.position.x, this.position.y, this.width, this.height, this.buffer);
     }
 }
+  
+  
+  

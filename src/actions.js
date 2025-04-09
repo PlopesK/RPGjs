@@ -75,20 +75,22 @@ function createBattleMenu() {
     </div>
 
     <div class="actions hidden">
+      <div class="dialogueBox hidden">
+      </div>
       <menu class="startBattle battle">
         <span class="description">
-          <p class="info">LAUNCH A ATTACK ON THE OPPONENT</p>
+          <p class="info">LAUNCH A ATTACK ON THE OPPONENT.</p>
         </span>
         <span class="options">
           ${["attack", "specs", "items", "run"]
-      .map(
-        (id, index) => `
+          .map(
+              (id, index) => `
               <button class="optBtn ${index === 0 ? "selected" : ""}" id="${id}">
                 <p id="select">&#10148;</p> ${id.toUpperCase()}
               </button>
             `
-      )
-      .join("")}
+          )
+          .join("")}
         </span>
       </menu>
 
@@ -96,7 +98,7 @@ function createBattleMenu() {
         <span class="options">
         ${Object.keys(characterAttacks)
           .map(
-            (id, index) => `
+              (id, index) => `
               <button 
                 class="optBtn ${index === 0 ? "selected" : ""}" 
                 id="${id}"
@@ -119,20 +121,23 @@ document.body.innerHTML += createBattleMenu();
 // document.querySelector('#valuePl').textContent = emby.health.current; // to see HP number
 // document.querySelector('#valueEn').textContent = draggle.health.current; // to see HP number
 
-// Setting menus
+// Menu constants
 const menus = {
   startBattle: document.querySelector('.startBattle'),
-  battleAtk: document.querySelector('.battleAtk')
+  battleAtk: document.querySelector('.battleAtk'),
+  dialogueBox: document.querySelector('.dialogueBox')
 };
 
 const menuOptions = {
   startBattle: Array.from(menus.startBattle.querySelectorAll('.optBtn')),
-  battleAtk: Array.from(menus.battleAtk.querySelectorAll('.optBtn'))
+  battleAtk: Array.from(menus.battleAtk.querySelectorAll('.optBtn')),
 };
 
 let currentMenu = 'startBattle';
 let selectedOption = null;
+let locked = false;
 
+// Define key mapping
 const navigationMap = {
   w: -1, s: 1, a: -1, d: 1
 };
@@ -142,6 +147,7 @@ const specialCases = {
   s: { 1: 3, 0: 2, 2: 1 }
 };
 
+// Define descriptions
 const descriptions = {
   menus: {
     startBattle: {
@@ -151,10 +157,14 @@ const descriptions = {
       run: "Attempt to escape from the battle.",
     },
     battleAtk: Object.keys(characterAttacks).reduce((obj, key) => ({ 
-      ...obj, [key]: characterAttacks[key].description }), {})
+      ...obj, [key]: characterAttacks[key].description }), {}),
+    dialogueBox: {
+      dialogue: "No description available."
+    }
   }
 };
 
+// Define escape chances
 const runChance = {
   run: {
     successful: "You escaped the battle!",
@@ -162,6 +172,7 @@ const runChance = {
   }
 }
 
+// Function to update description
 function updateDescription(text) {
   const descriptionElements = document.querySelectorAll(".info");
   descriptionElements.forEach(element => {
@@ -169,16 +180,20 @@ function updateDescription(text) {
   });
 }
 
+// Function to update selection
 function updateSelection(index) {
-  menuOptions[currentMenu].forEach(btn => btn.classList.remove('selected'));
-  selectedOption = menuOptions[currentMenu][index];
+  const options = menuOptions[currentMenu];
+  if (!options || options.length === 0) return;
+  options.forEach(btn => btn.classList.remove('selected'));
+  selectedOption = options[index];
   selectedOption.classList.add('selected');
-
+  
   const selectedId = selectedOption.id;
-  const descText = descriptions.menus[currentMenu][selectedId] || "No description available.";
+  const descText = descriptions.menus[currentMenu]?.[selectedId] || "No description available.";
   updateDescription(descText);
 }
 
+// Function to handle navigation
 function handleNavigation(key) {
   if (!selectedOption) {
     selectedOption = menuOptions[currentMenu][0];
@@ -194,6 +209,7 @@ function handleNavigation(key) {
   updateSelection(newIndex);
 }
 
+// Function to handle action
 function handleAction() {
   switch (currentMenu) {
     case 'startBattle':
@@ -208,38 +224,61 @@ function handleAction() {
       }
       break;
     case 'battleAtk':
-      const attackName = selectedOption.dataset.attack;
-      const attackData = atkList[attackName];
-
-      if (attackData) {
-        emby.attack({ attack: attackData, recipient: draggle, renderedSprites });
-      } else {
-        console.warn(`Ataque "${attackName}" não encontrado.`);
+      if (!locked) {
+        locked = true;
+        const attackName = selectedOption.dataset.attack;
+        const attackData = atkList[attackName];
+    
+        if (attackData) {
+          emby.attack({ attack: attackData, recipient: draggle, renderedSprites });
+          toggleMenu('dialogueBox');
+        } else {
+          console.warn(`Ataque "${attackName}" não encontrado.`);
+        }
       }
+      break;
+    case 'dialogueBox':
+      toggleMenu('battleAtk');
       break;
   }
 }
 
+// Function handle mouse
 function addHoverEvents() {
   menuOptions[currentMenu].forEach(button => {
     button.addEventListener('mouseover', () => {
-      updateSelection(menuOptions[currentMenu].indexOf(button));
+      if (!locked) {
+        updateSelection(menuOptions[currentMenu].indexOf(button));
+      }
     });
     button.addEventListener('click', () => {
-      handleAction();
+      if (!locked) {
+        handleAction();
+      }
     });
   });
 }
 
+// Function to toggle menu
 function toggleMenu(newMenu) {
   menus[currentMenu].classList.add('hidden');
   menus[newMenu].classList.remove('hidden');
   currentMenu = newMenu;
-  selectedOption = null;
+
+  if (newMenu === 'dialogueBox') {
+    menus.dialogueBox.addEventListener('click', function() {
+      locked = false;
+      toggleMenu('battleAtk');
+    });
+  } else {
+    locked = false;
+  }
+
   updateSelection(0);
   addHoverEvents();
 }
 
+// Function to handle key press
 function handleKeydown(e) {
   const key = getMappedKey(e.key) || e.key.toLowerCase();
 

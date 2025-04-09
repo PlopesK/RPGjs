@@ -173,10 +173,6 @@ button {
     opacity: 0;
     transform: scale(1);
 }
-
-.optBtn {
-    transition: transform 0.2s ease-in-out;
-}
   
 .optBtn.selected {
     transform: scale(1.05);
@@ -239,4 +235,24 @@ button {
     height: 100%;
     width: 100%;
     border-radius: 0.1vh;
+}
+
+/* //////////////// Reaction //////////////// */
+.dialogueBox {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: var(--font-size);
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: 2%;
+    cursor: pointer;
+    z-index: 10 !important;
+}
+
+.dialogueBox .optBtn {
+    width: 100%;
+    height: 100%;
 }
