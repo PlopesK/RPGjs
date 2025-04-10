@@ -6,6 +6,9 @@ const scripts = [
     // Game Data (loaded with defer)
     { src: 'data/collisions.js', defer: true },
     { src: 'data/attacks.js', defer: true },
+
+    // Global Settings //
+    'src/setter.js',
     
     // Core Classes
     'src/classes.js',

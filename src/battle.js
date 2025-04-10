@@ -70,7 +70,7 @@ const speed = 30;
 const renderedSprites = [draggle, emby]
 function animateBattle() {
     window.requestAnimationFrame(animateBattle);
-    actButtons.classList.remove("hidden");
+    battleMenu.classList.remove("hidden");
     drawBackground();
 
     renderedSprites.forEach((sprite) => {

@@ -1,10 +1,3 @@
-//      Canvas      //
-const canvas = document.querySelector("canvas");
-const cont = canvas.getContext("2d"); //Context
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
 //      Collisions      //
 const collisionsMap = [];
 for (let i = 0; i < collisions.length; i+= 70) {
@@ -112,14 +105,9 @@ function rectangleCollision({rectangle1, rectangle2}) {
     )
 }
 
-const battle = {
-    initiated: false
-}
-
 // ----------- Animating ----------- //
 function animate() {
     const animationId = window.requestAnimationFrame(animate);
-    actButtons.classList.add("hidden");
 
     background.draw(); //Layer 1
     boundaries.forEach((boundary) => { //Layer 2
