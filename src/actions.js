@@ -83,22 +83,22 @@ function createBattleMenu() {
         </span>
         <span class="options">
           ${["attack", "specs", "items", "run"]
-          .map(
-              (id, index) => `
+      .map(
+        (id, index) => `
               <button class="optBtn ${index === 0 ? "selected" : ""}" id="${id}">
                 <p id="select">&#10148;</p> ${id.toUpperCase()}
               </button>
             `
-          )
-          .join("")}
+      )
+      .join("")}
         </span>
       </menu>
 
       <menu class="battleAtk battle hidden">
         <span class="options">
         ${Object.keys(characterAttacks)
-          .map(
-              (id, index) => `
+      .map(
+        (id, index) => `
               <button 
                 class="optBtn ${index === 0 ? "selected" : ""}" 
                 id="${id}"
@@ -107,8 +107,8 @@ function createBattleMenu() {
                 <p id="select">&#10148;</p> ${characterAttacks[id].name.toUpperCase()} 
               </button>
             `
-          )
-          .join("")}
+      )
+      .join("")}
         </span>
         <span class="description">
             <p class="info"> DESCRIPTION </p>
@@ -133,6 +133,7 @@ const menuOptions = {
   battleAtk: Array.from(menus.battleAtk.querySelectorAll('.optBtn')),
 };
 
+const actButtons = document.querySelector(".actions");
 let currentMenu = 'startBattle';
 let selectedOption = null;
 let locked = false;
@@ -147,6 +148,7 @@ const specialCases = {
   s: { 1: 3, 0: 2, 2: 1 }
 };
 
+
 // Define descriptions
 const descriptions = {
   menus: {
@@ -156,8 +158,9 @@ const descriptions = {
       items: "Use an item from your inventory.",
       run: "Attempt to escape from the battle.",
     },
-    battleAtk: Object.keys(characterAttacks).reduce((obj, key) => ({ 
-      ...obj, [key]: characterAttacks[key].description }), {}),
+    battleAtk: Object.keys(characterAttacks).reduce((obj, key) => ({
+      ...obj, [key]: characterAttacks[key].description
+    }), {}),
     dialogueBox: {
       dialogue: "No description available."
     }
@@ -187,7 +190,7 @@ function updateSelection(index) {
   options.forEach(btn => btn.classList.remove('selected'));
   selectedOption = options[index];
   selectedOption.classList.add('selected');
-  
+
   const selectedId = selectedOption.id;
   const descText = descriptions.menus[currentMenu]?.[selectedId] || "No description available.";
   updateDescription(descText);
@@ -210,6 +213,8 @@ function handleNavigation(key) {
 }
 
 // Function to handle action
+const queue = [] // Actions order
+
 function handleAction() {
   switch (currentMenu) {
     case 'startBattle':
@@ -221,6 +226,12 @@ function handleAction() {
           const runResult = Math.random() < 0.7 ? runChance.run.successful : runChance.run.failure;
           updateDescription(runResult);
           break;
+        case 'specs':
+          updateDescription(descriptions.menus.startBattle.specs);
+          break;
+        case 'items':
+          updateDescription(descriptions.menus.startBattle.items);
+          break;
       }
       break;
     case 'battleAtk':
@@ -228,7 +239,11 @@ function handleAction() {
         locked = true;
         const attackName = selectedOption.dataset.attack;
         const attackData = atkList[attackName];
-    
+
+        queue.push(() => {
+          draggle.attack({ attack: atkList.Tackle, recipient: emby, renderedSprites });
+        })
+
         if (attackData) {
           emby.attack({ attack: attackData, recipient: draggle, renderedSprites });
           toggleMenu('dialogueBox');
@@ -238,25 +253,33 @@ function handleAction() {
       }
       break;
     case 'dialogueBox':
-      toggleMenu('battleAtk');
+      if (queue.length > 0) {
+        queue[0]()
+        queue.shift()
+      } else {
+        locked = false;
+        toggleMenu('battleAtk')
+      }
       break;
   }
 }
 
 // Function handle mouse
 function addHoverEvents() {
-  menuOptions[currentMenu].forEach(button => {
-    button.addEventListener('mouseover', () => {
-      if (!locked) {
-        updateSelection(menuOptions[currentMenu].indexOf(button));
-      }
+  if (menuOptions && menuOptions[currentMenu]) {
+    menuOptions[currentMenu].forEach(button => {
+      button.addEventListener('mouseover', () => {
+        if (!locked) {
+          updateSelection(menuOptions[currentMenu].indexOf(button));
+        }
+      });
+      button.addEventListener('click', () => {
+        if (!locked) {
+          handleAction();
+        }
+      });
     });
-    button.addEventListener('click', () => {
-      if (!locked) {
-        handleAction();
-      }
-    });
-  });
+  }
 }
 
 // Function to toggle menu
@@ -266,8 +289,7 @@ function toggleMenu(newMenu) {
   currentMenu = newMenu;
 
   if (newMenu === 'dialogueBox') {
-    menus.dialogueBox.addEventListener('click', function() {
-      locked = false;
+    menus.dialogueBox.addEventListener('click', function () {
       toggleMenu('battleAtk');
     });
   } else {

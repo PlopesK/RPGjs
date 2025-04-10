@@ -1,7 +1,6 @@
 //      Canvas      //
 const canvas = document.querySelector("canvas");
 const cont = canvas.getContext("2d"); //Context
-const actButtons = document.querySelector(".actions");
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
