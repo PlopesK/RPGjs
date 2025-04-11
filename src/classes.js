@@ -73,7 +73,8 @@ class Monster extends Sprite {
         rotation = 0,
         health = { max: 100, current: 100 },
         isEnemy = false,
-        name
+        name,
+        monsterAttacks
     }) {
         super ({
             position,
@@ -88,6 +89,7 @@ class Monster extends Sprite {
         this.health = health;
         this.isEnemy = isEnemy;
         this.name = name
+        this.monsterAttacks = monsterAttacks
     }
     attack({ attack, recipient, renderedSprites }) {
         menus.dialogueBox.innerHTML = `${this.name} used ${attack.name}`

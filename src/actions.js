@@ -169,9 +169,10 @@ function handleAction() {
         locked = true;
         const attackName = selectedOption.dataset.attack;
         const attackData = atkList[attackName];
-
+        const randomAtk = enemyMonster.monsterAttacks[Math.floor(Math.random() * enemyMonster.monsterAttacks.length)];
+        
         queue.push(() => {
-          enemyMonster.attack({ attack: atkList.Tackle, recipient: playerMonster, renderedSprites });
+          enemyMonster.attack({ attack: randomAtk, recipient: playerMonster, renderedSprites });
         });
 
         if (attackData) {

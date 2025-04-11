@@ -4,13 +4,13 @@ const monsterData = {
     imageSrc: './assets/img/Companion/embySprite.png',
     frames: { max: 4, hold: 30 },
     isEnemy: false,
-    //attacks: [attacks.Tackle, attacks.FireBall, attacks.Bite, attacks.Defense],
+    monsterAttacks: [atkList.Tackle, atkList.Fireball, atkList.Bite, atkList.Defense],
   },
   Draggle: {
     name: 'Draggle',
     imageSrc: './assets/img/Companion/draggleSprite.png',
     frames: { max: 4, hold: 30 },
     isEnemy: true,
-    //attacks: [],
+    monsterAttacks: [atkList.Tackle, atkList.Fireball],
   },
 };

@@ -35,6 +35,7 @@ function createMonster(monsterKey) {
         scale: scale,
         isEnemy: data.isEnemy,
         name: data.name,
+        monsterAttacks: data.monsterAttacks
     });
 }
 
