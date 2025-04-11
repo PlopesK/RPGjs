@@ -3,7 +3,7 @@ const scripts = [
     // External Libraries
     'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js',
     
-    // Game Data (loaded with defer)
+    // Game Data
     { src: 'data/collisions.js', defer: true },
     { src: 'data/attacks.js', defer: true },
     'data/monsters.js',

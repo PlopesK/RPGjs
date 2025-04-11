@@ -1,0 +1,9 @@
+.Normal {
+    background: linear-gradient(to bottom, #ccc, #aaa), #aaa !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.Fire {
+    background: linear-gradient(to bottom, #f2a369, #ee7f30),#ee7f30  !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
