@@ -6,6 +6,7 @@ const scripts = [
     // Game Data (loaded with defer)
     { src: 'data/collisions.js', defer: true },
     { src: 'data/attacks.js', defer: true },
+    'data/monsters.js',
 
     // Global Settings //
     'src/setter.js',

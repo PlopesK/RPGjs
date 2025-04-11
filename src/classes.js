@@ -6,10 +6,7 @@ class Sprite {
         sprites,
         animation = false,
         scale = 1,
-        health = { max: 100, current: 100 },
-        isEnemy = false,
         rotation = 0,
-        name
     }) {
         this.position = position
         this.image = image
@@ -24,10 +21,7 @@ class Sprite {
         this.animation = animation;
         this.sprites = sprites;
         this.opacity = 1;
-        this.health = health;
-        this.isEnemy = isEnemy;
         this.rotation = rotation;
-        this.name = name
     }
 
     draw() {
@@ -66,7 +60,35 @@ class Sprite {
             }
         }
     }
+}
 
+class Monster extends Sprite {
+    constructor ({
+        position,
+        image,
+        frames = { max: 1, hold: 10 },
+        sprites,
+        animation = false,
+        scale = 1,
+        rotation = 0,
+        health = { max: 100, current: 100 },
+        isEnemy = false,
+        name
+    }) {
+        super ({
+            position,
+            image,
+            frames,
+            sprites,
+            animation,
+            scale,
+            rotation,
+            health,
+        })
+        this.health = health;
+        this.isEnemy = isEnemy;
+        this.name = name
+    }
     attack({ attack, recipient, renderedSprites }) {
         menus.dialogueBox.innerHTML = `${this.name} used ${attack.name}`
 
@@ -108,8 +130,8 @@ class Sprite {
                 });
             break;
 
-            // FireBall Anim //
-            case 'FireBall':
+            // Fireball Anim //
+            case 'Fireball':
                 const fireballImg = new Image()
                 fireballImg.src = './assets/img/Battle/fireball.png'
                 const fireball = new Sprite({

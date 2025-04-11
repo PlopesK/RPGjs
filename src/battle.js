@@ -15,76 +15,71 @@ function drawBackground() {
     cont.drawImage(battleBackgroundImg, x, y, newWidth, newHeight);
 }
 
-// Battle Elements //
-const draggleImg = new Image();
-draggleImg.src = './assets/img/Companion/draggleSprite.png';
-const draggle = new Sprite({
-    position: {
-        x: canvas.width - 300,
-        y: 100
-    },
-    image: draggleImg,
-    frames: {
-        max: 4,
-        hold: 30
-    },
-    animation: true,
-    scale: 1.2,
-    isEnemy: true,
-    name: 'Draggle',
-});
+function createMonster(monsterKey) {
+    const data = monsterData[monsterKey];
+    const image = new Image();
+    image.src = data.imageSrc;
 
-const embyImg = new Image();
-embyImg.src = './assets/img/Companion/embySprite.png';
-const emby = new Sprite({
-    position: {
-        x: 360,
-        y: canvas.height - 360
-    },
-    image: embyImg,
-    frames: {
-        max: 4,
-        hold: 30
-    },
-    animation: true,
-    scale: 1.9,
-    name: 'Emby',
-});
+    const position = data.isEnemy
+        ? { x: canvas.width - 300, y: 100 }
+        : { x: 360, y: canvas.height - 360 };
+    const scale = data.isEnemy 
+        ? 1.2
+        : 1.9
 
-// Animations to monsters //
+    return new Monster({
+        position,
+        image,
+        frames: data.frames,
+        animation: true,
+        scale: scale,
+        isEnemy: data.isEnemy,
+        name: data.name,
+    });
+}
+
+const emby = createMonster('Emby');
+const draggle = createMonster('Draggle');
+const allSprites = [emby, draggle];
+
+const playerMonster = allSprites.find(sprite => !sprite.isEnemy);
+const enemyMonster = allSprites.find(sprite => sprite.isEnemy);
+
+// Start animation position
 const initialPositions = {
-    emby: { x: canvas.width + 300, y: emby.position.y },
-    draggle: { x: -300, y: draggle.position.y }
+    [playerMonster.name]: { x: canvas.width + 300, y: playerMonster.position.y },
+    [enemyMonster.name]: { x: -300, y: enemyMonster.position.y }
 };
 
+// End animation position
 const finalPositions = {
-    emby: { x: 360, y: canvas.height - 360 },
-    draggle: { x: canvas.width - 300, y: 100 }
+    [playerMonster.name]: { x: playerMonster.position.x, y: playerMonster.position.y },
+    [enemyMonster.name]: { x: enemyMonster.position.x, y: enemyMonster.position.y }
 };
 
-emby.position.x = initialPositions.emby.x;
-draggle.position.x = initialPositions.draggle.x;
+// Apply initial positions
+playerMonster.position.x = initialPositions[playerMonster.name].x;
+enemyMonster.position.x = initialPositions[enemyMonster.name].x;
 const speed = 30;
+const renderedSprites = [enemyMonster, playerMonster];
 
-// Rendering Battle Sequence //
-const renderedSprites = [draggle, emby]
 function animateBattle() {
     window.requestAnimationFrame(animateBattle);
     battleMenu.classList.remove("hidden");
     drawBackground();
 
-    renderedSprites.forEach((sprite) => {
-        sprite.draw()
-    })
+    renderedSprites.forEach(sprite => sprite.draw());
 
-    if (draggle.position.x < finalPositions.draggle.x) {
-        draggle.position.x = Math.min(draggle.position.x + speed, finalPositions.draggle.x);
+    // Move Enemy Monster
+    if (enemyMonster.position.x < finalPositions[enemyMonster.name].x) {
+        enemyMonster.position.x = Math.min(enemyMonster.position.x + speed, finalPositions[enemyMonster.name].x);
     }
 
-    if (emby.position.x > finalPositions.emby.x) {
-        emby.position.x = Math.max(emby.position.x - speed, finalPositions.emby.x);
+    // Move Player Monster
+    if (playerMonster.position.x > finalPositions[playerMonster.name].x) {
+        playerMonster.position.x = Math.max(playerMonster.position.x - speed, finalPositions[playerMonster.name].x);
     }
 }
 
-//animate();
+//animate()
 animateBattle();

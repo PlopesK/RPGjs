@@ -171,11 +171,11 @@ function handleAction() {
         const attackData = atkList[attackName];
 
         queue.push(() => {
-          draggle.attack({ attack: atkList.Tackle, recipient: emby, renderedSprites });
+          enemyMonster.attack({ attack: atkList.Tackle, recipient: playerMonster, renderedSprites });
         });
 
         if (attackData) {
-          emby.attack({ attack: attackData, recipient: draggle, renderedSprites });
+          playerMonster.attack({ attack: attackData, recipient: enemyMonster, renderedSprites });
           toggleMenu('dialogueBox');
         } else {
           console.warn(`Attack "${attackName}" not found.`);
