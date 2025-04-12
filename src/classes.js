@@ -28,12 +28,12 @@ class Sprite {
         cont.save() //Using 'Save' and 'Restore' makes the Global property affect 
         // only the code whitin it
         cont.translate(
-            this.position.x + this.width / 2, 
+            this.position.x + this.width / 2,
             this.position.y + this.height / 2
         ) //Get the Attacker position
         cont.rotate(this.rotation)
         cont.translate(
-            -this.position.x - this.width / 2, 
+            -this.position.x - this.width / 2,
             -this.position.y - this.height / 2
         ) //Return to the point 0 of screen
         cont.globalAlpha = this.opacity
@@ -63,7 +63,7 @@ class Sprite {
 }
 
 class Monster extends Sprite {
-    constructor ({
+    constructor({
         position,
         image,
         frames = { max: 1, hold: 10 },
@@ -76,7 +76,7 @@ class Monster extends Sprite {
         name,
         monsterAttacks
     }) {
-        super ({
+        super({
             position,
             image,
             frames,
@@ -130,7 +130,7 @@ class Monster extends Sprite {
                     x: this.position.x,
                     y: this.position.y
                 });
-            break;
+                break;
 
             // Fireball Anim //
             case 'Fireball':
@@ -159,10 +159,10 @@ class Monster extends Sprite {
                     y: target,
                     onComplete: () => {
                         renderedSprites.splice(1, 1),
-                        takeHitAnim(recipient, healthBar)
+                            takeHitAnim(recipient, healthBar)
                     }
                 })
-            break;
+                break;
         }
     }
 }
@@ -171,10 +171,36 @@ class Monster extends Sprite {
 function takeHitAnim(recipient, healthBarElement) {
     const newHP = (recipient.health.current / recipient.health.max) * 100;
 
+    const colors = {
+        normal: ["#23F723", "forestgreen"],
+        warning: ["#F7BB23", "goldenrod"],
+        critical: ["#F72323", "firebrick"]
+    };
+
     gsap.to(healthBarElement, {
         width: newHP + '%',
         onComplete: () => {
-            if (recipient.health.current <= 0) {
+            if (newHP <= 50 && newHP >= 30) {
+                gsap.to(healthBarElement, {
+                    "--HP-Light": colors.warning[0],
+                    "--HP-Dark": colors.warning[1],
+                });
+            } else if (newHP <= 29) {
+                gsap.to(healthBarElement, {
+                    "--HP-Light": colors.critical[0],
+                    "--HP-Dark": colors.critical[1],
+                    repeat: -1, // infinite
+                    opacity: 0.8,
+                    yoyo: true,
+                });
+            } else {
+                gsap.to(healthBarElement, {
+                    "--HP-Light": colors.normal[0],
+                    "--HP-Dark": colors.normal[1],
+                    duration: 0.01
+                });
+            }
+            if (newHP <= 0) {
                 gsap.to(recipient, { opacity: 0, duration: 0.5 });
             }
         }
@@ -212,6 +238,5 @@ class Boundary {
         cont.fillRect(this.position.x, this.position.y, this.width, this.height, this.buffer);
     }
 }
-  
-  
-  
+
+

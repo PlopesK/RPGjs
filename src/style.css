@@ -14,7 +14,9 @@
     --small-radius: 1vh;
 
     --font-size: 2.6vh;
-    --HP-color: forestgreen;
+
+    --HP-Light: #23F723;
+    --HP-Dark: #228b22;
 }
 
 * {
@@ -221,7 +223,7 @@ button {
 .healthBar {
     display: block;
     margin-top: 2vh;
-    background-color: #ccc;
+    background-color: black;
     height: 2vh;
     width: 100%;
     max-width: 100%;
@@ -231,7 +233,8 @@ button {
 
 .HP {
     display: block;
-    background-color: var(--HP-color);
+    background: linear-gradient(to bottom, var(--HP-Light), var(--HP-Dark)), var(--HP-Dark)!important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     height: 100%;
     width: 100%;
     border-radius: 0.1vh;
