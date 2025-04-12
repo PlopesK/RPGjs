@@ -145,8 +145,6 @@ function handleNavigation(key) {
 }
 
 // Function to handle action
-const queue = []; // Actions order
-
 function handleAction() {
   const currentTime = Date.now();
   if (currentTime - lastActionTime < debounceTime) return; // Debounce check
@@ -262,6 +260,3 @@ function handleKeydown(e) {
     toggleMenu('startBattle');
   }
 }
-
-window.addEventListener('keydown', handleKeydown);
-addHoverEvents(); // ---------------- Just for test reasons ---------------- //

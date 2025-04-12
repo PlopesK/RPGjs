@@ -39,50 +39,69 @@ function createMonster(monsterKey) {
     });
 }
 
-const emby = createMonster('Emby');
-const draggle = createMonster('Draggle');
-const allSprites = [emby, draggle];
+let emby
+let draggle
+let allSprites
+let renderedSprites // All rendered sprites, inluding attacks
+let queue // Actions order
+let playerMonster
+let enemyMonster
 
-const playerMonster = allSprites.find(sprite => !sprite.isEnemy);
-const enemyMonster = allSprites.find(sprite => sprite.isEnemy);
+function initBattle() {
+    emby = createMonster('Emby')
+    draggle = createMonster('Draggle')
+    allSprites = [emby, draggle]
+    renderedSprites = []
+    queue = []
 
-// Start animation position
+    playerMonster = allSprites.find(sprite => !sprite.isEnemy)
+    enemyMonster = allSprites.find(sprite => sprite.isEnemy)
+
+    renderedSprites.push(enemyMonster, playerMonster)
+
+    window.addEventListener('keydown', handleKeydown)
+    addHoverEvents()
+}
+
 const initialPositions = {
-    [playerMonster.name]: { x: canvas.width + 300, y: playerMonster.position.y },
-    [enemyMonster.name]: { x: -300, y: enemyMonster.position.y }
-};
+    player: { x: canvas.width + 300, y: 0 },
+    enemy: { x: -300, y: 0 }
+}
 
-// End animation position
 const finalPositions = {
-    [playerMonster.name]: { x: playerMonster.position.x, y: playerMonster.position.y },
-    [enemyMonster.name]: { x: enemyMonster.position.x, y: enemyMonster.position.y }
-};
+    player: { x: 360, y: canvas.height - 360 },
+    enemy: { x: canvas.width - 300, y: 100 }
+}
 
-// Apply initial positions
-playerMonster.position.x = initialPositions[playerMonster.name].x;
-enemyMonster.position.x = initialPositions[enemyMonster.name].x;
-const speed = 30;
-const renderedSprites = [enemyMonster, playerMonster];
+function setInitialPositions() {
+    playerMonster.position.x = initialPositions.player.x
+    enemyMonster.position.x = initialPositions.enemy.x
+}
+
+const speed = 30
 
 let battleAnimationId
-
 function animateBattle() {
-    battleAnimationId = window.requestAnimationFrame(animateBattle);
-    battleMenu.classList.remove("hidden");
-    drawBackground();
+    battleAnimationId = window.requestAnimationFrame(animateBattle)
+    battleMenu.classList.remove("hidden")
+    drawBackground()
 
-    renderedSprites.forEach(sprite => sprite.draw());
+    renderedSprites.forEach(sprite => sprite.draw())
 
-    // Move Enemy Monster
-    if (enemyMonster.position.x < finalPositions[enemyMonster.name].x) {
-        enemyMonster.position.x = Math.min(enemyMonster.position.x + speed, finalPositions[enemyMonster.name].x);
+    if (enemyMonster.position.x < finalPositions.enemy.x) {
+        enemyMonster.position.x = Math.min(enemyMonster.position.x + speed, finalPositions.enemy.x)
     }
 
-    // Move Player Monster
-    if (playerMonster.position.x > finalPositions[playerMonster.name].x) {
-        playerMonster.position.x = Math.max(playerMonster.position.x - speed, finalPositions[playerMonster.name].x);
+    if (playerMonster.position.x > finalPositions.player.x) {
+        playerMonster.position.x = Math.max(playerMonster.position.x - speed, finalPositions.player.x)
     }
 }
 
+function init() {
+    initBattle()
+    setInitialPositions()
+    animateBattle()
+}
+
+init()
 //animate()
-animateBattle();

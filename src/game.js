@@ -213,7 +213,7 @@ function startBattleTransition() {
     tl.to('.transitionStart', { duration: 0.5, opacity: 1, repeat: 2, yoyo: true })
         .to('.transitionStart', { duration: 0.3, opacity: 0 })
         .to('.transitionStart', { duration: 1, opacity: 1, scale: 5, backgroundColor: 'black', ease: "power2.inOut", zIndex: 300 })
-        .to('.transitionStart', { duration: 0.5, opacity: 1, onComplete: () => { animateBattle(), toggleMenu('startBattle') } })
+        .to('.transitionStart', { duration: 0.5, opacity: 1, onComplete: () => { init(), toggleMenu('startBattle') } })
         .to('.transitionStart', { duration: 0.5, scale: 0, opacity: 0, ease: "power2.inOut" });
 }
 
