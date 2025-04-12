@@ -102,13 +102,18 @@ class Monster extends Sprite {
         })
     }
 
-    run () {
+    run() {
         if (Math.random() < 0.7) {
             menus.dialogueBox.innerHTML = "You escaped the battle!"
-            escaped = true
+            queue.push(() => {
+                endBattle()
+            })
+            return
         } else {
             menus.dialogueBox.innerHTML = "You tried to run but couldn't escape!"
-            escaped = false
+            queue.push(() => {
+                enemyAttack();
+            });
         }
     }
 
@@ -193,11 +198,10 @@ const colors = {
     warning: ["#F7EF23", "goldenrod"],
     critical: ["#F72323", "firebrick"]
 };
-
+const hpReset = document.querySelectorAll(".HP");
 function resetHpAnim() {
     // Cancel criticalHp animation on reset
-    const hp = document.querySelectorAll(".HP");
-    hp.forEach((hpBar) => {
+    hpReset.forEach((hpBar) => {
         gsap.killTweensOf(hpBar);
         hpCriticalAnimation = null;
         gsap.to(hpBar, {
@@ -206,7 +210,8 @@ function resetHpAnim() {
             repeat: 0,
             opacity: 1,
             yoyo: false,
-            duration: 0.01
+            duration: 0.01,
+            width: '100%'
         })
     });
 }

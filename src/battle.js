@@ -46,21 +46,16 @@ let renderedSprites // All rendered sprites, inluding attacks
 let queue // Actions order
 let playerMonster
 let enemyMonster
-let escaped
 
 function initBattle() {
+    battleMenu.classList.remove("hidden")
     emby = createMonster('Emby')
     draggle = createMonster('Draggle')
     allSprites = [emby, draggle]
-    const hpReset = document.querySelectorAll(".HP");
-    hpReset.forEach((hp) => {
-        const newHP = hp.style.width = '100%';
-        resetHpAnim()
-        hpColor(newHP, hp)
-    });
+    resetHpAnim()
+
     renderedSprites = []
     queue = []
-    escaped = false
 
     playerMonster = allSprites.find(sprite => !sprite.isEnemy)
     enemyMonster = allSprites.find(sprite => sprite.isEnemy)
@@ -91,7 +86,6 @@ const speed = 30
 let battleAnimationId
 function animateBattle() {
     battleAnimationId = window.requestAnimationFrame(animateBattle)
-    battleMenu.classList.remove("hidden")
     drawBackground()
 
     renderedSprites.forEach(sprite => sprite.draw())

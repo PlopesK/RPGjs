@@ -107,27 +107,23 @@ function updateDescription(text) {
 // Function to update selection
 function updateSelection(index) {
   const options = menuOptions[currentMenu];
-  if (!options || options.length === 0) return;
+  if (!options?.length) return;
+
   options.forEach(btn => btn.classList.remove('selected'));
   selectedOption = options[index];
   selectedOption.classList.add('selected');
 
-  const selectedId = selectedOption.id;
-  const descText = descriptions.menus[currentMenu]?.[selectedId] ?? "No description available.";
+  const descText = descriptions.menus[currentMenu]?.[selectedOption.id] ?? "No description available.";
   updateDescription(descText);
 }
 
 // Function to handle navigation
 function handleNavigation(key) {
-  const options = menuOptions[currentMenu]
-  if (!options || options.length === 0) return;
+  const options = menuOptions[currentMenu];
+  if (!options?.length) return;
 
-  if (!selectedOption) {
-    selectedOption = menuOptions[currentMenu][0];
-  }
-
-  const currentIndex = menuOptions[currentMenu].indexOf(selectedOption);
-  let newIndex = (currentIndex + navigationMap[key] + menuOptions[currentMenu].length) % menuOptions[currentMenu].length;
+  const currentIndex = selectedOption ? options.indexOf(selectedOption) : 0;
+  let newIndex = (currentIndex + navigationMap[key] + options.length) % options.length;
 
   if (specialCases[key] && specialCases[key][currentIndex] !== undefined) {
     newIndex = specialCases[key][currentIndex];
@@ -163,16 +159,6 @@ function handleStartBattle() {
     case 'run':
       toggleMenu('dialogueBox');
       playerMonster.run()
-      if (escaped) {
-        queue.push(() => {
-          endBattle()
-        })
-        return
-      } else {
-        queue.push(() => {
-          enemyAttack();
-        });
-      }
       break;
   }
 }
@@ -182,7 +168,7 @@ function handleBattleAtk() {
     locked = true;
     const attackName = selectedOption.dataset.attack;
     const attackData = atkList[attackName];
-
+    
     if (attackData) {
       playerMonster.attack({ attack: attackData, recipient: enemyMonster, renderedSprites });
       toggleMenu('dialogueBox');
