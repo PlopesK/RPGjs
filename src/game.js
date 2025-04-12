@@ -209,27 +209,60 @@ function animate() {
 // Transictions //
 function startBattleTransition() {
     const tl = gsap.timeline();
+    const transitionStart = document.getElementById('transitionStart');
 
-    tl.to('.transitionStart', { duration: 0.5, opacity: 1, repeat: 2, yoyo: true })
-        .to('.transitionStart', { duration: 0.3, opacity: 0 })
-        .to('.transitionStart', { duration: 1, opacity: 1, scale: 5, backgroundColor: 'black', ease: "power2.inOut", zIndex: 300 })
-        .to('.transitionStart', { duration: 0.5, opacity: 1, onComplete: () => { init(), toggleMenu('startBattle') } })
-        .to('.transitionStart', { duration: 0.5, scale: 0, opacity: 0, ease: "power2.inOut" });
+    tl.to(transitionStart, { duration: 0.5, opacity: 1, repeat: 2, yoyo: true })
+        .to(transitionStart, { duration: 0.3, opacity: 0 })
+        .to(transitionStart, { 
+            duration: 1, 
+            opacity: 1, 
+            scale: 5, 
+            ease: "power2.inOut", 
+        })
+        .to(transitionStart, { 
+            duration: 0.5, 
+            opacity: 1, 
+            onComplete: () => { 
+                init(); 
+                toggleMenu('startBattle'); 
+            } 
+        })
+        .to(transitionStart, { 
+            duration: 0.5, 
+            scale: 0, 
+            opacity: 0, 
+            ease: "power2.inOut",
+        })
+        .to(transitionStart, {
+            duration: 0,
+            scale: 1,
+            backgroundColor: 'rgba(255, 255, 255, 0.5)', 
+        });
 }
 
 function endBattleTransition() {
     const tl = gsap.timeline();
+    const transitionEnd = document.getElementById('transitionEnd');
 
-    tl.to('.transitionEnd', {
-            duration: 0.5, opacity: 1
-        })
-        .to('.transitionEnd', { duration: 1, opacity: 1, scale: 5, ease: "power2.inOut", zIndex: 300 })
-        .to('.transitionEnd', {
-            duration: 0.5, opacity: 1, onComplete: () => {
-                battle.initiated = false;
-                animate();
-                battleMenu.classList.add("hidden");
-            }
-        })
-        .to('.transitionEnd', { duration: 0.5, scale: 0, opacity: 0, ease: "power2.inOut" });
+    tl.to(transitionEnd, {
+        duration: 0.5, opacity: 1, scale: 1
+    })
+    .to(transitionEnd, {
+        duration: 1, opacity: 1, scale: 5, ease: "power2.inOut"
+    })
+    .to(transitionEnd, {
+        duration: 0.5, opacity: 1, onComplete: () => {
+            battle.initiated = false;
+            animate();
+            battleMenu.classList.add("hidden");
+        }
+    })
+    .to(transitionEnd, {
+        duration: 1, scale: 0, opacity: 0, ease: "power2.inOut"
+    })
+    .to(transitionEnd, {
+        duration: 0,
+        scale: 1,
+        backgroundColor: 'black', 
+    });
 }

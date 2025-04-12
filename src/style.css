@@ -72,7 +72,8 @@ canvas {
     pointer-events: none;
     transform: scale(1);
     opacity: 0;
-    z-index: 100;
+    z-index: 300;
+    scale: 1;
 
     background-image: url(../assets/img/Battle/battle.png);
     background-size: 10%;
@@ -82,11 +83,11 @@ canvas {
     border: 2vh double #274A9D;
 }
 
-.transitionStart {
+#transitionStart {
     background-color: rgba(255, 255, 255, 0.5);
 }
 
-.transitionEnd {
+#transitionEnd {
     background-color: black;
 }
 

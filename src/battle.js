@@ -23,7 +23,7 @@ function createMonster(monsterKey) {
     const position = data.isEnemy
         ? { x: canvas.width - 300, y: 100 }
         : { x: 360, y: canvas.height - 360 };
-    const scale = data.isEnemy 
+    const scale = data.isEnemy
         ? 1.2
         : 1.9
 
@@ -51,6 +51,11 @@ function initBattle() {
     emby = createMonster('Emby')
     draggle = createMonster('Draggle')
     allSprites = [emby, draggle]
+    const hpReset = document.querySelectorAll(".HP");
+    hpReset.forEach((hp) => {
+        const newHP = hp.style.width = '100%';
+        hpColor(newHP, hp)
+    });
     renderedSprites = []
     queue = []
 

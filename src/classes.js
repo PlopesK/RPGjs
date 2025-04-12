@@ -95,7 +95,7 @@ class Monster extends Sprite {
     faint() {
         menus.dialogueBox.innerHTML = `${this.name} fainted!`
         gsap.to(this.position, {
-            y:this.position.y + 20
+            y: this.position.y + 20
         })
         gsap.to(this, {
             opacity: 0,
@@ -178,39 +178,54 @@ class Monster extends Sprite {
     }
 }
 
+const colors = {
+    normal: ["#23F723", "forestgreen"],
+    warning: ["#F7EF23", "goldenrod"],
+    critical: ["#F72323", "firebrick"]
+};
+
+let hpCriticalAnimation = null;
+
+function hpColor(newHP, healthBarElement) {
+  // Cancela a animação do HP Crítico se ela estiver ativa
+  if (hpCriticalAnimation) {
+    gsap.killTweensOf(healthBarElement);
+    hpCriticalAnimation = null;
+  }
+
+  if (newHP <= 50 && newHP >= 30) {
+    gsap.to(healthBarElement, {
+      "--HP-Light": colors.warning[0],
+      "--HP-Dark": colors.warning[1],
+    });
+  } else if (newHP <= 29) {
+    hpCriticalAnimation = gsap.to(healthBarElement, {
+      "--HP-Light": colors.critical[0],
+      "--HP-Dark": colors.critical[1],
+      repeat: -1, // infinite
+      opacity: 0.8,
+      yoyo: true,
+    });
+  } else {
+    gsap.to(healthBarElement, {
+      "--HP-Light": colors.normal[0],
+      "--HP-Dark": colors.normal[1],
+      repeat: 0,
+      opacity: 1,
+      yoyo: true,
+      duration: 0.01
+    });
+  }
+}
+
 // Hit animation function //
 function takeHitAnim(recipient, healthBarElement) {
     const newHP = (recipient.health.current / recipient.health.max) * 100;
-
-    const colors = {
-        normal: ["#23F723", "forestgreen"],
-        warning: ["#F7EF23", "goldenrod"],
-        critical: ["#F72323", "firebrick"]
-    };
-
+    
     gsap.to(healthBarElement, {
         width: newHP + '%',
         onComplete: () => {
-            if (newHP <= 50 && newHP >= 30) {
-                gsap.to(healthBarElement, {
-                    "--HP-Light": colors.warning[0],
-                    "--HP-Dark": colors.warning[1],
-                });
-            } else if (newHP <= 29) {
-                gsap.to(healthBarElement, {
-                    "--HP-Light": colors.critical[0],
-                    "--HP-Dark": colors.critical[1],
-                    repeat: -1, // infinite
-                    opacity: 0.8,
-                    yoyo: true,
-                });
-            } else {
-                gsap.to(healthBarElement, {
-                    "--HP-Light": colors.normal[0],
-                    "--HP-Dark": colors.normal[1],
-                    duration: 0.01
-                });
-            }
+            hpColor(newHP, healthBarElement)
         }
     });
 

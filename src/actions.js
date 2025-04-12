@@ -93,9 +93,6 @@ const descriptions = {
     battleAtk: Object.keys(characterAttacks).reduce((obj, key) => ({
       ...obj, [key]: characterAttacks[key].description
     }), {}),
-    dialogueBox: {
-      dialogue: "No description available."
-    }
   }
 };
 
@@ -124,12 +121,15 @@ function updateSelection(index) {
   selectedOption.classList.add('selected');
 
   const selectedId = selectedOption.id;
-  const descText = descriptions.menus[currentMenu]?.[selectedId] || "No description available.";
+  const descText = descriptions.menus[currentMenu]?.[selectedId] ?? "No description available.";
   updateDescription(descText);
 }
 
 // Function to handle navigation
 function handleNavigation(key) {
+  const options = menuOptions[currentMenu]
+  if (!options || options.length === 0) return;
+
   if (!selectedOption) {
     selectedOption = menuOptions[currentMenu][0];
   }
@@ -168,7 +168,7 @@ function handleAction() {
         locked = true;
         const attackName = selectedOption.dataset.attack;
         const attackData = atkList[attackName];
-        
+
         if (attackData) {
           playerMonster.attack({ attack: attackData, recipient: enemyMonster, renderedSprites });
           toggleMenu('dialogueBox');
@@ -186,17 +186,23 @@ function handleAction() {
           })
           return
         }
-
-        queue.push(() => {
+        
+        queue.push(() => { //Attack enemy section
           enemyMonster.attack({ attack: randomAtk, recipient: playerMonster, renderedSprites });
+          
+          if (playerMonster.health.current <= 0) {
+            queue.push(() => {
+              playerMonster.faint()
+            })
+
+            queue.push(() => {
+              cancelAnimationFrame(battleAnimationId);
+              endBattleTransition();
+            })
+            return
+          }
         });
 
-        if (playerMonster.health.current <= 0) {
-          queue.push(() => {
-            playerMonster.faint()
-          })
-          return
-        }
       }
       break;
     case 'dialogueBox':
