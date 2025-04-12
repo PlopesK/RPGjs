@@ -93,6 +93,8 @@ class Monster extends Sprite {
     }
 
     faint() {
+        audio.battle.stop()
+        audio.faint.play()
         menus.dialogueBox.innerHTML = `${this.name} fainted!`
         gsap.to(this.position, {
             y: this.position.y + 20
@@ -150,6 +152,7 @@ class Monster extends Sprite {
                     y: recipient.position.y,
                     duration: 0.1,
                     onComplete: () => {
+                        audio.tackleHit.play()
                         takeHitAnim(recipient, healthBar)
                     }
                 }).to(this.position, {
@@ -160,6 +163,7 @@ class Monster extends Sprite {
 
             // Fireball Anim //
             case 'Fireball':
+                audio.initFireball.play()
                 const fireballImg = new Image()
                 fireballImg.src = './assets/img/Battle/fireball.png'
                 const fireball = new Sprite({
@@ -185,7 +189,8 @@ class Monster extends Sprite {
                     y: target,
                     onComplete: () => {
                         renderedSprites.splice(1, 1),
-                            takeHitAnim(recipient, healthBar)
+                        audio.fireballHit.play()
+                        takeHitAnim(recipient, healthBar)
                     }
                 })
                 break;

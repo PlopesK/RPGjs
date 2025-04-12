@@ -1,12 +1,14 @@
 // Script loader for RPGjs game
 const scripts = [
     // External Libraries
-    'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js',
-    
+    'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js', //Gsap for animations
+    'https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js', //Howler for audio
+
     // Game Data
     { src: 'data/collisions.js', defer: true },
     { src: 'data/attacks.js', defer: true },
-    'data/monsters.js',
+    { src: 'data/audio.js', defer: true },
+    { src: 'data/monsters.js', defer: true },
 
     // Global Settings //
     'src/setter.js',

@@ -104,6 +104,3 @@ function init() {
     setInitialPositions()
     animateBattle()
 }
-
-init()
-//animate()
