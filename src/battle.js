@@ -54,6 +54,7 @@ function initBattle() {
     const hpReset = document.querySelectorAll(".HP");
     hpReset.forEach((hp) => {
         const newHP = hp.style.width = '100%';
+        resetHpAnim()
         hpColor(newHP, hp)
     });
     renderedSprites = []

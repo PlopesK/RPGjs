@@ -184,44 +184,54 @@ const colors = {
     critical: ["#F72323", "firebrick"]
 };
 
-let hpCriticalAnimation = null;
+function resetHpAnim() {
+    const hp = document.querySelectorAll(".HP");
+    hp.forEach((hpBar) => {
+        gsap.killTweensOf(hpBar);
+        hpCriticalAnimation = null;
+        gsap.to(hpBar, {
+            "--HP-Light": colors.normal[0],
+            "--HP-Dark": colors.normal[1],
+            repeat: 0,
+            opacity: 1,
+            yoyo: false,
+            duration: 0.01
+        })
+    });
+}
 
 function hpColor(newHP, healthBarElement) {
-  // Cancela a animação do HP Crítico se ela estiver ativa
-  if (hpCriticalAnimation) {
-    gsap.killTweensOf(healthBarElement);
-    hpCriticalAnimation = null;
-  }
+    // Cancel criticalHp animation on reset
 
-  if (newHP <= 50 && newHP >= 30) {
-    gsap.to(healthBarElement, {
-      "--HP-Light": colors.warning[0],
-      "--HP-Dark": colors.warning[1],
-    });
-  } else if (newHP <= 29) {
-    hpCriticalAnimation = gsap.to(healthBarElement, {
-      "--HP-Light": colors.critical[0],
-      "--HP-Dark": colors.critical[1],
-      repeat: -1, // infinite
-      opacity: 0.8,
-      yoyo: true,
-    });
-  } else {
-    gsap.to(healthBarElement, {
-      "--HP-Light": colors.normal[0],
-      "--HP-Dark": colors.normal[1],
-      repeat: 0,
-      opacity: 1,
-      yoyo: true,
-      duration: 0.01
-    });
-  }
+    if (newHP <= 50 && newHP >= 30) {
+        gsap.to(healthBarElement, {
+            "--HP-Light": colors.warning[0],
+            "--HP-Dark": colors.warning[1],
+        });
+    } else if (newHP <= 29) {
+        gsap.to(healthBarElement, {
+            "--HP-Light": colors.critical[0],
+            "--HP-Dark": colors.critical[1],
+            repeat: -1, // infinite
+            opacity: 0.8,
+            yoyo: true,
+        });
+    } else {
+        gsap.to(healthBarElement, {
+            "--HP-Light": colors.normal[0],
+            "--HP-Dark": colors.normal[1],
+            repeat: 0,
+            opacity: 1,
+            yoyo: false,
+            duration: 0.01
+        });
+    }
 }
 
 // Hit animation function //
 function takeHitAnim(recipient, healthBarElement) {
     const newHP = (recipient.health.current / recipient.health.max) * 100;
-    
+
     gsap.to(healthBarElement, {
         width: newHP + '%',
         onComplete: () => {
