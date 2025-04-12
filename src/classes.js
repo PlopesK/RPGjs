@@ -102,6 +102,16 @@ class Monster extends Sprite {
         })
     }
 
+    run () {
+        if (Math.random() < 0.7) {
+            menus.dialogueBox.innerHTML = "You escaped the battle!"
+            escaped = true
+        } else {
+            menus.dialogueBox.innerHTML = "You tried to run but couldn't escape!"
+            escaped = false
+        }
+    }
+
     attack({ attack, recipient, renderedSprites }) {
         menus.dialogueBox.innerHTML = `${this.name} used ${attack.name}`
 
@@ -185,6 +195,7 @@ const colors = {
 };
 
 function resetHpAnim() {
+    // Cancel criticalHp animation on reset
     const hp = document.querySelectorAll(".HP");
     hp.forEach((hpBar) => {
         gsap.killTweensOf(hpBar);
@@ -201,8 +212,6 @@ function resetHpAnim() {
 }
 
 function hpColor(newHP, healthBarElement) {
-    // Cancel criticalHp animation on reset
-
     if (newHP <= 50 && newHP >= 30) {
         gsap.to(healthBarElement, {
             "--HP-Light": colors.warning[0],

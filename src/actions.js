@@ -96,14 +96,6 @@ const descriptions = {
   }
 };
 
-// Define escape chances
-const runChance = {
-  run: {
-    successful: "You escaped the battle!",
-    failure: "You tried to run but couldn't escape!"
-  }
-}
-
 // Function to update description
 function updateDescription(text) {
   const descriptionElements = document.querySelectorAll(".info");
@@ -149,71 +141,98 @@ function handleAction() {
   const currentTime = Date.now();
   if (currentTime - lastActionTime < debounceTime) return; // Debounce check
   lastActionTime = currentTime; // Update last action time
-  const randomAtk = enemyMonster.monsterAttacks[Math.floor(Math.random() * enemyMonster.monsterAttacks.length)];
 
   switch (currentMenu) {
     case 'startBattle':
-      switch (selectedOption?.id) {
-        case 'attack':
-          toggleMenu('battleAtk');
-          break;
-        case 'run':
-          const runResult = Math.random() < 0.7 ? runChance.run.successful : runChance.run.failure;
-          updateDescription(runResult);
-          break;
-      }
+      handleStartBattle();
       break;
     case 'battleAtk':
-      if (!locked) {
-        locked = true;
-        const attackName = selectedOption.dataset.attack;
-        const attackData = atkList[attackName];
-
-        if (attackData) {
-          playerMonster.attack({ attack: attackData, recipient: enemyMonster, renderedSprites });
-          toggleMenu('dialogueBox');
-        } else {
-          console.warn(`Attack "${attackName}" not found.`);
-        }
-
-        if (enemyMonster.health.current <= 0) {
-          queue.push(() => {
-            enemyMonster.faint()
-          })
-          queue.push(() => {
-            cancelAnimationFrame(battleAnimationId);
-            endBattleTransition();
-          })
-          return
-        }
-        
-        queue.push(() => { //Attack enemy section
-          enemyMonster.attack({ attack: randomAtk, recipient: playerMonster, renderedSprites });
-          
-          if (playerMonster.health.current <= 0) {
-            queue.push(() => {
-              playerMonster.faint()
-            })
-
-            queue.push(() => {
-              cancelAnimationFrame(battleAnimationId);
-              endBattleTransition();
-            })
-            return
-          }
-        });
-
-      }
+      handleBattleAtk();
       break;
     case 'dialogueBox':
-      if (queue.length > 0) {
-        queue[0]();
-        queue.shift();
+      handleDialogueBox();
+      break;
+  }
+}
+
+function handleStartBattle() {
+  switch (selectedOption?.id) {
+    case 'attack':
+      toggleMenu('battleAtk');
+      break;
+    case 'run':
+      toggleMenu('dialogueBox');
+      playerMonster.run()
+      if (escaped) {
+        queue.push(() => {
+          endBattle()
+        })
+        return
       } else {
-        locked = false;
-        toggleMenu('battleAtk');
+        queue.push(() => {
+          enemyAttack();
+        });
       }
       break;
+  }
+}
+
+function handleBattleAtk() {
+  if (!locked) {
+    locked = true;
+    const attackName = selectedOption.dataset.attack;
+    const attackData = atkList[attackName];
+
+    if (attackData) {
+      playerMonster.attack({ attack: attackData, recipient: enemyMonster, renderedSprites });
+      toggleMenu('dialogueBox');
+    } else {
+      console.warn(`Attack "${attackName}" not found.`);
+    }
+
+    if (enemyMonster.health.current <= 0) {
+      queue.push(() => {
+        enemyMonster.faint()
+      })
+      queue.push(() => {
+        endBattle()
+      })
+      return
+    }
+
+    queue.push(() => {
+      enemyAttack();
+    });
+  }
+}
+
+function enemyAttack() { // Attack enemy section //
+  const randomAtk = enemyMonster.monsterAttacks[Math.floor(Math.random() * enemyMonster.monsterAttacks.length)];
+  enemyMonster.attack({ attack: randomAtk, recipient: playerMonster, renderedSprites });
+
+  if (playerMonster.health.current <= 0) {
+    queue.push(() => {
+      playerMonster.faint()
+    })
+    queue.push(() => {
+      endBattle()
+    })
+    return
+  }
+}
+
+function endBattle() {
+  cancelAnimationFrame(battleAnimationId);
+  endBattleTransition();
+}
+
+function handleDialogueBox() {
+  if (queue.length > 0) {
+    queue[0]();
+    queue.shift();
+  } else {
+    locked = false;
+    toggleMenu('battleAtk');
   }
 }
 
@@ -221,18 +240,21 @@ function handleAction() {
 function addHoverEvents() {
   if (menuOptions && menuOptions[currentMenu]) {
     menuOptions[currentMenu].forEach(button => {
-      button.addEventListener('mouseover', () => {
-        if (!locked) {
-          updateSelection(menuOptions[currentMenu].indexOf(button));
-        }
-      });
-
-      button.addEventListener('click', () => {
-        if (!locked) {
-          handleAction();
-        }
-      });
+      button.addEventListener('mouseover', handleMouseOver);
+      button.addEventListener('click', handleMouseClick);
     });
+  }
+
+  function handleMouseOver() {
+    if (!locked) {
+      updateSelection(menuOptions[currentMenu].indexOf(this));
+    }
+  }
+
+  function handleMouseClick() {
+    if (!locked) {
+      handleAction();
+    }
   }
 }
 
@@ -242,14 +264,14 @@ function toggleMenu(newMenu) {
   menus[newMenu].classList.remove('hidden');
   currentMenu = newMenu;
 
-  // Add click event for dialogue box to return to battleAtk
+  // Remove existing click event for dialogue box
   if (newMenu === 'dialogueBox') {
-    menus.dialogueBox.addEventListener('click', function () {
-      handleAction()
-    });
+    menus.dialogueBox.addEventListener('click', handleAction);
   } else {
+    menus.dialogueBox.removeEventListener('click', handleAction);
     locked = false;
   }
+
   updateSelection(0); // Reset selection to the first option
   addHoverEvents(); // Re-add hover events for the new menu
 }
@@ -258,11 +280,20 @@ function toggleMenu(newMenu) {
 function handleKeydown(e) {
   const key = getMappedKey(e.key) || e.key.toLowerCase();
 
-  if (navigationMap[key] !== undefined) {
-    handleNavigation(key);
-  } else if (['z', 'enter', ' '].includes(key)) {
-    handleAction();
-  } else if (['x', 'backspace'].includes(key)) {
-    toggleMenu('startBattle');
-  }
+  const actions = {
+    navigation: navigationMap[key] !== undefined ? handleNavigation : null,
+    action: ['z', 'enter', ' '].includes(key) ? handleAction : null,
+    back: ['x', 'backspace'].includes(key) ? () => {
+      if (currentMenu === 'dialogueBox') {
+        handleAction();
+      } else {
+        toggleMenu('startBattle')
+      }
+    } : null,
+  };
+
+  // Get the first non-null action from the actions object
+  const action = actions.navigation || actions.action || actions.back;
+  // Execute the action if it exists
+  action && action(key);
 }

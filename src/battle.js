@@ -46,6 +46,7 @@ let renderedSprites // All rendered sprites, inluding attacks
 let queue // Actions order
 let playerMonster
 let enemyMonster
+let escaped
 
 function initBattle() {
     emby = createMonster('Emby')
@@ -59,6 +60,7 @@ function initBattle() {
     });
     renderedSprites = []
     queue = []
+    escaped = false
 
     playerMonster = allSprites.find(sprite => !sprite.isEnemy)
     enemyMonster = allSprites.find(sprite => sprite.isEnemy)
