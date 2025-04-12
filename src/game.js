@@ -1,11 +1,11 @@
 //      Collisions      //
 const collisionsMap = [];
-for (let i = 0; i < collisions.length; i+= 70) {
+for (let i = 0; i < collisions.length; i += 70) {
     collisionsMap.push(collisions.slice(i, 70 + i));
 }
 
 const battleZonesMap = [];
-for (let i = 0; i < battleZonesData.length; i+= 70) {
+for (let i = 0; i < battleZonesData.length; i += 70) {
     battleZonesMap.push(battleZonesData.slice(i, 70 + i));
 }
 
@@ -50,10 +50,10 @@ const foregroundImg = new Image();
 foregroundImg.src = './assets/img/Map/foreground.png';
 
 const playerImgs = {
-  down: new Image(),
-  up: new Image(),
-  left: new Image(),
-  right: new Image()
+    down: new Image(),
+    up: new Image(),
+    left: new Image(),
+    right: new Image()
 };
 
 playerImgs.down.src = './assets/img/Player/playerDown.png';
@@ -61,7 +61,7 @@ playerImgs.up.src = './assets/img/Player/playerUp.png';
 playerImgs.left.src = './assets/img/Player/playerLeft.png';
 playerImgs.right.src = './assets/img/Player/playerRight.png';
 
-const player = new Sprite ({
+const player = new Sprite({
     position: {
         x: canvas.width / 2 - (192 / 4) / 2, //Sprite Image Static Width
         y: canvas.height / 2 - 68 / 2, //Sprite Image Static Height
@@ -69,7 +69,7 @@ const player = new Sprite ({
     image: playerImgs.down,
     frames: {
         max: 4, //Number of frames in the sprite
-        hold: 10 
+        hold: 10
     },
     sprites: {
         up: playerImgs.up,
@@ -79,7 +79,7 @@ const player = new Sprite ({
     }
 });
 
-const background = new Sprite ({
+const background = new Sprite({
     position: {
         x: offset.x,
         y: offset.y
@@ -87,7 +87,7 @@ const background = new Sprite ({
     image: backImg,
 });
 
-const foreground = new Sprite ({
+const foreground = new Sprite({
     position: {
         x: offset.x,
         y: offset.y
@@ -96,7 +96,7 @@ const foreground = new Sprite ({
 });
 
 const movables = [background, ...boundaries, foreground, ...battleZones]; // '...' call all items inside a array
-function rectangleCollision({rectangle1, rectangle2}) {
+function rectangleCollision({ rectangle1, rectangle2 }) {
     return (
         rectangle1.position.x + rectangle1.width >= rectangle2.position.x + rectangle2.buffer * 2 && //Left collision
         rectangle1.position.x <= rectangle2.position.x + rectangle2.width - rectangle2.buffer * 2 && //Right collision
@@ -152,13 +152,14 @@ function animate() {
             const boundary = boundaries[i];
             if (rectangleCollision({
                 rectangle1: player,
-                rectangle2: { ...boundary, position: 
-                    { 
-                        x: boundary.position.x + x, 
-                        y: boundary.position.y + y 
-                    } 
+                rectangle2: {
+                    ...boundary, position:
+                    {
+                        x: boundary.position.x + x,
+                        y: boundary.position.y + y
+                    }
                 }
-            }) ) {
+            })) {
                 animation = false;
                 player.animation = false;
                 break;
@@ -180,20 +181,20 @@ function animate() {
                 window.cancelAnimationFrame(animationId) //Cancel Map animation loop
                 battle.initiated = true;
                 startBattleTransition();
-                
+
                 break;
             }
         }
 
         function calculateOverlappingArea(rectangle1, rectangle2) {
             return (Math.min(
-                rectangle1.position.x + rectangle1.width, 
+                rectangle1.position.x + rectangle1.width,
                 rectangle2.position.x + rectangle2.width
             ) - Math.max(rectangle1.position.x, rectangle2.position.x))
-            * (Math.min(
-                rectangle1.position.y + rectangle1.height,
-                rectangle2.position.y + rectangle2.height
-            ) - Math.max(rectangle1.position.y, rectangle2.position.y));
+                * (Math.min(
+                    rectangle1.position.y + rectangle1.height,
+                    rectangle2.position.y + rectangle2.height
+                ) - Math.max(rectangle1.position.y, rectangle2.position.y));
         }
 
         if (animation) {
@@ -205,12 +206,30 @@ function animate() {
     }
 }
 
+// Transictions //
 function startBattleTransition() {
     const tl = gsap.timeline();
 
-    tl.to('.transition', { duration: 0.5, opacity: 1, repeat: 2, yoyo: true })
-      .to('.transition', { duration: 0.3, opacity: 0 })
-      .to('.transition', { duration: 1, opacity: 1, scale: 5, backgroundColor: 'black', ease: "power2.inOut", zIndex: 300 })
-      .to('.transition', { duration: 0.5, opacity: 1, onComplete: () => {animateBattle(), toggleMenu('startBattle')} })
-      .to('.transition', { duration: 0.5, scale: 0, opacity: 0, ease: "power2.inOut" });
+    tl.to('.transitionStart', { duration: 0.5, opacity: 1, repeat: 2, yoyo: true })
+        .to('.transitionStart', { duration: 0.3, opacity: 0 })
+        .to('.transitionStart', { duration: 1, opacity: 1, scale: 5, backgroundColor: 'black', ease: "power2.inOut", zIndex: 300 })
+        .to('.transitionStart', { duration: 0.5, opacity: 1, onComplete: () => { animateBattle(), toggleMenu('startBattle') } })
+        .to('.transitionStart', { duration: 0.5, scale: 0, opacity: 0, ease: "power2.inOut" });
+}
+
+function endBattleTransition() {
+    const tl = gsap.timeline();
+
+    tl.to('.transitionEnd', {
+            duration: 0.5, opacity: 1
+        })
+        .to('.transitionEnd', { duration: 1, opacity: 1, scale: 5, ease: "power2.inOut", zIndex: 300 })
+        .to('.transitionEnd', {
+            duration: 0.5, opacity: 1, onComplete: () => {
+                battle.initiated = false;
+                animate();
+                battleMenu.classList.add("hidden");
+            }
+        })
+        .to('.transitionEnd', { duration: 0.5, scale: 0, opacity: 0, ease: "power2.inOut" });
 }

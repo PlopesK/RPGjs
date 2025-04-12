@@ -151,6 +151,7 @@ function handleAction() {
   const currentTime = Date.now();
   if (currentTime - lastActionTime < debounceTime) return; // Debounce check
   lastActionTime = currentTime; // Update last action time
+  const randomAtk = enemyMonster.monsterAttacks[Math.floor(Math.random() * enemyMonster.monsterAttacks.length)];
 
   switch (currentMenu) {
     case 'startBattle':
@@ -169,17 +170,34 @@ function handleAction() {
         locked = true;
         const attackName = selectedOption.dataset.attack;
         const attackData = atkList[attackName];
-        const randomAtk = enemyMonster.monsterAttacks[Math.floor(Math.random() * enemyMonster.monsterAttacks.length)];
         
-        queue.push(() => {
-          enemyMonster.attack({ attack: randomAtk, recipient: playerMonster, renderedSprites });
-        });
-
         if (attackData) {
           playerMonster.attack({ attack: attackData, recipient: enemyMonster, renderedSprites });
           toggleMenu('dialogueBox');
         } else {
           console.warn(`Attack "${attackName}" not found.`);
+        }
+
+        if (enemyMonster.health.current <= 0) {
+          queue.push(() => {
+            enemyMonster.faint()
+          })
+          queue.push(() => {
+            cancelAnimationFrame(battleAnimationId);
+            endBattleTransition();
+          })
+          return
+        }
+
+        queue.push(() => {
+          enemyMonster.attack({ attack: randomAtk, recipient: playerMonster, renderedSprites });
+        });
+
+        if (playerMonster.health.current <= 0) {
+          queue.push(() => {
+            playerMonster.faint()
+          })
+          return
         }
       }
       break;

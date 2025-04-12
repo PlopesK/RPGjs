@@ -64,8 +64,10 @@ enemyMonster.position.x = initialPositions[enemyMonster.name].x;
 const speed = 30;
 const renderedSprites = [enemyMonster, playerMonster];
 
+let battleAnimationId
+
 function animateBattle() {
-    window.requestAnimationFrame(animateBattle);
+    battleAnimationId = window.requestAnimationFrame(animateBattle);
     battleMenu.classList.remove("hidden");
     drawBackground();
 

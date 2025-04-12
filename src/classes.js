@@ -91,6 +91,17 @@ class Monster extends Sprite {
         this.name = name
         this.monsterAttacks = monsterAttacks
     }
+
+    faint() {
+        menus.dialogueBox.innerHTML = `${this.name} fainted!`
+        gsap.to(this.position, {
+            y:this.position.y + 20
+        })
+        gsap.to(this, {
+            opacity: 0,
+        })
+    }
+
     attack({ attack, recipient, renderedSprites }) {
         menus.dialogueBox.innerHTML = `${this.name} used ${attack.name}`
 
@@ -173,7 +184,7 @@ function takeHitAnim(recipient, healthBarElement) {
 
     const colors = {
         normal: ["#23F723", "forestgreen"],
-        warning: ["#F7BB23", "goldenrod"],
+        warning: ["#F7EF23", "goldenrod"],
         critical: ["#F72323", "firebrick"]
     };
 
@@ -199,9 +210,6 @@ function takeHitAnim(recipient, healthBarElement) {
                     "--HP-Dark": colors.normal[1],
                     duration: 0.01
                 });
-            }
-            if (newHP <= 0) {
-                gsap.to(recipient, { opacity: 0, duration: 0.5 });
             }
         }
     });
