@@ -1,6 +1,6 @@
 const audio = {
     Map: new Howl({
-        src: './assets/sfx/map.wav',
+        src: './assets/sfx/music/map.wav',
         html5: true,
         volume: 0.2,
         repeat: -1,
@@ -17,27 +17,27 @@ const audio = {
         volume: 0.2,
     }),
     battle: new Howl({
-        src: './assets/sfx/battle.mp3',
+        src: './assets/sfx/music/battle.mp3',
         html5: true,
         volume: 0.15,
     }),
     tackleHit: new Howl({
-        src: './assets/sfx/tackleHit.wav',
+        src: './assets/sfx/attacks/tackleHit.wav',
         html5: true,
         volume: 0.15,
     }),
     fireballHit: new Howl({
-        src: './assets/sfx/fireballHit.wav',
+        src: './assets/sfx/attacks/fireballHit.wav',
         html5: true,
         volume: 0.15,
     }),
     initFireball: new Howl({
-        src: './assets/sfx/initFireball.wav',
+        src: './assets/sfx/attacks/initFireball.wav',
         html5: true,
         volume: 0.15,
     }),
     faint: new Howl({
-        src: './assets/sfx/faint.wav',
+        src: './assets/sfx/music/faint.wav',
         html5: true,
         volume: 0.15,
     }),
