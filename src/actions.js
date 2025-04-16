@@ -53,7 +53,7 @@ window.addEventListener("keyup", (e) => {
   player.frames.val = 0;
 });
 
-// Menu constants
+// //////////////////// MENU //////////////////// //
 const menus = {
   startBattle: document.querySelector('.startBattle'),
   battleAtk: document.querySelector('.battleAtk'),
@@ -137,6 +137,7 @@ function handleAction() {
   const currentTime = Date.now();
   if (currentTime - lastActionTime < debounceTime) return; // Debounce check
   lastActionTime = currentTime; // Update last action time
+  audio.menuClick.play();
 
   switch (currentMenu) {
     case 'startBattle':
@@ -168,7 +169,7 @@ function handleBattleAtk() {
     locked = true;
     const attackName = selectedOption.dataset.attack;
     const attackData = atkList[attackName];
-    
+
     if (attackData) {
       playerMonster.attack({ attack: attackData, recipient: enemyMonster, renderedSprites });
       toggleMenu('dialogueBox');
@@ -266,20 +267,25 @@ function toggleMenu(newMenu) {
 function handleKeydown(e) {
   const key = getMappedKey(e.key) || e.key.toLowerCase();
 
-  const actions = {
-    navigation: navigationMap[key] !== undefined ? handleNavigation : null,
-    action: ['z', 'enter', ' '].includes(key) ? handleAction : null,
-    back: ['x', 'backspace'].includes(key) ? () => {
-      if (currentMenu === 'dialogueBox') {
-        handleAction();
-      } else {
-        toggleMenu('startBattle')
-      }
-    } : null,
-  };
+  if (battle.initiated) {
+    const actions = {
+      navigation: navigationMap[key] !== undefined ? handleNavigation : null,
+      action: ['z', 'enter', ' '].includes(key) ? handleAction : null,
+      back: ['x', 'backspace'].includes(key) ? () => {
+        if (currentMenu === 'dialogueBox') {
+          handleAction();
+        } else {
+          toggleMenu('startBattle')
+          audio.menuReturn.play()
+        }
+      } : null,
+    };
 
-  // Get the first non-null action from the actions object
-  const action = actions.navigation || actions.action || actions.back;
-  // Execute the action if it exists
-  action && action(key);
+    // Get the first non-null action from the actions object
+    const action = actions.navigation || actions.action || actions.back;
+    // Execute the action if it exists
+    action && action(key);
+  } else {
+    return
+  }
 }

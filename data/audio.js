@@ -9,18 +9,45 @@ const audio = {
         },
         onend: function() {
           this.fade(0.2, 0, 1000);
+          this.play();
         }
       }),
+
+    // Menu sfx and Battle Music by HUNTER AUDIO PRODUCTION on:
+    // https://hunteraudio.itch.io/8bit-sfx-and-music-pack
+    menuReturn: new Howl ({
+        src: './assets/sfx/menu/Menu_Select2.wav',
+        html5: true,
+        volume: 0.2,
+    }),
+    menuClick: new Howl ({
+        src: './assets/sfx/menu/Menu_Select.wav',
+        html5: true,
+        volume: 0.08,
+    }),
+    menuCreation: new Howl ({
+        src: './assets/sfx/menu/Menu_Intro.wav',
+        html5: true,
+        volume: 0.15,
+    }),
+
+    // Battle
     initBattle: new Howl({
         src: './assets/sfx/initBattle.wav',
         html5: true,
         volume: 0.2,
     }),
     battle: new Howl({
-        src: './assets/sfx/music/battle.mp3',
+        src: './assets/sfx/music/Music_Loop_6_Full.wav',
         html5: true,
-        volume: 0.15,
-    }),
+        volume: 0.2,
+        repeat: -1,
+        onend: function() {
+          this.play();
+        },
+      }),
+
+    // Attacks
     tackleHit: new Howl({
         src: './assets/sfx/attacks/tackleHit.wav',
         html5: true,
@@ -29,12 +56,12 @@ const audio = {
     fireballHit: new Howl({
         src: './assets/sfx/attacks/fireballHit.wav',
         html5: true,
-        volume: 0.15,
+        volume: 0.03,
     }),
     initFireball: new Howl({
         src: './assets/sfx/attacks/initFireball.wav',
-        html5: true,
-        volume: 0.15,
+        html3: true,
+        volume: 0.03,
     }),
     faint: new Howl({
         src: './assets/sfx/music/faint.wav',

@@ -1,3 +1,8 @@
+// Menus //
+const menu = {
+  initiated: false
+}
+
 // Start Music //
 function startMusic() {
   return `
@@ -12,37 +17,93 @@ function startMusic() {
 }
 
 // 🎵 Music prompt
+let musicOption = null;
 function setupMusicPrompt() {
+  menu.initiated = true
   const musicPrompt = document.getElementById("musicPrompt");
   musicPrompt.classList.remove("hidden");
+
+  musicOption = "yes";
+  document.getElementById("yesButton").classList.add("selected");
+
+  const navigationMap = {
+    a: "yes",
+    d: "no",
+    ArrowLeft: "yes",
+    ArrowRight: "no"
+  };
+
+  const musicKeydown = (e) => {
+    if (menu.initiated) {
+      const key = getMappedKey(e.key) || e.key.toLowerCase();
+      const actionKeys = ['z', 'Enter', ' '];
+      if (key in navigationMap) {
+        musicOption = navigationMap[key];
+        updateMusicBtn();
+      } else if (actionKeys.includes(key)) {
+        if (musicOption === "yes") {
+          startAudio();
+        } else {
+          muteAudio();
+        }
+      }
+    }
+  };
+
+  document.addEventListener("keydown", musicKeydown);
+  document.addEventListener("mouseover", (e) => {
+    const target = e.target;
+    if (target.id === "yesButton" || target.id === "noButton") {
+      const buttons = document.querySelectorAll("#yesButton, #noButton");
+      buttons.forEach((button) => button.classList.remove("selected"));
+      target.classList.add("selected");
+      musicOption = target.id === "yesButton" ? "yes" : "no";
+    }
+  })
+
+  // Click events
   document.getElementById("yesButton").addEventListener("click", () => {
-      musicPrompt.style.display = "none";
-      audio.Map.play();
+    startAudio();
   });
 
   document.getElementById("noButton").addEventListener("click", () => {
-      musicPrompt.style.display = "none";
-      muteAudio();
+    muteAudio();
   });
+}
+
+function updateMusicBtn() {
+  document.getElementById("yesButton").classList.toggle("selected", musicOption === "yes");
+  document.getElementById("noButton").classList.toggle("selected", musicOption === "no");
+}
+
+function startAudio() {
+  const musicPrompt = document.getElementById("musicPrompt");
+  musicPrompt.style.display = "none";
+  musicOption = null;
+  menu.initiated = false
+  audio.menuClick.play();
+  audio.Map.play();
 }
 
 let isMuted = false;
 function muteAudio() {
+  const musicPrompt = document.getElementById("musicPrompt");
+  musicPrompt.style.display = "none";
   isMuted = true;
+  musicOption = null;
+  menu.initiated = false
   Object.values(audio).forEach(sfx => {
     sfx.mute(true);
   });
 }
 
-//ajuda aqui mano?
+// Battle Options //
+const battle = {
+  initiated: false
+}
 
-  // Battle Options //
-  const battle = {
-    initiated: false
-  }
-
-  function createBattleMenu() {
-    return `
+function createBattleMenu() {
+  return `
     <div class="battle-menu">
       <div class="health" id="hEnemy">
         <p>Draggle</p>
@@ -71,22 +132,22 @@ function muteAudio() {
           </span>
           <span class="options">
             ${["attack", "specs", "items", "run"]
-        .map(
-          (id, index) => `
+      .map(
+        (id, index) => `
                 <button class="optBtn ${index === 0 ? "selected" : ""}" id="${id}">
                   <p id="select">&#10148;</p> ${id.toUpperCase()}
                 </button>
               `
-        )
-        .join("")}
+      )
+      .join("")}
           </span>
         </menu>
   
         <menu class="battleAtk battle hidden">
           <span class="options">
             ${Object.keys(characterAttacks)
-        .map(
-          (id, index) => `
+      .map(
+        (id, index) => `
                   <button 
                     class="optBtn ${characterAttacks[id].type} ${index === 0 ? "selected" : ""}" 
                     id="${id}"
@@ -95,8 +156,8 @@ function muteAudio() {
                     <p id="select">&#10148;</p> ${characterAttacks[id].name.toUpperCase()} 
                   </button>
                 `
-        )
-        .join("")}
+      )
+      .join("")}
           </span>
           <span class="description">
             <p class="info"> DESCRIPTION </p>
@@ -105,16 +166,16 @@ function muteAudio() {
       </div>
     </div>
     `;
-  }
-  document.body.innerHTML += startMusic();
-  document.body.innerHTML += createBattleMenu();
+}
+document.body.innerHTML += startMusic();
+document.body.innerHTML += createBattleMenu();
 
-  const battleMenu = document.querySelector(".battle-menu");
-  battleMenu.classList.add("hidden");
+const battleMenu = document.querySelector(".battle-menu");
+battleMenu.classList.add("hidden");
 
-  //      Canvas      //
-  const canvas = document.querySelector("canvas");
-  const cont = canvas.getContext("2d"); //Context
+//      Canvas      //
+const canvas = document.querySelector("canvas");
+const cont = canvas.getContext("2d"); //Context
 
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;

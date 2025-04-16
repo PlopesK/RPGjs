@@ -105,6 +105,7 @@ function rectangleCollision({ rectangle1, rectangle2 }) {
     )
 }
 
+
 // ----------- Animating ----------- //
 function animate() {
     const animationId = window.requestAnimationFrame(animate);
@@ -130,7 +131,7 @@ function animate() {
     let animation = true;
     player.animation = false;
 
-    if (battle.initiated) return;
+    if (battle.initiated || menu.initiated) return;
     if (keys.w.pressed && lastKey === 'w') {
         movePlayer('w');
         player.image = player.sprites.up;
@@ -233,6 +234,7 @@ function startBattleTransition() {
             duration: 0.5,
             opacity: 1,
             onComplete: () => {
+                audio.menuCreation.play()
                 init();
                 toggleMenu('startBattle');
             }
@@ -259,7 +261,7 @@ function endBattleTransition() {
     })
         .to(transitionEnd, {
             duration: 1, opacity: 1, scale: 5, ease: "power2.inOut", onComplete: () => {
-
+                audio.faint.stop()
                 audio.Map.play()
             }
         })

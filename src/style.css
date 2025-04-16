@@ -184,7 +184,7 @@ button {
     transform: scale(1);
 }
   
-.optBtn.selected {
+.optBtn.selected, .btn.selected {
     transform: scale(1.05);
 }
 
@@ -313,8 +313,8 @@ button {
     transition: 0.1s ease;
 }
 
-.button:hover {
-    scale: 1.05;
+.button.selected {
+    border: 0.9vh double #636F75;
 }
 
 .button:active {
