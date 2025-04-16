@@ -9,15 +9,19 @@ function startMusic() {
     <div id="musicPrompt" class="modal fade-in hidden">
         <span class="modal-content">
             <p>This site has background music. Do you want to listen to it?</p>
-            <button id="yesButton" class="button btn">Yes</button>
-            <button id="noButton" class="button btn">No</button>
+            <button id="yesButton" class="button btn" onClick="startAudio()">Yes</button>
+            <button id="noButton" class="button btn" onClick="muteAudio()">No</button>
         </span>
     </div>
   `
 }
 
-// 🎵 Music prompt
+// 🎵 Music prompt //
 let musicOption = null;
+let isMuted = false;
+let musicKeydown;
+let musicMouseover;
+
 function setupMusicPrompt() {
   menu.initiated = true
   const musicPrompt = document.getElementById("musicPrompt");
@@ -33,7 +37,7 @@ function setupMusicPrompt() {
     ArrowRight: "no"
   };
 
-  const musicKeydown = (e) => {
+  musicKeydown = (e) => {
     if (menu.initiated) {
       const key = getMappedKey(e.key) || e.key.toLowerCase();
       const actionKeys = ['z', 'Enter', ' '];
@@ -50,8 +54,7 @@ function setupMusicPrompt() {
     }
   };
 
-  document.addEventListener("keydown", musicKeydown);
-  document.addEventListener("mouseover", (e) => {
+  musicMouseover = (e) => {
     const target = e.target;
     if (target.id === "yesButton" || target.id === "noButton") {
       const buttons = document.querySelectorAll("#yesButton, #noButton");
@@ -59,16 +62,10 @@ function setupMusicPrompt() {
       target.classList.add("selected");
       musicOption = target.id === "yesButton" ? "yes" : "no";
     }
-  })
+  };
 
-  // Click events
-  document.getElementById("yesButton").addEventListener("click", () => {
-    startAudio();
-  });
-
-  document.getElementById("noButton").addEventListener("click", () => {
-    muteAudio();
-  });
+  document.addEventListener("keydown", musicKeydown);
+  document.addEventListener("mouseover", musicMouseover);
 }
 
 function updateMusicBtn() {
@@ -77,24 +74,27 @@ function updateMusicBtn() {
 }
 
 function startAudio() {
-  const musicPrompt = document.getElementById("musicPrompt");
-  musicPrompt.style.display = "none";
-  musicOption = null;
-  menu.initiated = false
+  exitMusicMenu();
   audio.menuClick.play();
   audio.Map.play();
 }
 
-let isMuted = false;
 function muteAudio() {
-  const musicPrompt = document.getElementById("musicPrompt");
-  musicPrompt.style.display = "none";
+  exitMusicMenu();
   isMuted = true;
-  musicOption = null;
-  menu.initiated = false
   Object.values(audio).forEach(sfx => {
     sfx.mute(true);
   });
+}
+
+function exitMusicMenu() {
+  const musicPrompt = document.getElementById("musicPrompt");
+  musicPrompt.style.display = "none";
+  musicOption = null;
+  menu.initiated = false
+
+  document.removeEventListener("keydown", musicKeydown);
+  document.removeEventListener("mouseover", musicMouseover);
 }
 
 // Battle Options //
