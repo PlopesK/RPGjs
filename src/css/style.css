@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'PokeFont';
-    src: url('../assets/font/PKMN_RBYGSC.ttf') format('truetype');
+    src: url('../../assets/font/PKMN_RBYGSC.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -75,7 +75,7 @@ canvas {
     z-index: 300;
     scale: 1;
 
-    background-image: url(../assets/img/Battle/battle.png);
+    background-image: url(../../assets/img/Battle/battle.png);
     background-size: 10%;
     background-position: center;
     background-repeat: no-repeat;
@@ -305,7 +305,7 @@ button {
     border: 1vh double black;
     border-radius: 5px;
     background: #C20114;
-    background-image: url(../assets/img/Menu/pokeball.png);
+    background-image: url(../../assets/img/Menu/pokeball.png);
     background-position: center;
     background-size: auto auto;
     background-repeat: no-repeat;

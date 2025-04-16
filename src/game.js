@@ -49,6 +49,9 @@ backImg.src = './assets/img/Map/PelletTown.png';
 const foregroundImg = new Image();
 foregroundImg.src = './assets/img/Map/foreground.png';
 
+const battleGrassImg = new Image();
+battleGrassImg.src = './assets/img/Map/grass.png';
+
 const playerImgs = {
     down: new Image(),
     up: new Image(),
@@ -95,7 +98,15 @@ const foreground = new Sprite({
     image: foregroundImg,
 });
 
-const movables = [background, ...boundaries, foreground, ...battleZones]; // '...' call all items inside a array
+const btGrass = new Sprite({
+    position: {
+        x: offset.x,
+        y: offset.y
+    },
+    image: battleGrassImg,
+})
+
+const movables = [background, ...boundaries, foreground, ...battleZones, btGrass]; // '...' call all items inside a array
 function rectangleCollision({ rectangle1, rectangle2 }) {
     return (
         rectangle1.position.x + rectangle1.width >= rectangle2.position.x + rectangle2.buffer * 2 && //Left collision
@@ -117,8 +128,9 @@ function animate() {
     battleZones.forEach((battleZone) => {
         battleZone.draw();
     })
-    player.draw(); //Layer 3
-    foreground.draw(); //Layer 4
+    btGrass.draw(); //Layer 3
+    player.draw(); //Layer 4
+    foreground.draw(); //Layer 5
 
     const size = 3;
     const directions = {

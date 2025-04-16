@@ -1,5 +1,10 @@
+// File to set elements that are used by many scripts //
 // Menus //
 const menu = {
+  initiated: false
+}
+
+const battle = {
   initiated: false
 }
 
@@ -98,10 +103,6 @@ function exitMusicMenu() {
 }
 
 // Battle Options //
-const battle = {
-  initiated: false
-}
-
 function createBattleMenu() {
   return `
     <div class="battle-menu">
