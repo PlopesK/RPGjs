@@ -194,7 +194,6 @@ function animate() {
                 window.cancelAnimationFrame(animationId) //Cancel Map animation loop
                 audio.Map.stop()
                 audio.initBattle.play()
-                battle.initiated = true;
                 startBattleTransition();
 
                 break;
@@ -293,7 +292,3 @@ function endBattleTransition() {
             backgroundColor: 'black',
         });
 }
-
-//init() Start in the battle scene
-animate() //Start in the map
-setupMusicPrompt() //Show music prompt

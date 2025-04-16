@@ -100,7 +100,12 @@ function animateBattle() {
 }
 
 function init() {
+    battle.initiated = true;
     initBattle()
     setInitialPositions()
     animateBattle()
 }
+
+init() //Start in the battle scene
+//animate() //Start in the map
+setupMusicPrompt() //Show music prompt

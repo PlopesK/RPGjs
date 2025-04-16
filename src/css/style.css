@@ -327,3 +327,46 @@ button {
     height: 9vh !important;
     font-size: var(--font-size) !important;
 }
+
+/* //////////////// Items Menu //////////////// */
+.menuItem {
+    position: absolute;
+    top: 0;
+    width: 98%;
+    height: 98%;
+    border: var(--larger-border);
+    border-radius: var(--border-radius);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    list-style: none;
+    background-color: white;
+    text-align: center;
+    justify-content: center;
+    z-index: 500;
+    padding: 2%;
+    margin: 0.5% 1% 0.5% 1%;
+}
+
+.menuItem p {
+    position: absolute;
+    width: 50%;
+    right: 0;
+    margin-top: 2vh;
+}
+
+.itSection {
+    grid-template-columns: repeat(1, 1fr);
+    height: 100%;
+    border: var(--normal-border);
+    border-radius: var(--border-radius);
+    padding: 2%;
+    margin: 2%;
+}
+
+.itSection > * {
+    border-radius: var(--border-radius);
+}
+
+.itemsCol {
+    margin-top: 2vh;
+}
