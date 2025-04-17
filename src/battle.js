@@ -104,6 +104,7 @@ function init() {
     menu.itemInit = false;
     initBattle()
     setInitialPositions()
+    refreshItemMenu()
     animateBattle()
 }
 

@@ -1,4 +1,4 @@
-//      Player Movement      //
+// //////////////////// Player Movement //////////////////// //
 const keys = {
   w: {
     pressed: false,
@@ -148,7 +148,7 @@ function handleNavigation(key) {
   updateSelection(newIndex);
 }
 
-// Function to handle action //
+// //////////////////// Function to handle action //////////////////// //
 function handleAction() {
   const currentTime = Date.now();
   if (currentTime - lastActionTime < debounceTime) return; // Debounce check
@@ -227,7 +227,6 @@ function refreshItemMenu() {
   `;
   itemsContainer.innerHTML = returnBtnHtml + renderItemButtons();
 
-  // reconstrói opções e listeners
   menuOptions.itemMenu = Array.from(menus.itemMenu.querySelectorAll('.optBtn'));
   updateSelection(0);
   addHoverEvents();
@@ -293,7 +292,7 @@ function handleDialogueBox() {
   }
 }
 
-// Function to handle mouse events
+// //////////////////// Function to handle mouse events //////////////////// //
 function addHoverEvents() {
   if (menuOptions && menuOptions[currentMenu]) {
     menuOptions[currentMenu].forEach(button => {
@@ -315,7 +314,7 @@ function addHoverEvents() {
   }
 }
 
-// Function to toggle menu
+// Function to change menu
 function toggleMenu(newMenu) {
   menus[currentMenu].classList.add('hidden');
   menus[newMenu].classList.remove('hidden');

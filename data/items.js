@@ -7,3 +7,10 @@ let inventory = {
     Potion:  1,
     PotionX: 1,
 }
+
+// Use 'addItem(key, quantity)' to add Items!
+//Ex: addItem('Potion', 1)
+
+//Use 'removeItem(key)' to remove!
+//Ex: removeItem('Potion')
+//The default quantity value to remove is 1

@@ -14,3 +14,6 @@ const monsterData = {
     monsterAttacks: [atkList.Tackle, atkList.Fireball],
   },
 };
+
+//Use 'createMonster(name)' load a specific monster!
+//Ex: emby = createMonster('Emby') //Locating the monster inside a let//

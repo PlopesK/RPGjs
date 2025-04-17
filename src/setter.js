@@ -1,5 +1,5 @@
 // File to set elements that are used by many scripts //
-// Menus //
+// //////////////////// Menus //////////////////// //
 const menu = {
   initiated: false,
   itemInit: false,
@@ -9,7 +9,7 @@ const battle = {
   initiated: false
 }
 
-// Start Music //
+// //////////////////// Start Music //////////////////// //
 function startMusic() {
   return `
     <div id="musicPrompt" class="modal fade-in hidden">
@@ -103,7 +103,7 @@ function exitMusicMenu() {
   document.removeEventListener("mouseover", musicMouseover);
 }
 
-// Items Menu //
+// //////////////////// Items Menu //////////////////// //
 function addItem(key, qty = 1) {
   if (!itemList[key]) {
     console.warn(`Item ${key} não existe em itemList`);
@@ -150,7 +150,7 @@ function updateItemsMenu() {
   itemsContainer.innerHTML = returnBtnHtml + renderItemButtons();
 }
 
-// Battle Options //
+// //////////////////// Battle Options //////////////////// //
 function createBattleMenu() {
   return `
     <div class="battle-menu">
