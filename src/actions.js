@@ -118,6 +118,7 @@ function updateSelection(index) {
 
   let descText = descriptions.menus[currentMenu]?.[selectedOption.id] ?? "No description available.";
   if (menu.itemInit) {
+    selectedOption.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     const itemImg = document.querySelector("#itemSprite");
     if (selectedOption?.id == 'return') {
       itemImg.src = "./assets/img/Menu/pokeball.png"

@@ -100,7 +100,7 @@ canvas {
     bottom: 0;
     left: 0;
     margin: 1% 1% 0.5% 1%;
-    
+
     border: var(--larger-border);
     border-radius: var(--border-radius);
     animation: actIntro 0.4s linear;
@@ -113,12 +113,14 @@ canvas {
 @keyframes actIntro {
     from {
         height: 0px;
-    } to {
+    }
+
+    to {
         height: 23%;
     }
 }
 
-.actions > * {
+.actions>* {
     position: absolute;
     display: flex;
     flex-direction: row;
@@ -127,7 +129,7 @@ canvas {
     padding: 1%;
 }
 
-.battle > * {
+.battle>* {
     transition: all 0.2s ease-in-out;
     width: 50%;
     height: 100%;
@@ -144,11 +146,12 @@ canvas {
     cursor: help;
 }
 
-.description > * {
+.description>* {
     letter-spacing: 6px;
 }
 
-.description, .optBtn {
+.description,
+.optBtn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -161,7 +164,7 @@ canvas {
     gap: 3%;
 }
 
-.options > * {
+.options>* {
     border: var(--normal-border);
     margin: 0;
 }
@@ -183,12 +186,13 @@ button {
     opacity: 0;
     transform: scale(1);
 }
-  
-.optBtn.selected, .btn.selected {
+
+.optBtn.selected,
+.btn.selected {
     transform: scale(1.05);
 }
 
-.optBtn.selected > #select {
+.optBtn.selected>#select {
     color: black;
     opacity: 1;
 }
@@ -214,7 +218,7 @@ button {
     color: black !important;
 }
 
-.health > * {
+.health>* {
     transition: all 0.2s ease-in-out;
 }
 
@@ -241,7 +245,7 @@ button {
 
 .HP {
     display: block;
-    background: linear-gradient(to bottom, var(--HP-Light), var(--HP-Dark)), var(--HP-Dark)!important;
+    background: linear-gradient(to bottom, var(--HP-Light), var(--HP-Dark)), var(--HP-Dark) !important;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     height: 100%;
     width: 100%;
@@ -282,7 +286,7 @@ button {
     text-align: center;
     z-index: 99999;
 }
-  
+
 .modal-content {
     position: fixed;
     background: #0C120C;
@@ -298,7 +302,7 @@ button {
     font-size: var(--font-size);
 }
 
-.button{
+.button {
     margin: 1vh;
     position: relative;
     cursor: pointer;
@@ -322,7 +326,7 @@ button {
     scale: 0.9;
 }
 
-.btn{
+.btn {
     width: 40% !important;
     height: 9vh !important;
     font-size: var(--font-size) !important;
@@ -363,7 +367,7 @@ button {
     margin: 2%;
 }
 
-.itSection > * {
+.itSection>* {
     border-radius: var(--border-radius);
 }
 
@@ -372,18 +376,38 @@ button {
     flex-direction: column;
 }
 
-.itemsImg > * {
+.itemsImg>* {
     min-height: 45%;
 }
 
+.objImg {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
 .objImg img {
-    width: 40%;
+    width: 35%;
 }
 
 .itemsCol {
-    margin-top: 2vh;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 100%;
+    overflow-y: auto;
+    margin-top: 2%;
 }
 
-.itemsCol .optBtn.selected, .btn.selected {
+/* Botões consistentes */
+.itemsCol .optBtn {
+    height: 15%;
+    min-height: 15%;
+    flex-shrink: 0;
+}
+
+.itemsCol .optBtn.selected,
+.btn.selected {
     transform: scale(1.02);
 }
