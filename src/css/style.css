@@ -367,6 +367,15 @@ button {
     border-radius: var(--border-radius);
 }
 
+.itemsImg {
+    display: flex;
+    flex-direction: column;
+}
+
+.itemsImg > * {
+    min-height: 45%;
+}
+
 .itemsCol {
     margin-top: 2vh;
 }

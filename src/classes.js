@@ -118,6 +118,22 @@ class Monster extends Sprite {
         }
     }
 
+    item({ item, recipient }) {
+        menus.dialogueBox.innerHTML = `${this.name} used ${item.name}`
+
+        if (item.type == 'Healing') {
+            recipient.health.current += item.effect;
+            if (recipient.health.current > 99) recipient.health.current = 100;
+        }
+
+        let healthBar = '#PlayerHP'
+        if (this.isEnemy) {
+            healthBar = '#EnemyHP'
+        }
+        updateHP(recipient, healthBar)
+
+    }
+
     attack({ attack, recipient, renderedSprites }) {
         menus.dialogueBox.innerHTML = `${this.name} used ${attack.name}`
 
@@ -246,8 +262,7 @@ function hpColor(newHP, healthBarElement) {
     }
 }
 
-// Hit animation function //
-function takeHitAnim(recipient, healthBarElement) {
+function updateHP(recipient, healthBarElement) {
     const newHP = (recipient.health.current / recipient.health.max) * 100;
 
     gsap.to(healthBarElement, {
@@ -256,6 +271,11 @@ function takeHitAnim(recipient, healthBarElement) {
             hpColor(newHP, healthBarElement)
         }
     });
+}
+
+// Hit animation function //
+function takeHitAnim(recipient, healthBarElement) {
+    updateHP(recipient, healthBarElement);
 
     gsap.to(recipient.position, {
         x: recipient.position.x + 20,

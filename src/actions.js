@@ -95,10 +95,12 @@ const descriptions = {
     battleAtk: Object.keys(charAttacks).reduce((obj, key) => ({
       ...obj, [key]: charAttacks[key].description
     }), {}),
-    itemMenu: Object.keys(charItems).reduce((obj, key) => ({
-      ...obj, [key]: charItems[key].description
-    }), {}),
-
+    itemMenu: {
+      return: "Return without using an Item",
+      ...Object.keys(charItems).reduce((obj, key) => ({
+        ...obj, [key]: charItems[key].description
+      }), {})
+    },
   }
 }; 
 
@@ -188,7 +190,25 @@ function handleStartBattle() {
 
 // Function to handle item menu action //
 function handleItemMenu() {
-  //later adding logic
+  if (selectedOption?.id == 'return') {
+    menu.itemInit = false;
+    toggleMenu('startBattle')
+    audio.menuReturn.play()
+
+    return
+  }
+
+  const itemName = selectedOption.dataset.item;
+  const itemData = itemList[itemName];
+
+  if (itemData) {
+    playerMonster.item({ item: itemData, recipient: playerMonster });
+    toggleMenu('dialogueBox');
+  }
+
+  queue.push(() => {
+    enemyAttack();
+  });
 }
 
 // Function to handle battle menu actions //
@@ -201,8 +221,6 @@ function handleBattleAtk() {
     if (attackData) {
       playerMonster.attack({ attack: attackData, recipient: enemyMonster, renderedSprites });
       toggleMenu('dialogueBox');
-    } else {
-      console.warn(`Attack "${attackName}" not found.`);
     }
 
     if (enemyMonster.health.current <= 0) {

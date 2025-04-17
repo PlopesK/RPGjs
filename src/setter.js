@@ -177,7 +177,7 @@ function createBattleMenu() {
       <!-- Start of menu 'menuItem' -->
       <menu class="menuItem hidden">
             <div class="itSection itemsImg options">
-                <span class="objImg"></span>
+                <span class="objImg">ITEM IMG</span>
                 <span class="description">
                     <p class="info">ITEM DESCRIPTION</p>
                 </span>
@@ -192,7 +192,7 @@ function createBattleMenu() {
                 (id, index) => 
                   `
                     <button 
-                      class="optBtn ${charItems[id].type} ${index === 0 ? "selected" : ""}" 
+                      class="optBtn ${index === 0 ? "selected" : ""}" 
                       id="${id}"
                       data-item="${charItems[id].name}"
                     >
