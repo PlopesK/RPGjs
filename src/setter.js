@@ -1,7 +1,8 @@
 // File to set elements that are used by many scripts //
 // Menus //
 const menu = {
-  initiated: false
+  initiated: false,
+  itemInit: false,
 }
 
 const battle = {

@@ -1,59 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no">
-        
-        <link rel="shortcut icon" href="assets/img/Map/tree.png"/>
-        <link rel="preload" href="src/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <link rel="preload" href="src/css/types.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <title> RPGjs </title>
-    </head>
 
-    <body>
-        <div>
-            <div class="transition" id="transitionStart"></div>
-            <div class="transition" id="transitionEnd"></div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no">
 
-            <canvas></canvas>
-            <div class="menuItem">
+    <link rel="shortcut icon" href="assets/img/Map/tree.png" />
+    <link rel="preload" href="src/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="src/css/types.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <title> RPGjs </title>
+</head>
+
+<body>
+    <div>
+        <div class="transition" id="transitionStart"></div>
+        <div class="transition" id="transitionEnd"></div>
+
+        <canvas></canvas>
+        <div class="battle-menu">
+            <div class="menuItem hidden">
                 <div class="itSection itemsImg options">
-                    <div class="objImg"></div>
-                    <div class="objDesc"></div>
+                    <span class="objImg"></span>
+                    <span class="description">
+                        <p class="info">ITEM DESCRIPTION</p>
+                    </span>
                 </div>
-                <p>ITEMS</p>
+                <p id="itemTitle">ITEMS</p>
                 <div class="itSection itemsCol options">
-                    <button class="optBtn"><p id="select">&#10148;</p> Cancel</button>
-                    <button class="optBtn"><p id="select">&#10148;</p> Item 1</button>
-                    <button class="optBtn"><p id="select">&#10148;</p> Item 1</button>
-                    <button class="optBtn"><p id="select">&#10148;</p> Item 1</button>
-                    <button class="optBtn"><p id="select">&#10148;</p> Item 1</button>
-                    <button class="optBtn"><p id="select">&#10148;</p> Item 1</button>
+                    <button class="optBtn">
+                        <p id="select">&#10148;</p> Cancel
+                    </button>
+                    <button class="optBtn">
+                        <p id="select">&#10148;</p> Item 1
+                    </button>
+                    <button class="optBtn">
+                        <p id="select">&#10148;</p> Item 1
+                    </button>
+                    <button class="optBtn">
+                        <p id="select">&#10148;</p> Item 1
+                    </button>
+                    <button class="optBtn">
+                        <p id="select">&#10148;</p> Item 1
+                    </button>
+                    <button class="optBtn">
+                        <p id="select">&#10148;</p> Item 1
+                    </button>
                 </div>
             </div>
-
-            <div class="message hidden"></div>
         </div>
 
-        <script src="config.js"></script>
-    </body>
+        <div class="message hidden"></div>
+    </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const zoomLevel = getZoomLevel();
-            if (zoomLevel !== 1) {
-                displayZoomMessage();
-            }
-        });
+    <script src="config.js"></script>
+</body>
 
-        function getZoomLevel() {
-            return window.devicePixelRatio || 1;
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const zoomLevel = getZoomLevel();
+        if (zoomLevel !== 1) {
+            displayZoomMessage();
         }
+    });
 
-        function displayZoomMessage() {
-            alert("Please set the zoom level to 100% for optimal experience.");
-            const message = document.querySelector(".message");
-            message.classList.remove("hidden");
-        }
-    </script>
+    function getZoomLevel() {
+        return window.devicePixelRatio || 1;
+    }
+
+    function displayZoomMessage() {
+        alert("Please set the zoom level to 100% for optimal experience.");
+        const message = document.querySelector(".message");
+        message.classList.remove("hidden");
+    }
+</script>
+
 </html>

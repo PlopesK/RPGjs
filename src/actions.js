@@ -57,12 +57,14 @@ window.addEventListener("keyup", (e) => {
 const menus = {
   startBattle: document.querySelector('.startBattle'),
   battleAtk: document.querySelector('.battleAtk'),
-  dialogueBox: document.querySelector('.dialogueBox')
+  dialogueBox: document.querySelector('.dialogueBox'),
+  itemMenu: document.querySelector('.menuItem'),
 };
 
 const menuOptions = {
   startBattle: Array.from(menus.startBattle.querySelectorAll('.optBtn')),
   battleAtk: Array.from(menus.battleAtk.querySelectorAll('.optBtn')),
+  itemMenu: Array.from(menus.itemMenu.querySelectorAll('.optBtn')),
 };
 
 let currentMenu = 'startBattle';
@@ -125,14 +127,17 @@ function handleNavigation(key) {
   const currentIndex = selectedOption ? options.indexOf(selectedOption) : 0;
   let newIndex = (currentIndex + navigationMap[key] + options.length) % options.length;
 
-  if (specialCases[key] && specialCases[key][currentIndex] !== undefined) {
+  if (specialCases[key] && 
+    specialCases[key][currentIndex] !== undefined && 
+    !menu.itemInit) 
+  {
     newIndex = specialCases[key][currentIndex];
   }
 
   updateSelection(newIndex);
 }
 
-// Function to handle action
+// Function to handle action //
 function handleAction() {
   const currentTime = Date.now();
   if (currentTime - lastActionTime < debounceTime) return; // Debounce check
@@ -143,20 +148,33 @@ function handleAction() {
     case 'startBattle':
       handleStartBattle();
       break;
+
     case 'battleAtk':
       handleBattleAtk();
       break;
+
+    case 'itemMenu':
+      handleItemMenu();
+      break;
+
     case 'dialogueBox':
       handleDialogueBox();
       break;
   }
 }
 
+// Function to handle start actions //
 function handleStartBattle() {
   switch (selectedOption?.id) {
     case 'attack':
       toggleMenu('battleAtk');
       break;
+
+    case 'items':
+      menu.itemInit = true;
+      toggleMenu('itemMenu');
+      break;
+      
     case 'run':
       toggleMenu('dialogueBox');
       playerMonster.run()
@@ -164,6 +182,12 @@ function handleStartBattle() {
   }
 }
 
+// Function to handle item menu action //
+function handleItemMenu() {
+  //later adding logic
+}
+
+// Function to handle battle menu actions //
 function handleBattleAtk() {
   if (!locked) {
     locked = true;
@@ -208,11 +232,13 @@ function enemyAttack() { // Attack enemy section //
   }
 }
 
+// Function end battle //
 function endBattle() {
   cancelAnimationFrame(battleAnimationId);
   endBattleTransition();
 }
 
+// Function to handle dialogue box //
 function handleDialogueBox() {
   if (queue.length > 0) {
     queue[0]();
@@ -275,6 +301,7 @@ function handleKeydown(e) {
         if (currentMenu === 'dialogueBox') {
           handleAction();
         } else {
+          menu.itemInit = false;
           toggleMenu('startBattle')
           audio.menuReturn.play()
         }

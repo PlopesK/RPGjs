@@ -347,7 +347,7 @@ button {
     margin: 0.5% 1% 0.5% 1%;
 }
 
-.menuItem p {
+#itemTitle {
     position: absolute;
     width: 50%;
     right: 0;
@@ -369,4 +369,8 @@ button {
 
 .itemsCol {
     margin-top: 2vh;
+}
+
+.itemsCol .optBtn.selected, .btn.selected {
+    transform: scale(1.02);
 }
