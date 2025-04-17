@@ -121,14 +121,24 @@ class Monster extends Sprite {
     item({ item, recipient }) {
         menus.dialogueBox.innerHTML = `${this.name} used ${item.name}`
 
-        if (item.type == 'Healing') {
-            recipient.health.current += item.effect;
-            if (recipient.health.current > 99) recipient.health.current = 100;
-        }
-
         let healthBar = '#PlayerHP'
         if (this.isEnemy) {
             healthBar = '#EnemyHP'
+        }
+
+        if (item.type == 'Healing') {
+            recipient.health.current += item.effect;
+            if (recipient.health.current > 99) recipient.health.current = 100;
+            if (recipient.health.current >= 30) {
+                gsap.killTweensOf(healthBar);
+                hpCriticalAnimation = null;
+                gsap.to(healthBar, {
+                    repeat: 0,
+                    opacity: 1,
+                    yoyo: false,
+                    duration: 0.01,
+                })
+            }
         }
         updateHP(recipient, healthBar)
     }
