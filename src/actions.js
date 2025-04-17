@@ -123,6 +123,12 @@ function updateSelection(index) {
 
   const descText = descriptions.menus[currentMenu]?.[selectedOption.id] ?? "No description available.";
   updateDescription(descText);
+
+  if (!menu.itemInit) return;
+  const itemImg = document.querySelector("#itemSprite");
+  if (selectedOption?.id == 'return') {
+    itemImg.src = "./assets/img/Menu/pokeball.png"
+  } else itemImg.src = charItems[selectedOption.id].img;
 }
 
 // Function to handle navigation
@@ -204,6 +210,7 @@ function handleItemMenu() {
   if (itemData) {
     playerMonster.item({ item: itemData, recipient: playerMonster });
     toggleMenu('dialogueBox');
+    menu.itemInit = false;
 
     const index = charItems.indexOf(itemName);
     if (index !== -1) {

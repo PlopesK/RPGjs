@@ -177,7 +177,7 @@ function createBattleMenu() {
       <!-- Start of menu 'menuItem' -->
       <menu class="menuItem hidden">
             <div class="itSection itemsImg options">
-                <span class="objImg">ITEM IMG</span>
+                <span class="objImg"><img src="" id="itemSprite"></span>
                 <span class="description">
                     <p class="info">ITEM DESCRIPTION</p>
                 </span>
