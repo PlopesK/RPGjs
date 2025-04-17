@@ -279,8 +279,8 @@ function endBattleTransition() {
         .to(transitionEnd, {
             duration: 0.5, opacity: 1, onComplete: () => {
                 battle.initiated = false;
-                animate();
                 battleMenu.classList.add("hidden");
+                animate();
             }
         })
         .to(transitionEnd, {

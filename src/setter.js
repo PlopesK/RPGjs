@@ -107,6 +107,7 @@ function exitMusicMenu() {
 function createBattleMenu() {
   return `
     <div class="battle-menu">
+      <!-- Setting HPs -->
       <div class="health" id="hEnemy">
         <p>Draggle</p>
         <span class="healthBar">
@@ -125,48 +126,84 @@ function createBattleMenu() {
         </span>
       </div>
   
+      <!-- Actions UI -->
       <div class="actions">
         <div class="dialogueBox hidden">
         </div>
+
+        <!-- Start of menu 'startBattle' -->
         <menu class="startBattle battle">
           <span class="description">
             <p class="info">LAUNCH A ATTACK ON THE OPPONENT.</p>
           </span>
           <span class="options">
             ${["attack", "specs", "items", "run"]
-      .map(
-        (id, index) => `
-                <button class="optBtn ${index === 0 ? "selected" : ""}" id="${id}">
-                  <p id="select">&#10148;</p> ${id.toUpperCase()}
-                </button>
-              `
-      )
-      .join("")}
-          </span>
-        </menu>
-  
-        <menu class="battleAtk battle hidden">
-          <span class="options">
-            ${Object.keys(characterAttacks)
-      .map(
-        (id, index) => `
-                  <button 
-                    class="optBtn ${characterAttacks[id].type} ${index === 0 ? "selected" : ""}" 
-                    id="${id}"
-                    data-attack="${characterAttacks[id].name}"
-                  >
-                    <p id="select">&#10148;</p> ${characterAttacks[id].name.toUpperCase()} 
+            .map(
+              (id, index) => 
+                `
+                  <button class="optBtn ${index === 0 ? "selected" : ""}" id="${id}">
+                    <p id="select">&#10148;</p> ${id.toUpperCase()}
                   </button>
                 `
-      )
-      .join("")}
+            )
+            .join("")} 
+          </span>
+        </menu>
+        
+        <!-- Start of menu 'battleAtk' -->
+        <menu class="battleAtk battle hidden">
+          <span class="options">
+            ${Object.keys(charAttacks)
+            .map(
+              (id, index) => 
+                `
+                  <button 
+                    class="optBtn ${charAttacks[id].type} ${index === 0 ? "selected" : ""}" 
+                    id="${id}"
+                    data-attack="${charAttacks[id].name}"
+                  >
+                    <p id="select">&#10148;</p> ${charAttacks[id].name.toUpperCase()} 
+                  </button>
+                `
+            )
+            .join("")}
           </span>
           <span class="description">
             <p class="info"> DESCRIPTION </p>
           </span>
         </menu>
-      </div>
-    </div>
+      </div> <!-- End of class 'actions' -->
+
+      <!-- Start of menu 'menuItem' -->
+      <menu class="menuItem hidden">
+            <div class="itSection itemsImg options">
+                <span class="objImg"></span>
+                <span class="description">
+                    <p class="info">ITEM DESCRIPTION</p>
+                </span>
+            </div>
+            <p id="itemTitle">ITEMS</p>
+            <span class="itSection itemsCol options">
+              <button class="optBtn" id="return">
+                  <p id="select">&#10148;</p> RETURN
+              </button>
+              ${Object.keys(charItems)
+              .map(
+                (id, index) => 
+                  `
+                    <button 
+                      class="optBtn ${charItems[id].type} ${index === 0 ? "selected" : ""}" 
+                      id="${id}"
+                      data-item="${charItems[id].name}"
+                    >
+                      <p id="select">&#10148;</p> ${charItems[id].name.toUpperCase()} 
+                    </button>
+                  `
+              )
+              .join("")}
+            </span>
+        </menu>
+    </div> <!-- End of class 'battle-menu' -->
     `;
 }
 document.body.innerHTML += startMusic();

@@ -71,12 +71,12 @@ class Monster extends Sprite {
         animation = false,
         scale = 1,
         rotation = 0,
-        health = { max: 100, current: 100 },
-        isEnemy = false,
+        health = { max: 100, current: 100 }, //From this line to line 77 are things 
+        isEnemy = false,                     // set only on 'Monster'
         name,
         monsterAttacks
     }) {
-        super({
+        super({ //Things that are extensions from 'Sprite'
             position,
             image,
             frames,
@@ -84,7 +84,6 @@ class Monster extends Sprite {
             animation,
             scale,
             rotation,
-            health,
         })
         this.health = health;
         this.isEnemy = isEnemy;
@@ -102,7 +101,7 @@ class Monster extends Sprite {
         gsap.to(this, {
             opacity: 0,
         })
-    }
+    } 
 
     run() {
         if (Math.random() < 0.7) {

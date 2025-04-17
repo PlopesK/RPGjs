@@ -7,6 +7,7 @@ const scripts = [
     // Game Data
     { src: 'data/collisions.js', defer: true },
     { src: 'data/attacks.js', defer: true },
+    { src: 'data/items.js', defer: true },
     { src: 'data/audio.js', defer: true },
     { src: 'data/monsters.js', defer: true },
 

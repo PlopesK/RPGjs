@@ -92,11 +92,15 @@ const descriptions = {
       items: "Use an item from your inventory.",
       run: "Attempt to escape from the battle.",
     },
-    battleAtk: Object.keys(characterAttacks).reduce((obj, key) => ({
-      ...obj, [key]: characterAttacks[key].description
+    battleAtk: Object.keys(charAttacks).reduce((obj, key) => ({
+      ...obj, [key]: charAttacks[key].description
     }), {}),
+    itemMenu: Object.keys(charItems).reduce((obj, key) => ({
+      ...obj, [key]: charItems[key].description
+    }), {}),
+
   }
-};
+}; 
 
 // Function to update description
 function updateDescription(text) {
@@ -174,7 +178,7 @@ function handleStartBattle() {
       menu.itemInit = true;
       toggleMenu('itemMenu');
       break;
-      
+
     case 'run':
       toggleMenu('dialogueBox');
       playerMonster.run()

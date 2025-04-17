@@ -5,7 +5,7 @@ const atkList = {
     Defense: { name: "Defense", damage: 0, type: "Normal", description: "A defensive move!"},
 };
 
-const characterAttacks = {
+const charAttacks = {
     atk1: atkList.Tackle,
     atk2: atkList.Fireball,
     atk3: atkList.Bite,
