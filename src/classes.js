@@ -131,7 +131,6 @@ class Monster extends Sprite {
             healthBar = '#EnemyHP'
         }
         updateHP(recipient, healthBar)
-
     }
 
     attack({ attack, recipient, renderedSprites }) {

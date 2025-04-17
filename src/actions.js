@@ -204,6 +204,11 @@ function handleItemMenu() {
   if (itemData) {
     playerMonster.item({ item: itemData, recipient: playerMonster });
     toggleMenu('dialogueBox');
+
+    const index = charItems.indexOf(itemName);
+    if (index !== -1) {
+      charItems.splice(index, 1);
+    }
   }
 
   queue.push(() => {
