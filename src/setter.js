@@ -103,6 +103,53 @@ function exitMusicMenu() {
   document.removeEventListener("mouseover", musicMouseover);
 }
 
+// Items Menu //
+function addItem(key, qty = 1) {
+  if (!itemList[key]) {
+    console.warn(`Item ${key} não existe em itemList`);
+    return;
+  }
+  inventory[key] = (inventory[key] || 0) + qty;
+  updateItemsMenu();
+}
+
+function removeItem(key, qty = 1) {
+  if (!inventory[key]) return;
+  inventory[key] -= qty;
+  if (inventory[key] <= 0) {
+    delete inventory[key];
+  }
+  updateItemsMenu();
+}
+
+function renderItemButtons() {
+  return Object.entries(inventory)
+    .map(([key, qty], index) => {
+      const item = itemList[key];
+      return `
+        <button
+          class="optBtn ${index === 0 ? "selected" : ""}"
+          id="${key}"
+          data-item="${item.name}"
+        >
+          <p id="select">&#10148;</p>
+          ${item.name.toUpperCase()} (x${qty})
+        </button>
+      `;
+    })
+    .join("");
+}
+
+function updateItemsMenu() {
+  const itemsContainer = document.getElementById('itemsOptions');
+  const returnBtnHtml = `
+    <button class="optBtn" id="return">
+      <p id="select">&#10148;</p> RETURN
+    </button>
+  `;
+  itemsContainer.innerHTML = returnBtnHtml + renderItemButtons();
+}
+
 // Battle Options //
 function createBattleMenu() {
   return `
@@ -132,6 +179,7 @@ function createBattleMenu() {
         </div>
 
         <!-- Start of menu 'startBattle' -->
+
         <menu class="startBattle battle">
           <span class="description">
             <p class="info">LAUNCH A ATTACK ON THE OPPONENT.</p>
@@ -151,6 +199,7 @@ function createBattleMenu() {
         </menu>
         
         <!-- Start of menu 'battleAtk' -->
+
         <menu class="battleAtk battle hidden">
           <span class="options">
             ${Object.keys(charAttacks)
@@ -175,6 +224,7 @@ function createBattleMenu() {
       </div> <!-- End of class 'actions' -->
 
       <!-- Start of menu 'menuItem' -->
+
       <menu class="menuItem hidden">
             <div class="itSection itemsImg options">
                 <span class="objImg"><img src="" id="itemSprite"></span>
@@ -183,24 +233,11 @@ function createBattleMenu() {
                 </span>
             </div>
             <p id="itemTitle">ITEMS</p>
-            <span class="itSection itemsCol options">
+            <span class="itSection itemsCol options" id="itemsOptions">
               <button class="optBtn" id="return">
-                  <p id="select">&#10148;</p> RETURN
+                <p id="select">&#10148;</p> RETURN
               </button>
-              ${Object.keys(charItems)
-              .map(
-                (id, index) => 
-                  `
-                    <button 
-                      class="optBtn ${index === 0 ? "selected" : ""}" 
-                      id="${id}"
-                      data-item="${charItems[id].name}"
-                    >
-                      <p id="select">&#10148;</p> ${charItems[id].name.toUpperCase()} 
-                    </button>
-                  `
-              )
-              .join("")}
+              ${renderItemButtons()}
             </span>
         </menu>
     </div> <!-- End of class 'battle-menu' -->

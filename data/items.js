@@ -3,8 +3,7 @@ const itemList = {
     PotionX: { name: "PotionX", effect: 100, type:"Healing", img:"./assets/img/Items/potionX.gif", description: " Restore 100 points of HP" },
 };
 
-const charItems = []
-
-// Default items //
-charItems.push(itemList.Potion)
-charItems.push(itemList.PotionX)
+let inventory = {
+    Potion:  1,
+    PotionX: 1,
+}

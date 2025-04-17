@@ -95,14 +95,9 @@ const descriptions = {
     battleAtk: Object.keys(charAttacks).reduce((obj, key) => ({
       ...obj, [key]: charAttacks[key].description
     }), {}),
-    itemMenu: {
-      return: "Return without using an Item",
-      ...Object.keys(charItems).reduce((obj, key) => ({
-        ...obj, [key]: charItems[key].description
-      }), {})
-    },
-  }
-}; 
+    itemMenu: { return: "Return without using an Item" }
+  },
+};
 
 // Function to update description
 function updateDescription(text) {
@@ -121,14 +116,18 @@ function updateSelection(index) {
   selectedOption = options[index];
   selectedOption.classList.add('selected');
 
-  const descText = descriptions.menus[currentMenu]?.[selectedOption.id] ?? "No description available.";
+  let descText = descriptions.menus[currentMenu]?.[selectedOption.id] ?? "No description available.";
+  if (menu.itemInit) {
+    const itemImg = document.querySelector("#itemSprite");
+    if (selectedOption?.id == 'return') {
+      itemImg.src = "./assets/img/Menu/pokeball.png"
+      descText = "Return without using an Item";
+    } else {
+      itemImg.src = itemList[selectedOption.id].img;
+      descText = itemList[selectedOption.id].description;
+    }
+  }
   updateDescription(descText);
-
-  if (!menu.itemInit) return;
-  const itemImg = document.querySelector("#itemSprite");
-  if (selectedOption?.id == 'return') {
-    itemImg.src = "./assets/img/Menu/pokeball.png"
-  } else itemImg.src = charItems[selectedOption.id].img;
 }
 
 // Function to handle navigation
@@ -139,10 +138,9 @@ function handleNavigation(key) {
   const currentIndex = selectedOption ? options.indexOf(selectedOption) : 0;
   let newIndex = (currentIndex + navigationMap[key] + options.length) % options.length;
 
-  if (specialCases[key] && 
-    specialCases[key][currentIndex] !== undefined && 
-    !menu.itemInit) 
-  {
+  if (specialCases[key] &&
+    specialCases[key][currentIndex] !== undefined &&
+    !menu.itemInit) {
     newIndex = specialCases[key][currentIndex];
   }
 
@@ -196,31 +194,42 @@ function handleStartBattle() {
 
 // Function to handle item menu action //
 function handleItemMenu() {
-  if (selectedOption?.id == 'return') {
+  if (selectedOption?.id === 'return') {
     menu.itemInit = false;
-    toggleMenu('startBattle')
-    audio.menuReturn.play()
-
-    return
+    toggleMenu('startBattle');
+    audio.menuReturn.play();
+    return;
   }
 
-  const itemName = selectedOption.dataset.item;
-  const itemData = itemList[itemName];
+  const key = selectedOption.id;
+  const itemData = itemList[key];
 
   if (itemData) {
     playerMonster.item({ item: itemData, recipient: playerMonster });
     toggleMenu('dialogueBox');
     menu.itemInit = false;
-
-    const index = charItems.indexOf(itemName);
-    if (index !== -1) {
-      charItems.splice(index, 1);
-    }
+    removeItem(key);
+    refreshItemMenu();
   }
 
   queue.push(() => {
     enemyAttack();
   });
+}
+
+function refreshItemMenu() {
+  const itemsContainer = document.getElementById('itemsOptions');
+  const returnBtnHtml = `
+    <button class="optBtn" id="return">
+      <p id="select">&#10148;</p> RETURN
+    </button>
+  `;
+  itemsContainer.innerHTML = returnBtnHtml + renderItemButtons();
+
+  // reconstrói opções e listeners
+  menuOptions.itemMenu = Array.from(menus.itemMenu.querySelectorAll('.optBtn'));
+  updateSelection(0);
+  addHoverEvents();
 }
 
 // Function to handle battle menu actions //
