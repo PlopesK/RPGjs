@@ -9,6 +9,11 @@ const battle = {
   initiated: false
 }
 
+// //////////////////// Player Anim Sound //////////////////// //
+let lastStepTime = 0;
+const stepInterval = 650; // ms entre sons de passo
+let isOnGrass = false;
+
 // //////////////////// Start Music //////////////////// //
 function startMusic() {
   return `

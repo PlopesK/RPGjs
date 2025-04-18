@@ -139,6 +139,7 @@ class Monster extends Sprite {
                     duration: 0.01,
                 })
             }
+            audio.healing.play();
         }
         updateHP(recipient, healthBar)
     }

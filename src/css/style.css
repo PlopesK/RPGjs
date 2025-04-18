@@ -110,6 +110,16 @@ canvas {
     color: black;
 }
 
+.actions>* {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    padding: 1%;
+}
+
+/* // Anims // */
 @keyframes actIntro {
     from {
         height: 0px;
@@ -120,15 +130,33 @@ canvas {
     }
 }
 
-.actions>* {
-    position: absolute;
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    height: 100%;
-    padding: 1%;
+@keyframes left {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
 }
 
+@keyframes right {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+.actions .startBattle {
+    animation: right 0.3s linear;
+}
+
+.actions .battleAtk {
+    animation: left 0.3s linear;
+}
+
+/* // Battle Actions config // */
 .battle>* {
     transition: all 0.2s ease-in-out;
     width: 50%;

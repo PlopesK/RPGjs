@@ -158,12 +158,22 @@ function animate() {
         player.image = player.sprites.right;
     }
 
+    function playStepSound() {
+        const now = Date.now();
+        const walkingAudio = isOnGrass ? audio.walkingOnGrass : audio.walking;
+        if (now - lastStepTime > stepInterval) {
+            audio.walking.currentTime = 0;
+            walkingAudio.play();
+            lastStepTime = now;
+        }
+    }
+
     function movePlayer(direction) {
         player.animation = true;
+        playStepSound();
         const { x, y } = directions[direction];
-        for (let i = 0; i < boundaries.length; i++) {
-            const boundary = boundaries[i];
-            if (rectangleCollision({
+        const isColliding = boundaries.some((boundary) => {
+            return rectangleCollision({
                 rectangle1: player,
                 rectangle2: {
                     ...boundary, position:
@@ -172,33 +182,38 @@ function animate() {
                         y: boundary.position.y + y
                     }
                 }
-            })) {
-                animation = false;
-                player.animation = false;
-                break;
-            }
+            });
+        });
+
+        if (isColliding) {
+            audio.walking.stop();
+            audio.walkingOnGrass.stop();
+            player.animation = false;
+            return;
         }
 
-        //  Battle Zone //
-        for (let i = 0; i < battleZones.length; i++) {
-            const battleZone = battleZones[i];
+        const battleZone = battleZones.find((battleZone) => {
+            return rectangleCollision({
+                rectangle1: player,
+                rectangle2: battleZone
+            });
+        });
+
+        if (battleZone) {
+            isOnGrass = true;
             const overlappingArea = calculateOverlappingArea(player, battleZone);
-            if (
-                rectangleCollision({
-                    rectangle1: player,
-                    rectangle2: battleZone
-                }) &&
-                overlappingArea > (player.width * player.height) / 2 &&
-                Math.random() < 0.01
-            ) {
-                window.cancelAnimationFrame(animationId) //Cancel Map animation loop
-                audio.Map.stop()
-                audio.initBattle.play()
-                startBattleTransition();
 
-                break;
+            if (overlappingArea > (player.width * player.height) / 2 && Math.random() < 0.01) {
+                window.cancelAnimationFrame(animationId);
+                audio.Map.stop();
+                audio.initBattle.play();
+                startBattleTransition();
+                return;
             }
+        } else {
+            isOnGrass = false;
         }
+
 
         function calculateOverlappingArea(rectangle1, rectangle2) {
             return (Math.min(
@@ -226,10 +241,10 @@ function startBattleTransition() {
     const transitionStart = document.getElementById('transitionStart');
 
     tl.to(transitionStart, {
-        duration: 0.5, 
-        opacity: 1, 
-        repeat: 2, 
-        yoyo: true, 
+        duration: 0.5,
+        opacity: 1,
+        repeat: 2,
+        yoyo: true,
         onComplete: () => {
             audio.battle.play()
         }

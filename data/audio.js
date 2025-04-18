@@ -12,8 +12,18 @@ const audio = {
           this.play();
         }
       }),
+    walking: new Howl({
+      src: './assets/sfx/interactions/Walk.wav',
+      html5: true,
+      volume: 0.1,
+    }),
+    walkingOnGrass: new Howl({
+      src: './assets/sfx/interactions/WalkGrass.wav',
+      html5: true,
+      volume: 0.1,
+    }),
 
-    // Menu sfx and Battle Music by HUNTER AUDIO PRODUCTION on:
+    // Menu, Healing, Walking sfx and Battle Music by HUNTER AUDIO PRODUCTION on:
     // https://hunteraudio.itch.io/8bit-sfx-and-music-pack
     menuReturn: new Howl ({
         src: './assets/sfx/menu/Menu_Select2.wav',
@@ -30,10 +40,15 @@ const audio = {
         html5: true,
         volume: 0.15,
     }),
+    healing: new Howl({
+      src: './assets/sfx/interactions/Healing.wav',
+      html5: true,
+      volume: 0.15,
+  }),
 
     // Battle
     initBattle: new Howl({
-        src: './assets/sfx/initBattle.wav',
+        src: './assets/sfx/interactions/initBattle.wav',
         html5: true,
         volume: 0.2,
     }),
