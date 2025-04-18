@@ -288,6 +288,7 @@ function endBattleTransition() {
         .to(transitionEnd, {
             duration: 1, opacity: 1, scale: 5, ease: "power2.inOut", onComplete: () => {
                 audio.faint.stop()
+                audio.battle.stop()
                 audio.Map.play()
             }
         })

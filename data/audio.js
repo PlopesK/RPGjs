@@ -2,7 +2,7 @@ const audio = {
     Map: new Howl({
         src: './assets/sfx/music/map.wav',
         html5: true,
-        volume: 0.2,
+        volume: 0.15,
         repeat: -1,
         onplay: function() {
           this.fade(0, 0.2, 1000);
@@ -16,11 +16,13 @@ const audio = {
       src: './assets/sfx/interactions/Walk.wav',
       html5: true,
       volume: 0.1,
+      rate: 1.1
     }),
     walkingOnGrass: new Howl({
       src: './assets/sfx/interactions/WalkGrass.wav',
       html5: true,
       volume: 0.1,
+      rate: 1.1
     }),
 
     // Menu, Healing, Walking sfx and Battle Music by HUNTER AUDIO PRODUCTION on:

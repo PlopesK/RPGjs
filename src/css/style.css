@@ -149,11 +149,11 @@ canvas {
 }
 
 .actions .startBattle {
-    animation: right 0.3s linear;
+    animation: right 0.25s linear;
 }
 
 .actions .battleAtk {
-    animation: left 0.3s linear;
+    animation: left 0.25s linear;
 }
 
 /* // Battle Actions config // */
