@@ -26,6 +26,7 @@ function startMusic() {
     </div>
   `
 }
+document.body.innerHTML += startMusic();
 
 // 🎵 Music prompt //
 let musicOption = null;
@@ -86,6 +87,7 @@ function updateMusicBtn() {
 
 function startAudio() {
   exitMusicMenu();
+  Howler.ctx.resume();
   audio.menuClick.play();
   audio.Map.play();
 }
@@ -108,7 +110,7 @@ function exitMusicMenu() {
   document.removeEventListener("mouseover", musicMouseover);
 }
 
-// //////////////////// Items Menu //////////////////// //
+// //////////////////// Items //////////////////// //
 function addItem(key, qty = 1) {
   if (!itemList[key]) {
     console.warn(`Item ${key} não existe em itemList`);
@@ -127,6 +129,7 @@ function removeItem(key, qty = 1) {
   updateItemsMenu();
 }
 
+// //////////////////// Render Menus //////////////////// //
 function renderItemButtons() {
   return Object.entries(inventory)
     .map(([key, qty], index) => {
@@ -155,72 +158,73 @@ function updateItemsMenu() {
   itemsContainer.innerHTML = returnBtnHtml + renderItemButtons();
 }
 
+function renderStartBattleMenu(options) {
+  return options.map((id, index) => `
+    <button class="optBtn ${index === 0 ? "selected" : ""}" id="${id}">
+      <p id="select">&#10148;</p> ${id.toUpperCase()}
+    </button>
+  `).join("");
+}
+
+function renderAttackMenu() {
+  return Object.keys(charAttacks).map((id, index) => `
+    <button 
+      class="optBtn ${charAttacks[id].type} ${index === 0 ? "selected" : ""}" 
+      id="${id}" 
+      data-attack="${charAttacks[id].name}">
+      <p id="select">&#10148;</p> ${charAttacks[id].name.toUpperCase()}
+    </button>
+  `).join("");
+}
+
+function renderHP() {
+  return `
+    <div class="health" id="hEnemy">
+      <p>Draggle</p>
+      <span class="healthBar">
+        <span class="HP" id="EnemyHP">
+          <p style="position: absolute" id="valueEn"></p>
+        </span>
+      </span>
+    </div>
+
+    <div class="health" id="hPlayer">
+      <p>Emby</p>
+      <span class="healthBar">
+        <span class="HP" id="PlayerHP">
+          <p style="position: absolute" id="valuePl"></p>
+        </span>
+      </span>
+    </div>
+  `
+}
+
 // //////////////////// Battle Options //////////////////// //
 function createBattleMenu() {
   return `
     <div class="battle-menu">
-      <!-- Setting HPs -->
-      <div class="health" id="hEnemy">
-        <p>Draggle</p>
-        <span class="healthBar">
-          <span class="HP" id="EnemyHP">
-            <p style="position: absolute" id="valueEn"></p>
-          </span>
-        </span>
-      </div>
-  
-      <div class="health" id="hPlayer">
-        <p>Emby</p>
-        <span class="healthBar">
-          <span class="HP" id="PlayerHP">
-           <p style="position: absolute" id="valuePl"></p>
-          </span>
-        </span>
-      </div>
-  
+      <!-- HPs UI -->
+      ${renderHP()}
+
       <!-- Actions UI -->
       <div class="actions">
         <div class="dialogueBox hidden">
         </div>
 
         <!-- Start of menu 'startBattle' -->
-
         <menu class="startBattle battle">
           <span class="description">
             <p class="info">LAUNCH A ATTACK ON THE OPPONENT.</p>
           </span>
           <span class="options">
-            ${["attack", "specs", "items", "run"]
-            .map(
-              (id, index) => 
-                `
-                  <button class="optBtn ${index === 0 ? "selected" : ""}" id="${id}">
-                    <p id="select">&#10148;</p> ${id.toUpperCase()}
-                  </button>
-                `
-            )
-            .join("")} 
+            ${renderStartBattleMenu(["attack", "specs", "items", "run"])}
           </span>
         </menu>
         
         <!-- Start of menu 'battleAtk' -->
-
         <menu class="battleAtk battle hidden">
           <span class="options">
-            ${Object.keys(charAttacks)
-            .map(
-              (id, index) => 
-                `
-                  <button 
-                    class="optBtn ${charAttacks[id].type} ${index === 0 ? "selected" : ""}" 
-                    id="${id}"
-                    data-attack="${charAttacks[id].name}"
-                  >
-                    <p id="select">&#10148;</p> ${charAttacks[id].name.toUpperCase()} 
-                  </button>
-                `
-            )
-            .join("")}
+            ${renderAttackMenu()}
           </span>
           <span class="description">
             <p class="info"> DESCRIPTION </p>
@@ -229,7 +233,6 @@ function createBattleMenu() {
       </div> <!-- End of class 'actions' -->
 
       <!-- Start of menu 'menuItem' -->
-
       <menu class="menuItem hidden">
             <div class="itSection itemsImg options">
                 <span class="objImg"><img src="" id="itemSprite"></span>
@@ -245,10 +248,9 @@ function createBattleMenu() {
               ${renderItemButtons()}
             </span>
         </menu>
-    </div> <!-- End of class 'battle-menu' -->
+    </div>
     `;
 }
-document.body.innerHTML += startMusic();
 document.body.innerHTML += createBattleMenu();
 
 const battleMenu = document.querySelector(".battle-menu");
