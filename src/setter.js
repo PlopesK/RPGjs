@@ -177,6 +177,18 @@ function renderAttackMenu() {
   `).join("");
 }
 
+function renderSpecsAttackList(monsterKey = charAttacks) {
+  const attacks = Object.values(monsterKey);
+  return attacks.map((atk, index) => `
+    <button 
+      class="optBtn ${atk.type} ${index === 0 ? "selected" : ""}" 
+      id="${atk}" 
+      data-attack="${atk.name}">
+      <p id="select">&#10148;</p> ${atk.name.toUpperCase()}
+    </button>
+  `).join("");
+}
+
 function renderHP() {
   return `
     <div class="health" id="hEnemy">
@@ -234,19 +246,87 @@ function createBattleMenu() {
 
       <!-- Start of menu 'menuItem' -->
       <menu class="menuFullScreen menuItem hidden">
+          <div class="menuSection menuImg options">
+              <span class="objImg"><img src="" id="itemSprite"></span>
+              <span class="description">
+                  <p class="info">ITEM DESCRIPTION</p>
+              </span>
+          </div>
+          <p id="itemTitle">ITEMS</p>
+          <span class="menuSection menuCol options" id="itemsOptions">
+            <button class="optBtn" id="return">
+              <p id="select">&#10148;</p> RETURN
+            </button>
+            ${renderItemButtons()}
+          </span>
+      </menu>
+
+      <!-- Start of menu 'menuSpecs' -->
+      <menu class="menuFullScreen menuSpecs hidden">
+          <p class="specTxt" id="specTitle">SPECS</p>
+
+          <button class="optBtn" id="return">
+            <p id="select">&#10148;</p> RETURN
+          </button>
+
+          <div class="specSect">
+            <button class="optBtn" id="leftArrow">&lt;</button>
+            <p class="specTxt" id="pageInfo">PLAYER</p>
+            <button class="optBtn" id="rightArrow">&gt;</button>
+          </div>
+
+          <div class="specInfo">
             <div class="menuSection menuImg options">
-                <span class="objImg"><img src="" id="itemSprite"></span>
-                <span class="description">
-                    <p class="info">ITEM DESCRIPTION</p>
-                </span>
+              <span class="objImg">
+                <img src="./assets/img/Companion/embySprite.png" id="itemSprite">
+              </span>
+              <span class="description">
+                <p class="monsterInfo">MONSTER NAME</p>
+              </span>
             </div>
-            <p id="itemTitle">ITEMS</p>
-            <span class="menuSection menuCol options" id="itemsOptions">
-              <button class="optBtn" id="return">
-                <p id="select">&#10148;</p> RETURN
-              </button>
-              ${renderItemButtons()}
-            </span>
+
+            
+            <div class="menuSection">
+              <div class="statsList">
+                <div class="statsInfo specTxt">
+                  HP:
+                  <span class="healthBar">
+                    <span class="HP" id="EnemyHP">
+                      <p style="position: absolute" id="valueEn">100</p>
+                    </span>
+                  </span>
+                </div>
+                <div class="statsInfo specTxt">
+                  ATK:
+                  <p id="atkValue">444</p>
+                </div>
+                <div class="statsInfo specTxt">
+                  DEF:
+                  <p id="defValue">120</p>
+                </div>
+                <div class="statsInfo specTxt">
+                  SPD:
+                  <p id="spdValue">230</p>
+                </div>
+              </div>
+
+
+              <div class="statsList">
+                <div class="atkList specTxt">
+                  <p id="atkListTitle">Atk List:</p>
+                  <span class="atkGrid">
+                    ${renderSpecsAttackList()}
+                  </span>
+                </div>
+
+                <div class="menuSection atkDesc">
+                  <span class="description">
+                    <p class="atkInfo">ATTACK DESCRIPTION</p>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </menu>
     </div>
     `;

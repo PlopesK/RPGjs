@@ -449,14 +449,17 @@ button {
 }
 
 .menuSpecs .optBtn {
-    width: 30%;
-    margin-bottom: 2vh;
     border: var(--normal-border);
-    background: linear-gradient(to bottom, #ccc, #aaa), #aaa;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     height: 10%;
+    width: 30%;
     min-height: 10%;
     flex-shrink: 0;
+}
+
+.menuSpecs #return {
+    margin-bottom: 2vh;
+    background: linear-gradient(to bottom, #ccc, #aaa), #aaa;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 #specTitle {
@@ -485,6 +488,12 @@ button {
     margin-bottom: 0 !important;
 }
 
+.specSect .optBtn.selected {
+    background: black !important;
+    border-color: grey !important;
+    color: white !important;
+}
+
 .specTxt {
     font-size: var(--font-size);
 }
@@ -494,6 +503,7 @@ button {
 }
 
 .specInfo {
+    width: 100%;
     height: 100%;
 }
 
@@ -527,7 +537,8 @@ button {
 }
 
 .atkList {
-    margin-bottom: 2vh;
+    margin-bottom: 1vh;
+    height: 100%;
 }
 
 .atkList .atkGrid{
@@ -537,6 +548,7 @@ button {
     gap: 3%;
     border: var(--normal-border);
     padding: 1%;
+    height: 80%;
 }
 
 .atkGrid .optBtn {

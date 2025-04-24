@@ -57,13 +57,15 @@ window.addEventListener("keyup", (e) => {
 const menus = {
   startBattle: document.querySelector('.startBattle'),
   battleAtk: document.querySelector('.battleAtk'),
-  dialogueBox: document.querySelector('.dialogueBox'),
+  specsMenu: document.querySelector('.menuSpecs'),
   itemMenu: document.querySelector('.menuItem'),
+  dialogueBox: document.querySelector('.dialogueBox'),
 };
 
 const menuOptions = {
   startBattle: Array.from(menus.startBattle.querySelectorAll('.optBtn')),
   battleAtk: Array.from(menus.battleAtk.querySelectorAll('.optBtn')),
+  specsMenu: Array.from(menus.specsMenu.querySelectorAll('.optBtn')),
   itemMenu: Array.from(menus.itemMenu.querySelectorAll('.optBtn')),
 };
 
@@ -93,6 +95,9 @@ const descriptions = {
       run: "Attempt to escape from the battle.",
     },
     battleAtk: Object.keys(charAttacks).reduce((obj, key) => ({
+      ...obj, [key]: charAttacks[key].description
+    }), {}),
+    specsMenu: Object.keys(charAttacks).reduce((obj, key) => ({
       ...obj, [key]: charAttacks[key].description
     }), {}),
     itemMenu: { return: "Return without using an Item" }
@@ -164,6 +169,10 @@ function handleAction() {
       handleBattleAtk();
       break;
 
+    case 'specsMenu':
+      handleSpecsMenu();
+      break;
+
     case 'itemMenu':
       handleItemMenu();
       break;
@@ -181,6 +190,11 @@ function handleStartBattle() {
       toggleMenu('battleAtk');
       break;
 
+    case 'specs':
+      menu.itemInit = true;
+      toggleMenu('specsMenu');
+      break;
+
     case 'items':
       menu.itemInit = true;
       toggleMenu('itemMenu');
@@ -190,6 +204,15 @@ function handleStartBattle() {
       toggleMenu('dialogueBox');
       playerMonster.run()
       break;
+  }
+}
+
+function handleSpecsMenu() {
+  if (selectedOption?.id === 'return') {
+    menu.itemInit = false;
+    toggleMenu('startBattle');
+    audio.menuReturn.play();
+    return;
   }
 }
 
