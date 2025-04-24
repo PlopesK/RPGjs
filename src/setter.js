@@ -233,15 +233,15 @@ function createBattleMenu() {
       </div> <!-- End of class 'actions' -->
 
       <!-- Start of menu 'menuItem' -->
-      <menu class="menuItem hidden">
-            <div class="itSection itemsImg options">
+      <menu class="menuFullScreen menuItem hidden">
+            <div class="menuSection menuImg options">
                 <span class="objImg"><img src="" id="itemSprite"></span>
                 <span class="description">
                     <p class="info">ITEM DESCRIPTION</p>
                 </span>
             </div>
             <p id="itemTitle">ITEMS</p>
-            <span class="itSection itemsCol options" id="itemsOptions">
+            <span class="menuSection menuCol options" id="itemsOptions">
               <button class="optBtn" id="return">
                 <p id="select">&#10148;</p> RETURN
               </button>

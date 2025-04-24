@@ -361,22 +361,25 @@ button {
 }
 
 /* //////////////// Items Menu //////////////// */
-.menuItem {
+.menuFullScreen {
     position: absolute;
     top: 0;
     width: 98%;
     height: 98%;
     border: var(--larger-border);
     border-radius: var(--border-radius);
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    list-style: none;
     background-color: white;
     text-align: center;
     justify-content: center;
     z-index: 500;
     padding: 2%;
     margin: 0.5% 1% 0.5% 1%;
+}
+
+.menuItem, .specInfo {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    list-style: none;
 }
 
 #itemTitle {
@@ -386,7 +389,7 @@ button {
     margin-top: 2vh;
 }
 
-.itSection {
+.menuSection {
     grid-template-columns: repeat(1, 1fr);
     height: 100%;
     border: var(--normal-border);
@@ -395,16 +398,16 @@ button {
     margin: 2%;
 }
 
-.itSection>* {
+.menuSection>* {
     border-radius: var(--border-radius);
 }
 
-.itemsImg {
+.menuImg {
     display: flex;
     flex-direction: column;
 }
 
-.itemsImg>* {
+.menuImg>* {
     min-height: 45%;
 }
 
@@ -419,7 +422,7 @@ button {
     width: 35%;
 }
 
-.itemsCol {
+.menuCol {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -428,14 +431,121 @@ button {
     margin-top: 2%;
 }
 
-/* Botões consistentes */
-.itemsCol .optBtn {
+.menuCol .optBtn {
     height: 15%;
     min-height: 15%;
     flex-shrink: 0;
 }
 
-.itemsCol .optBtn.selected,
+.menuCol .optBtn.selected,
 .btn.selected {
     transform: scale(1.02);
+}
+
+.menuSpecs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.menuSpecs .optBtn {
+    width: 30%;
+    margin-bottom: 2vh;
+    border: var(--normal-border);
+    background: linear-gradient(to bottom, #ccc, #aaa), #aaa;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    height: 10%;
+    min-height: 10%;
+    flex-shrink: 0;
+}
+
+#specTitle {
+    margin-bottom: 2vh;
+}
+
+.specSect {
+    border: var(--normal-border);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    height: 10%;
+    margin-bottom: 2vh;
+    width: 98%;
+}
+
+.specSect .optBtn {
+    width: 5% !important;
+    height: 80% !important;
+    min-height: 80% !important;
+    flex-shrink: 0;
+    background: white;
+    border: var(--normal-border);
+    cursor: pointer;
+    margin-bottom: 0 !important;
+}
+
+.specTxt {
+    font-size: var(--font-size);
+}
+
+.statsList {
+    height: 33%;
+}
+
+.specInfo {
+    height: 100%;
+}
+
+.statsInfo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 4vh;
+}
+
+.statsInfo:last-child {
+    height: 5vh !important;
+    padding-bottom: 1vh;
+    border-bottom: 0.5vh double black !important;
+}
+
+.statsInfo .healthBar {
+    margin-bottom: 1.5vh;
+    height: 2.5vh;
+}
+
+.statsInfo .HP {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#atkValue {
+    font-weight: bold;
+    margin-left: 1vh;
+}
+
+.atkList {
+    margin-bottom: 2vh;
+}
+
+.atkList .atkGrid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    list-style: none;
+    gap: 3%;
+    border: var(--normal-border);
+    padding: 1%;
+}
+
+.atkGrid .optBtn {
+    height: 100%;
+    width: 100%;
+}
+
+.atkDesc {
+    width: 100%;
+    padding: 2%;
+    margin: 0;
 }

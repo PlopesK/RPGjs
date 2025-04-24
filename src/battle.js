@@ -108,6 +108,6 @@ function init() {
     animateBattle()
 }
 
-//init() //Start in the battle scene
-animate() //Start in the map
+init() //Start in the battle scene
+//animate() //Start in the map
 setupMusicPrompt() //Show music prompt
