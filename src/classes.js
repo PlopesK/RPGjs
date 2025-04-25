@@ -135,7 +135,7 @@ class Monster extends Sprite {
             if (recipient.health.current > 99) recipient.health.current = 100;
             if (recipient.health.current >= 30) {
                 gsap.killTweensOf(healthBar);
-                hpCriticalAnimation = null;
+    
                 gsap.to(healthBar, {
                     repeat: 0,
                     opacity: 1,
@@ -237,7 +237,6 @@ function resetHpAnim() {
     // Cancel criticalHp animation on reset
     hpReset.forEach((hpBar) => {
         gsap.killTweensOf(hpBar);
-        hpCriticalAnimation = null;
         gsap.to(hpBar, {
             "--HP-Light": colors.normal[0],
             "--HP-Dark": colors.normal[1],

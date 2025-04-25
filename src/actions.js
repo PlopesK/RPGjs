@@ -235,8 +235,16 @@ function updateSpecsFromMonster(monster) {
     hpElement.textContent = `${monster.health.current} / ${monster.health.max}`;
     hpBar.style.width = `${newHP}%`;
 
-    // Atualiza cor da barra com base no HP atual
+    // Update hpBar based on current HP
     hpColor(newHP, hpBar);
+    if (newHP <= 55) hpElement.style.color = '#636F75'
+    if (newHP <= 29) {
+      gsap.killTweensOf(hpBar);
+      gsap.to(hpBar, {
+        "--HP-Light": colors.critical[0],
+        "--HP-Dark": colors.critical[1],
+      })
+    }
   }
 
   // ATK, DEF, SPD
