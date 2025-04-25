@@ -521,14 +521,25 @@ button {
 }
 
 .statsInfo .healthBar {
+    position: relative;
     margin-bottom: 1.5vh;
     height: 2.5vh;
+    text-align: center;
 }
 
 .statsInfo .HP {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#valueSp {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    bottom: 40%;
+    margin: 0;
+    color: black;
 }
 
 #atkValue {

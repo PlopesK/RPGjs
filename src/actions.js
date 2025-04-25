@@ -225,9 +225,11 @@ function handleSpecsMenu() {
 
 // Atualiza informações do monstro na aba Specs
 function updateSpecsFromMonster(monster) {
+  document.querySelector("#pageInfo").textContent = 
+  currentSpecsPage === 0 ? "PLAYER" : "ENEMY";
+
   const hpElement = document.querySelector("#valueSp");
   const hpBar = document.querySelector("#SpecsHP");
-
   if (hpElement && hpBar) {
     const newHP = (monster.health.current / monster.health.max) * 100;
     hpElement.textContent = `${monster.health.current} / ${monster.health.max}`;
@@ -248,22 +250,21 @@ function updateSpecsFromMonster(monster) {
   `).toUpperCase();
 
   const atkGrid = document.querySelector('.atkGrid');
-  if (atkGrid && monster.monsterAttacks) {
-    const atkListBtns = monster.monsterAttacks
-      .map((attack, index) => `
+  const atkListBtns = monster.monsterAttacks
+  .map((attack, index) => `
         <button 
           class="optBtn ${attack.type} ${index === 0 ? "selected" : ""}" 
-          id="${attack.name}"
-          data-attack="${attack.name}"
-          aria-label="${attack.name} ${attack.type} attack"
-        >
+          id="${attack}" 
+          data-attack="${attack.name}">
           <p id="select">&#10148;</p> ${attack.name.toUpperCase()}
         </button>
       `)
       .join("");
-  
-    atkGrid.innerHTML = atkListBtns;
-  }
+  atkGrid.innerHTML = atkListBtns;
+
+  menuOptions.specsMenu = Array.from(menus.specsMenu.querySelectorAll('.optBtn'));
+  currentSpecsPage === 0 ? updateSelection(2) : updateSelection(1) //Player : Enemy
+  addHoverEvents();
 }
 
 // Function to handle item menu action //

@@ -185,9 +185,8 @@ function renderStats(monsterKey = "Emby") {
     <div class="statsInfo specTxt">
       HP:
       <span class="healthBar">
-        <span class="HP" id="SpecsHP">
-          <p style="position: absolute" id="valueSp">${stats.hp}</p>
-        </span>
+        <span class="HP" id="SpecsHP"></span>
+        <p style="position: absolute" id="valueSp">${stats.hp}</p>
       </span>
     </div>
     <div class="statsInfo specTxt">
