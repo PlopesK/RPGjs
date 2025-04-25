@@ -74,6 +74,8 @@ class Monster extends Sprite {
         health = { max: 100, current: 100 }, //From this line to line 77 are things 
         isEnemy = false,                     // set only on 'Monster'
         name,
+        stats = { atk: 0, def: 0, spd: 0 },
+        types,
         monsterAttacks
     }) {
         super({ //Things that are extensions from 'Sprite'
@@ -87,8 +89,10 @@ class Monster extends Sprite {
         })
         this.health = health;
         this.isEnemy = isEnemy;
-        this.name = name
-        this.monsterAttacks = monsterAttacks
+        this.name = name;
+        this.stats = stats;
+        this.types = types;
+        this.monsterAttacks = monsterAttacks;
     }
 
     faint() {

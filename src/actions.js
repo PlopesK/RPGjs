@@ -71,6 +71,8 @@ const menuOptions = {
 
 let currentMenu = 'startBattle';
 let selectedOption = null;
+let currentSpecsPage = 0;
+let specsList;
 let locked = false; // Lock for actions
 let lastActionTime = 0; // For debounce
 const debounceTime = 500; // 500 ms debounce time
@@ -132,6 +134,8 @@ function updateSelection(index) {
       itemImg.src = itemList[selectedOption.id].img;
       descText = itemList[selectedOption.id].description;
     }
+  } else if (menu.specsInit) {
+    //const currentMonster = currentSpecsPage;
   }
   updateDescription(descText);
 }
@@ -146,7 +150,7 @@ function handleNavigation(key) {
 
   if (specialCases[key] &&
     specialCases[key][currentIndex] !== undefined &&
-    !menu.itemInit) {
+    !menu.itemInit && !menu.specsInit) {
     newIndex = specialCases[key][currentIndex];
   }
 
@@ -156,34 +160,20 @@ function handleNavigation(key) {
 // //////////////////// Function to handle action //////////////////// //
 function handleAction() {
   const currentTime = Date.now();
-  if (currentTime - lastActionTime < debounceTime) return; // Debounce check
-  lastActionTime = currentTime; // Update last action time
+  if (currentTime - lastActionTime < debounceTime) return;
+  lastActionTime = currentTime;
   audio.menuClick.play();
 
   switch (currentMenu) {
-    case 'startBattle':
-      handleStartBattle();
-      break;
-
-    case 'battleAtk':
-      handleBattleAtk();
-      break;
-
-    case 'specsMenu':
-      handleSpecsMenu();
-      break;
-
-    case 'itemMenu':
-      handleItemMenu();
-      break;
-
-    case 'dialogueBox':
-      handleDialogueBox();
-      break;
+    case 'startBattle': handleStartBattle(); break;
+    case 'battleAtk': handleBattleAtk(); break;
+    case 'specsMenu': handleSpecsMenu(); break;
+    case 'itemMenu': handleItemMenu(); break;
+    case 'dialogueBox': handleDialogueBox(); break;
   }
 }
 
-// Function to handle start actions //
+// Lógica ao entrar no menu principal de batalha
 function handleStartBattle() {
   switch (selectedOption?.id) {
     case 'attack':
@@ -191,7 +181,9 @@ function handleStartBattle() {
       break;
 
     case 'specs':
-      menu.itemInit = true;
+      menu.specsInit = true;
+      currentSpecsPage = 0;
+      showSpecs(specsList[currentSpecsPage]);
       toggleMenu('specsMenu');
       break;
 
@@ -202,17 +194,75 @@ function handleStartBattle() {
 
     case 'run':
       toggleMenu('dialogueBox');
-      playerMonster.run()
+      playerMonster.run();
       break;
   }
 }
 
+function showSpecs(monsterKey) {
+  updateSpecsFromMonster(monsterKey);
+}
+
 function handleSpecsMenu() {
-  if (selectedOption?.id === 'return') {
-    menu.itemInit = false;
-    toggleMenu('startBattle');
-    audio.menuReturn.play();
-    return;
+  switch (selectedOption?.id) {
+    case 'return':
+      menu.specsInit = false;
+      toggleMenu('startBattle');
+      audio.menuReturn.play();
+      break;
+
+    case 'leftArrow':
+      currentSpecsPage = (currentSpecsPage - 1 + specsList.length) % specsList.length;
+      showSpecs(specsList[currentSpecsPage]);
+      break;
+
+    case 'rightArrow':
+      currentSpecsPage = (currentSpecsPage + 1) % specsList.length;
+      showSpecs(specsList[currentSpecsPage]);
+      break;
+  }
+}
+
+// Atualiza informações do monstro na aba Specs
+function updateSpecsFromMonster(monster) {
+  const hpElement = document.querySelector("#valueSp");
+  const hpBar = document.querySelector("#SpecsHP");
+
+  if (hpElement && hpBar) {
+    const newHP = (monster.health.current / monster.health.max) * 100;
+    hpElement.textContent = `${monster.health.current} / ${monster.health.max}`;
+    hpBar.style.width = `${newHP}%`;
+
+    // Atualiza cor da barra com base no HP atual
+    hpColor(newHP, hpBar);
+  }
+
+  // ATK, DEF, SPD
+  document.querySelector("#atkValue").textContent = monster.stats?.atk ?? "0";
+  document.querySelector("#defValue").textContent = monster.stats?.def ?? "0";
+  document.querySelector("#spdValue").textContent = monster.stats?.spd ?? "0";
+
+  // Nome e imagem
+  document.querySelector("#monster").innerHTML = (`
+    ${monster.name}<br>Types: ${monster.types.join(", ")}
+  `).toUpperCase();
+
+  const atkGrid = document.querySelector('.atkGrid');
+  if (atkGrid && monster.monsterAttacks) {
+    const atkListBtns = monster.monsterAttacks
+      .map((attack, index) => `
+        <button 
+          class="optBtn ${attack.type} ${index === 0 ? "selected" : ""}" 
+          id="${attack.name}"
+          data-attack="${attack.name}"
+          aria-label="${attack.name} ${attack.type} attack"
+        >
+          <p id="select">&#10148;</p> ${attack.name.toUpperCase()}
+        </button>
+      `)
+      .join("");
+  
+    atkGrid.innerHTML = atkListBtns;
   }
 }
 
@@ -368,6 +418,7 @@ function handleKeydown(e) {
           handleAction();
         } else {
           menu.itemInit = false;
+          menu.specsInit = false;
           toggleMenu('startBattle')
           audio.menuReturn.play()
         }

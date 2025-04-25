@@ -3,6 +3,7 @@
 const menu = {
   initiated: false,
   itemInit: false,
+  specsInit: false,
 }
 
 const battle = {
@@ -177,6 +178,33 @@ function renderAttackMenu() {
   `).join("");
 }
 
+function renderStats(monsterKey = "Emby") {
+  const stats = monsterData[monsterKey].stats;
+
+  return `
+    <div class="statsInfo specTxt">
+      HP:
+      <span class="healthBar">
+        <span class="HP" id="SpecsHP">
+          <p style="position: absolute" id="valueSp">${stats.hp}</p>
+        </span>
+      </span>
+    </div>
+    <div class="statsInfo specTxt">
+      ATK: 
+      <p id="atkValue"> ${stats.atk}</p>
+    </div>
+    <div class="statsInfo specTxt">
+      DEF: 
+      <p id="defValue"> ${stats.def}</p>
+    </div>
+    <div class="statsInfo specTxt">
+      SPD: 
+      <p id="spdValue"> ${stats.spd}</p>
+    </div>
+  `;
+}
+
 function renderSpecsAttackList(monsterKey = charAttacks) {
   const attacks = Object.values(monsterKey);
   return attacks.map((atk, index) => `
@@ -277,37 +305,18 @@ function createBattleMenu() {
 
           <div class="specInfo">
             <div class="menuSection menuImg options">
-              <span class="objImg">
-                <img src="./assets/img/Companion/embySprite.png" id="itemSprite">
+              <span class="objImg specsImg">
+                
               </span>
               <span class="description">
-                <p class="monsterInfo">MONSTER NAME</p>
+                <p class="monsterInfo" id="monster">MONSTER NAME</p>
               </span>
             </div>
 
             
             <div class="menuSection">
               <div class="statsList">
-                <div class="statsInfo specTxt">
-                  HP:
-                  <span class="healthBar">
-                    <span class="HP" id="EnemyHP">
-                      <p style="position: absolute" id="valueEn">100</p>
-                    </span>
-                  </span>
-                </div>
-                <div class="statsInfo specTxt">
-                  ATK:
-                  <p id="atkValue">444</p>
-                </div>
-                <div class="statsInfo specTxt">
-                  DEF:
-                  <p id="defValue">120</p>
-                </div>
-                <div class="statsInfo specTxt">
-                  SPD:
-                  <p id="spdValue">230</p>
-                </div>
+                ${renderStats()}
               </div>
 
 

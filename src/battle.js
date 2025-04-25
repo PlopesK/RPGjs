@@ -35,6 +35,8 @@ function createMonster(monsterKey) {
         scale: scale,
         isEnemy: data.isEnemy,
         name: data.name,
+        stats: data.stats,
+        types: data.types,
         monsterAttacks: data.monsterAttacks
     });
 }
@@ -52,6 +54,7 @@ function initBattle() {
     emby = createMonster('Emby')
     draggle = createMonster('Draggle')
     allSprites = [emby, draggle]
+    currentSpecsPage = 0;
     resetHpAnim()
 
     renderedSprites = []
@@ -61,6 +64,7 @@ function initBattle() {
     enemyMonster = allSprites.find(sprite => sprite.isEnemy)
 
     renderedSprites.push(enemyMonster, playerMonster)
+    specsList  = [playerMonster, enemyMonster]
 
     window.addEventListener('keydown', handleKeydown)
     addHoverEvents()
