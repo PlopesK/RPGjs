@@ -327,7 +327,7 @@ function createBattleMenu() {
 
                 <div class="menuSection atkDesc">
                   <span class="description">
-                    <p class="atkInfo">ATTACK DESCRIPTION</p>
+                    <p class="info atkInfo">ATTACK DESCRIPTION</p>
                   </span>
                 </div>
               </div>

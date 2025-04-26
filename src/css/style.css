@@ -599,3 +599,7 @@ button {
     padding: 2%;
     margin: 0;
 }
+
+.atkInfo {
+    font-size: small;
+}

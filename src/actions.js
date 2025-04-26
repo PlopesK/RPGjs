@@ -99,9 +99,6 @@ const descriptions = {
     battleAtk: Object.keys(charAttacks).reduce((obj, key) => ({
       ...obj, [key]: charAttacks[key].description
     }), {}),
-    specsMenu: Object.keys(charAttacks).reduce((obj, key) => ({
-      ...obj, [key]: charAttacks[key].description
-    }), {}),
     itemMenu: { return: "Return without using an Item" }
   },
 };
@@ -110,7 +107,7 @@ const descriptions = {
 function updateDescription(text) {
   const descriptionElements = document.querySelectorAll(".info");
   descriptionElements.forEach(element => {
-    element.textContent = text.toUpperCase();
+    element.innerHTML = text.toUpperCase();
   });
 }
 
@@ -135,9 +132,22 @@ function updateSelection(index) {
       descText = itemList[selectedOption.id].description;
     }
   } else if (menu.specsInit) {
-    //const currentMonster = currentSpecsPage;
+    if (selectedOption?.id == 'return' || selectedOption?.id == 'leftArrow' || selectedOption?.id == 'rightArrow') {
+      descText = "";
+    } else {
+      const attackName = selectedOption.dataset.attack;
+      const attackData = atkList[attackName];
+      if (attackData) {
+        descText = `
+          ${attackData.name} <br>
+          Damage: ${attackData.damage} <br>
+          Type: ${attackData.type} <br>
+          "${attackData.description}"
+        `;
+      }
+    }
   }
-  updateDescription(descText);
+  updateDescription(descText.trim());
 }
 
 // Function to handle navigation
