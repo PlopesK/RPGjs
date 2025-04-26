@@ -260,6 +260,8 @@ function updateSpecsFromMonster(monster) {
 
     hpColor(newHP, hpBar);
     if (newHP <= 55) hpElement.style.color = '#636F75';
+    else hpElement.style.color = 'black';
+    
     if (newHP <= 29) {
       gsap.killTweensOf(hpBar);
       gsap.to(hpBar, {
