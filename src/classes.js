@@ -187,12 +187,14 @@ class Monster extends Sprite {
         let target = recipient.position.y
         let firer = this.position.y + 80
         let hitting = recipient.position.y
+        let fireHittingX = recipient.position.x
         if (this.isEnemy) {
             healthBar = '#PlayerHP'
             rotation = -2.5
             target = recipient.position.y + 100
             firer = this.position.y + 50
             hitting = recipient.position.y + 50
+            fireHittingX = recipient.position.x + 30
         }
 
         switch (attack.name) {
@@ -277,6 +279,34 @@ class Monster extends Sprite {
                         renderedSprites.splice(1, 1),
                         audio.fireballHit.play()
                         takeHitAnim(recipient, healthBar)
+
+                        const fireHitImg = new Image()
+                        fireHitImg.src = './assets/img/Battle/FireHit.png'
+                        const fireHit = new Sprite({
+                            position: {
+                                x: fireHittingX + 20,
+                                y: hitting + 20
+                            },
+                            image: fireHitImg,
+                            frames: {
+                                max: 5,
+                                hold: 10
+                            },
+                            animation: true,
+                            scale: 2,
+                        })
+        
+                        //renderedSprites.push(heal)
+                        renderedSprites.push(fireHit)
+        
+                        gsap.to(fireHit, {
+                            yoyo: true,
+                            repeat: 1,
+                            duration: 0.3,
+                            onComplete: () => {
+                                renderedSprites.pop()
+                            }
+                        })
                     }
                 })
                 break;
