@@ -173,7 +173,7 @@ function handleAction() {
   }
 }
 
-// Lógica ao entrar no menu principal de batalha
+// Handle start of battle menu
 function handleStartBattle() {
   switch (selectedOption?.id) {
     case 'attack':
@@ -183,7 +183,7 @@ function handleStartBattle() {
     case 'specs':
       menu.specsInit = true;
       currentSpecsPage = 0;
-      showSpecs(specsList[currentSpecsPage]);
+      updateSpecsFromMonster(specsList[currentSpecsPage]);
       toggleMenu('specsMenu');
       break;
 
@@ -199,10 +199,7 @@ function handleStartBattle() {
   }
 }
 
-function showSpecs(monsterKey) {
-  updateSpecsFromMonster(monsterKey);
-}
-
+//Handle Specs Menu
 function handleSpecsMenu() {
   switch (selectedOption?.id) {
     case 'return':
@@ -213,21 +210,24 @@ function handleSpecsMenu() {
 
     case 'leftArrow':
       currentSpecsPage = (currentSpecsPage - 1 + specsList.length) % specsList.length;
-      showSpecs(specsList[currentSpecsPage]);
+      updateSpecsFromMonster(specsList[currentSpecsPage]);
       break;
 
     case 'rightArrow':
       currentSpecsPage = (currentSpecsPage + 1) % specsList.length;
-      showSpecs(specsList[currentSpecsPage]);
+      updateSpecsFromMonster(specsList[currentSpecsPage]);
       break;
   }
 }
 
-// Atualiza informações do monstro na aba Specs
+// Update monsters info inside Specs Menu
 function updateSpecsFromMonster(monster) {
-  document.querySelector("#pageInfo").textContent = 
-  currentSpecsPage === 0 ? "PLAYER" : "ENEMY";
+  const specsSprite = document.querySelector("#specsSprite");
+  const image = monster.image?.src ?? monster.imageSrc ?? ""; //Pick the image of the PlayerMonster or EnemyMonster
+  specsSprite.style.setProperty('--SpecsImage', `url(${image})`);
+  document.querySelector("#pageInfo").textContent = currentSpecsPage === 0 ? "PLAYER" : "ENEMY";
 
+  // HP Bar update
   const hpElement = document.querySelector("#valueSp");
   const hpBar = document.querySelector("#SpecsHP");
   if (hpElement && hpBar) {
@@ -235,15 +235,14 @@ function updateSpecsFromMonster(monster) {
     hpElement.textContent = `${monster.health.current} / ${monster.health.max}`;
     hpBar.style.width = `${newHP}%`;
 
-    // Update hpBar based on current HP
     hpColor(newHP, hpBar);
-    if (newHP <= 55) hpElement.style.color = '#636F75'
+    if (newHP <= 55) hpElement.style.color = '#636F75';
     if (newHP <= 29) {
       gsap.killTweensOf(hpBar);
       gsap.to(hpBar, {
         "--HP-Light": colors.critical[0],
         "--HP-Dark": colors.critical[1],
-      })
+      });
     }
   }
 
@@ -252,14 +251,15 @@ function updateSpecsFromMonster(monster) {
   document.querySelector("#defValue").textContent = monster.stats?.def ?? "0";
   document.querySelector("#spdValue").textContent = monster.stats?.spd ?? "0";
 
-  // Nome e imagem
+  // Update Name + Type
   document.querySelector("#monster").innerHTML = (`
     ${monster.name}<br>Types: ${monster.types.join(", ")}
   `).toUpperCase();
 
+  // Update attack list
   const atkGrid = document.querySelector('.atkGrid');
   const atkListBtns = monster.monsterAttacks
-  .map((attack, index) => `
+    .map((attack, index) => `
         <button 
           class="optBtn ${attack.type} ${index === 0 ? "selected" : ""}" 
           id="${attack}" 
@@ -267,11 +267,11 @@ function updateSpecsFromMonster(monster) {
           <p id="select">&#10148;</p> ${attack.name.toUpperCase()}
         </button>
       `)
-      .join("");
+    .join("");
   atkGrid.innerHTML = atkListBtns;
 
   menuOptions.specsMenu = Array.from(menus.specsMenu.querySelectorAll('.optBtn'));
-  currentSpecsPage === 0 ? updateSelection(2) : updateSelection(1) //Player : Enemy
+  currentSpecsPage === 0 ? updateSelection(2) : updateSelection(1); // Player : Enemy
   addHoverEvents();
 }
 

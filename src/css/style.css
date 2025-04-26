@@ -17,6 +17,7 @@
 
     --HP-Light: #23F723;
     --HP-Dark: #228b22;
+    --SpecsImage: url('../../assets/img/Companion/embySprite.png')
 }
 
 * {
@@ -134,6 +135,7 @@ canvas {
     from {
         transform: translateX(100%);
     }
+
     to {
         transform: translateX(0);
     }
@@ -143,6 +145,7 @@ canvas {
     from {
         transform: translateX(-100%);
     }
+
     to {
         transform: translateX(0);
     }
@@ -376,7 +379,8 @@ button {
     margin: 0.5% 1% 0.5% 1%;
 }
 
-.menuItem, .specInfo {
+.menuItem,
+.specInfo {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     list-style: none;
@@ -494,6 +498,29 @@ button {
     color: white !important;
 }
 
+.specsImg {
+    position: relative;
+}
+
+#specsSprite {
+    position: absolute;
+    width: 86px;
+    height: 50%;
+    background-image: var(--SpecsImage);
+    background-repeat: no-repeat;
+    animation: animateSteps 1s steps(4) infinite;
+}
+
+@keyframes animateSteps {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: -344px 0;
+    }
+}
+
 .specTxt {
     font-size: var(--font-size);
 }
@@ -552,7 +579,7 @@ button {
     height: 100%;
 }
 
-.atkList .atkGrid{
+.atkList .atkGrid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     list-style: none;

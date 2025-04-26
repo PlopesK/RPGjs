@@ -64,7 +64,7 @@ function initBattle() {
     enemyMonster = allSprites.find(sprite => sprite.isEnemy)
 
     renderedSprites.push(enemyMonster, playerMonster)
-    specsList  = [playerMonster, enemyMonster]
+    specsList = [playerMonster, enemyMonster]
 
     window.addEventListener('keydown', handleKeydown)
     addHoverEvents()

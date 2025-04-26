@@ -304,9 +304,7 @@ function createBattleMenu() {
 
           <div class="specInfo">
             <div class="menuSection menuImg options">
-              <span class="objImg specsImg">
-                
-              </span>
+              <span class="objImg specsImg"> <div id="specsSprite"></div> </span>
               <span class="description">
                 <p class="monsterInfo" id="monster">MONSTER NAME</p>
               </span>
