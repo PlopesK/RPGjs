@@ -144,6 +144,34 @@ class Monster extends Sprite {
                 })
             }
             audio.healing.play();
+
+            const healImg = new Image()
+            healImg.src = './assets/img/Battle/HealEffect.png'
+            const heal = new Sprite({
+                position: {
+                    x: this.position.x - 40,
+                    y: this.position.y - 20
+                },
+                image: healImg,
+                frames: {
+                    max: 4,
+                    hold: 10
+                },
+                animation: true,
+                scale: 2,
+            })
+
+            //renderedSprites.push(heal)
+            renderedSprites.push(heal)
+
+            gsap.to(heal, {
+                yoyo: true,
+                repeat: 3,
+                onComplete: () => {
+                    renderedSprites.pop()
+                }
+            })
+
         }
         updateHP(recipient, healthBar)
     }
@@ -158,11 +186,13 @@ class Monster extends Sprite {
         let rotation = 1
         let target = recipient.position.y
         let firer = this.position.y + 80
+        let hitting = recipient.position.y
         if (this.isEnemy) {
             healthBar = '#PlayerHP'
             rotation = -2.5
             target = recipient.position.y + 100
             firer = this.position.y + 50
+            hitting = recipient.position.y + 50
         }
 
         switch (attack.name) {
@@ -183,6 +213,33 @@ class Monster extends Sprite {
                     onComplete: () => {
                         audio.tackleHit.play()
                         takeHitAnim(recipient, healthBar)
+                        const hitImg = new Image()
+                        hitImg.src = './assets/img/Battle/HitEffect.png'
+                        const hit = new Sprite({
+                            position: {
+                                x: recipient.position.x + 20,
+                                y: hitting
+                            },
+                            image: hitImg,
+                            frames: {
+                                max: 4,
+                                hold: 10
+                            },
+                            animation: true,
+                            scale: 4,
+                        })
+        
+                        //renderedSprites.push(heal)
+                        renderedSprites.push(hit)
+        
+                        gsap.to(hit, {
+                            yoyo: true,
+                            repeat: 0,
+                            duration: 0.3,
+                            onComplete: () => {
+                                renderedSprites.pop()
+                            }
+                        })
                     }
                 }).to(this.position, {
                     x: this.position.x,

@@ -1,2 +1,12 @@
+// Font //
+DaFont: https://www.dafont.com/pkmn-rbygsc.font
+
 // Pixel Art Sprites //
-Pixel_Poem: https://pixel-poem.itch.io/dungeon-assetpuck
+Cyporkador: https://cypor.itch.io/12x12-rpg-tileset (Main map and character sprites)
+Pixel_Poem: https://pixel-poem.itch.io/dungeon-assetpuck (Potion sprites)
+Pimen: https://pimen.itch.io/cutting-and-healing (Healing effect)
+Pimen: https://pimen.itch.io/pixel-battle-effects (Hit effect)
+Pimen: https://pimen.itch.io/magical-animation-effects (Fire hit effect + Defence effect)
+
+// SFX //
+HUNTER AUDIO PRODUCTION: https://hunteraudio.itch.io/8bit-sfx-and-music-pack (Menu, Healing, Walking sfx and Battle Music)
