@@ -508,7 +508,7 @@ button {
     height: 50%;
     background-image: var(--SpecsImage);
     background-repeat: no-repeat;
-    animation: animateSteps 1s steps(4) infinite;
+    animation: animateSteps 2s steps(4) infinite;
 }
 
 @keyframes animateSteps {

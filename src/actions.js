@@ -104,10 +104,14 @@ const descriptions = {
 };
 
 // Function to update description
-function updateDescription(text) {
+function updateDescription(text, allowHTML = false) {
   const descriptionElements = document.querySelectorAll(".info");
   descriptionElements.forEach(element => {
-    element.innerHTML = text.toUpperCase();
+    if (allowHTML) {
+      element.innerHTML = text.toUpperCase();
+    } else {
+      element.textContent = text.toUpperCase();
+    }
   });
 }
 
@@ -121,33 +125,42 @@ function updateSelection(index) {
   selectedOption.classList.add('selected');
 
   let descText = descriptions.menus[currentMenu]?.[selectedOption.id] ?? "No description available.";
+  let allowHTML = false;
+
   if (menu.itemInit) {
     selectedOption.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
     const itemImg = document.querySelector("#itemSprite");
-    if (selectedOption?.id == 'return') {
-      itemImg.src = "./assets/img/Menu/pokeball.png"
+    const itemId = selectedOption?.id;
+    if (itemId === 'return') {
+      itemImg.src = "./assets/img/Menu/pokeball.png";
       descText = "Return without using an Item";
-    } else {
-      itemImg.src = itemList[selectedOption.id].img;
-      descText = itemList[selectedOption.id].description;
-    }
-  } else if (menu.specsInit) {
-    if (selectedOption?.id == 'return' || selectedOption?.id == 'leftArrow' || selectedOption?.id == 'rightArrow') {
-      descText = "";
-    } else {
-      const attackName = selectedOption.dataset.attack;
-      const attackData = atkList[attackName];
-      if (attackData) {
-        descText = `
-          ${attackData.name} <br>
-          Damage: ${attackData.damage} <br>
-          Type: ${attackData.type} <br>
-          "${attackData.description}"
-        `;
-      }
+    } else if (itemList[itemId]) {
+      itemImg.src = itemList[itemId].img;
+      descText = itemList[itemId].description;
     }
   }
-  updateDescription(descText.trim());
+
+  else if (menu.specsInit) {
+    const id = selectedOption?.id;
+    if (id !== 'return' && id !== 'leftArrow' && id !== 'rightArrow') {
+      const attackName = selectedOption.dataset?.attack;
+      const attackData = atkList?.[attackName];
+      if (attackData) {
+        allowHTML = true;
+        descText = `
+          ${attackData.name} <br>
+          DAMAGE: ${attackData.damage ?? "N/A"} <br>
+          TYPE: ${attackData.type ?? "N/A"} <br>
+          "${attackData.description ?? "No description."}"
+        `;
+      }
+    } else {
+      descText = "";
+    }
+  }
+
+  updateDescription(descText.trim(), allowHTML);
 }
 
 // Function to handle navigation
