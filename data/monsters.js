@@ -11,7 +11,7 @@ const monsterData = {
       spd: 120,
     },
     types: ['Fire'],
-    monsterAttacks: [atkList.Tackle, atkList.Fireball, atkList.Bite, atkList.Defense],
+    monsterAttacks: [atkList.Tackle, atkList.Fireball, atkList.Firedance, atkList.Defense],
   },
   Draggle: {
     name: 'Draggle',

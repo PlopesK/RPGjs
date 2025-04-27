@@ -76,7 +76,9 @@ class Monster extends Sprite {
         name,
         stats = { atk: 0, def: 0, spd: 0 },
         types,
-        monsterAttacks
+        monsterAttacks,
+        defending = false,
+        attackUp = false,
     }) {
         super({ //Things that are extensions from 'Sprite'
             position,
@@ -93,6 +95,8 @@ class Monster extends Sprite {
         this.stats = stats;
         this.types = types;
         this.monsterAttacks = monsterAttacks;
+        this.defending = defending
+        this.attackUp = attackUp
     }
 
     faint() {
@@ -179,9 +183,6 @@ class Monster extends Sprite {
     attack({ attack, recipient, renderedSprites }) {
         menus.dialogueBox.innerHTML = `${this.name} used ${attack.name}`
 
-        recipient.health.current -= attack.damage;
-        if (recipient.health.current < 0) recipient.health.current = 0;
-
         let healthBar = '#EnemyHP'
         let rotation = 1
         let target = recipient.position.y
@@ -198,7 +199,7 @@ class Monster extends Sprite {
         }
 
         switch (attack.name) {
-            // Tackle Anim //
+        // Tackle Anim //
             case 'Tackle':
                 const tl = gsap.timeline()
 
@@ -231,9 +232,7 @@ class Monster extends Sprite {
                             scale: 4,
                         })
         
-                        //renderedSprites.push(heal)
                         renderedSprites.push(hit)
-        
                         gsap.to(hit, {
                             yoyo: true,
                             repeat: 0,
@@ -249,7 +248,7 @@ class Monster extends Sprite {
                 });
                 break;
 
-            // Fireball Anim //
+        // Fireball Anim //
             case 'Fireball':
                 audio.initFireball.play()
                 const fireballImg = new Image()
@@ -310,7 +309,81 @@ class Monster extends Sprite {
                     }
                 })
                 break;
+        // FireDance Anim //
+            case 'Firedance':
+                const fireDanceImg = new Image()
+                fireDanceImg.src = './assets/img/Battle/fireDance.png'
+                const fireDance = new Sprite({
+                    position: {
+                        x: this.position.x,
+                        y: this.position.y
+                    },
+                    image: fireDanceImg,
+                    frames: {
+                        max: 5,
+                        hold: 10
+                    },
+                    animation: true,
+                    scale: 3,
+                })
+
+                renderedSprites.push(fireDance)
+                gsap.to(fireDance, {
+                    repeat: 3,
+                    yoyo: true,
+                    duration: 0.5,
+                    onComplete: () => {
+                        renderedSprites.pop()
+                        this.attackUp = true;
+                    }
+                })
+                break;
+
+        // Defense UP Anim //
+            case 'Defense':
+                const DefenseImg = new Image()
+                DefenseImg.src = './assets/img/Battle/Defense.png'
+                const defense = new Sprite({
+                    position: {
+                        x: this.position.x - this.width - 20,
+                        y: this.position.y - this.height
+                    },
+                    image: DefenseImg,
+                    frames: {
+                        max: 6,
+                        hold: 10
+                    },
+                    animation: true,
+                    scale: 3,
+                })
+
+                renderedSprites.push(defense)
+                gsap.to(defense, {
+                    opacity: 0,
+                    repeat: 3,
+                    yoyo: true,
+                    duration: 0.3,
+                    onComplete: () => {
+                        renderedSprites.pop()
+                        this.defending = true;
+                    }
+                })
+                break;
         }
+
+        if (this.attackUp) {
+            this.attackUp = false
+            recipient.health.current -= attack.damage * 1
+        }
+
+        if (recipient.defending) {
+            recipient.health.current -= attack.damage / 2;
+            recipient.defending = false;
+        } else {
+            recipient.health.current -= attack.damage;
+        }
+        
+        if (recipient.health.current < 0) recipient.health.current = 0;
     }
 }
 
