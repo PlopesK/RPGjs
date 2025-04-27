@@ -297,7 +297,6 @@ class Monster extends Sprite {
         
                         //renderedSprites.push(heal)
                         renderedSprites.push(fireHit)
-        
                         gsap.to(fireHit, {
                             yoyo: true,
                             repeat: 1,
@@ -315,7 +314,7 @@ class Monster extends Sprite {
                 fireDanceImg.src = './assets/img/Battle/fireDance.png'
                 const fireDance = new Sprite({
                     position: {
-                        x: this.position.x,
+                        x: this.position.x - 10,
                         y: this.position.y
                     },
                     image: fireDanceImg,
@@ -328,10 +327,18 @@ class Monster extends Sprite {
                 })
 
                 renderedSprites.push(fireDance)
+                audio.fireDance.play()
+                gsap.to(this.position, {
+                    x: this.position.x + 60,
+                    yoyo: true,
+                    repeat: 5,
+                    duration: 0.12,
+                });
+                
                 gsap.to(fireDance, {
                     repeat: 3,
                     yoyo: true,
-                    duration: 0.5,
+                    duration: 0.3,
                     onComplete: () => {
                         renderedSprites.pop()
                         this.attackUp = true;
@@ -358,6 +365,7 @@ class Monster extends Sprite {
                 })
 
                 renderedSprites.push(defense)
+                audio.defense.play()
                 gsap.to(defense, {
                     opacity: 0,
                     repeat: 3,
@@ -371,18 +379,20 @@ class Monster extends Sprite {
                 break;
         }
 
+        const baseDamage = attack.damage;
+        let finalDamage = baseDamage;
+
         if (this.attackUp) {
-            this.attackUp = false
-            recipient.health.current -= attack.damage * 1
+            finalDamage = baseDamage * 2.2;
+            this.attackUp = false;
         }
 
         if (recipient.defending) {
-            recipient.health.current -= attack.damage / 2;
+            recipient.health.current -= finalDamage / 2;
             recipient.defending = false;
-        } else {
-            recipient.health.current -= attack.damage;
         }
-        
+
+        recipient.health.current -= Math.floor(finalDamage);
         if (recipient.health.current < 0) recipient.health.current = 0;
     }
 }

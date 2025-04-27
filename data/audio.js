@@ -57,6 +57,11 @@ const audio = {
       this.play();
     },
   }),
+  faint: new Howl({
+    src: './assets/sfx/music/faint.wav',
+    html5: true,
+    volume: 0.15,
+  }),
 
   // Attacks and Effects
   tackleHit: new Howl({
@@ -74,10 +79,15 @@ const audio = {
     html3: true,
     volume: 0.03,
   }),
-  faint: new Howl({
-    src: './assets/sfx/music/faint.wav',
-    html5: true,
-    volume: 0.15,
+  fireDance: new Howl({
+    src: './assets/sfx/attacks/fireDance.wav',
+    html3: true,
+    volume: 0.1,
+  }),
+  defense: new Howl({
+    src: './assets/sfx/attacks/defense.wav',
+    html3: true,
+    volume: 0.1,
   }),
   healing: new Howl({
     src: './assets/sfx/interactions/Healing.wav',
