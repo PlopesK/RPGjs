@@ -41,11 +41,6 @@ body {
     zoom: 1 !important;
 }
 
-.hidden {
-    display: none !important;
-    opacity: 0;
-}
-
 canvas {
     width: 100%;
 }

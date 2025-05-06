@@ -1,3 +1,9 @@
+// Development //
+PlopesK: https://github.com/PlopesK
+
+// Base Idea //
+
+
 // Font //
 DaFont: https://www.dafont.com/pkmn-rbygsc.font
 

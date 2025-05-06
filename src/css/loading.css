@@ -1,0 +1,113 @@
+/* ////////// LOADING ////////// */
+.hidden {
+    display: none !important;
+    opacity: 0 !important;
+}
+
+.loader {
+    margin: 0 !important;
+    background: black !important;
+    text-shadow: 1px 1px blue;
+    z-index: 99999999 !important;
+    justify-content: end !important;
+    text-align: right;
+    align-items: end;
+    opacity: 1;
+    transition: opacity 1s ease, visibility 1s ease;
+}
+
+.loader__inner {
+    margin-right: 30px;
+}
+
+.loader__inner img {
+    width: 60%;
+}
+
+.loadingTxt {
+    display: flex;
+    flex-direction: row;
+}
+
+.intro {
+    margin: 0 !important;
+    background: repeating-linear-gradient(
+      0deg,
+      #0E0D0E 25%,
+      #0E0D0E 50%,
+      #171819 50%,
+      #171819 75%
+    ) !important;
+    background-size: 10px 10px !important;
+    text-shadow: 1px 1px blue;
+    z-index: 99999999 !important;
+}
+
+.ldSection {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+}
+
+.leSnake span { animation: leSnake 1.5s ease-in-out; animation-iteration-count: infinite }
+@keyframes leSnake {
+    from, to { transform: translateY(0px) }
+    50% { transform: translateY(-10px) }
+}
+
+.cssanimation {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+.credits {
+    max-width: 600px;
+    margin: auto;
+    font-family: 'Montserrat', sans-serif;
+    color: #eee;
+    background-color: #1a1a1a;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 10px #333;
+  }
+  
+  .credit-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .credit-group h3 {
+    margin-bottom: 0.5rem;
+    color: #5cf;
+  }
+  
+  a {
+    color: #9cf;
+    text-decoration: underline;
+  }
+
+/* Removed fade-in and fade-out classes and animations for GSAP transitions */
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+#section2 {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    margin: 3vh;
+}
