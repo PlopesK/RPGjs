@@ -17,7 +17,12 @@
 }
 
 .loader__inner {
-    margin-right: 30px;
+    margin: 2vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .loader__inner img {
@@ -31,13 +36,11 @@
 
 .intro {
     margin: 0 !important;
-    background: repeating-linear-gradient(
-      0deg,
-      #0E0D0E 25%,
-      #0E0D0E 50%,
-      #171819 50%,
-      #171819 75%
-    ) !important;
+    background: repeating-linear-gradient(0deg,
+            #0E0D0E 25%,
+            #0E0D0E 50%,
+            #171819 50%,
+            #171819 75%) !important;
     background-size: 10px 10px !important;
     text-shadow: 1px 1px blue;
     z-index: 99999999 !important;
@@ -45,23 +48,38 @@
 
 .ldSection {
     position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     width: 100%;
-    height: 50%;
+    height: 100%;
 }
 
-.leSnake span { animation: leSnake 1.5s ease-in-out; animation-iteration-count: infinite }
+.leSnake span {
+    animation: leSnake 1.5s ease-in-out;
+    animation-iteration-count: infinite
+}
+
 @keyframes leSnake {
-    from, to { transform: translateY(0px) }
-    50% { transform: translateY(-10px) }
+
+    from,
+    to {
+        transform: translateY(0px)
+    }
+
+    50% {
+        transform: translateY(-10px)
+    }
 }
 
 .cssanimation {
-  animation-duration: 1s;
-  animation-fill-mode: both;
+    animation-duration: 1s;
+    animation-fill-mode: both;
 }
 
 .credits {
-    max-width: 600px;
+    max-width: 70%;
     margin: auto;
     font-family: 'Montserrat', sans-serif;
     color: #eee;
@@ -69,36 +87,30 @@
     padding: 2rem;
     border-radius: 12px;
     box-shadow: 0 0 10px #333;
-  }
-  
-  .credit-group {
+}
+
+.credit-group {
     margin-bottom: 1.5rem;
-  }
-  
-  .credit-group h3 {
+}
+
+.credit-group h3 {
     margin-bottom: 0.5rem;
     color: #5cf;
-  }
-  
-  a {
+}
+
+a {
     color: #9cf;
     text-decoration: underline;
-  }
-
-/* Removed fade-in and fade-out classes and animations for GSAP transitions */
-
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
 }
 
 #section2 {
     display: flex;
     flex-direction: column;
+}
+
+#section2 img {
+    margin-top: 2vh;
+    border-radius: 50%;
 }
 
 .row {
@@ -111,3 +123,16 @@
     flex-direction: column;
     margin: 3vh;
 }
+
+.fade-out {
+    animation: fadeOut 1s forwards;
+  }
+  
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }

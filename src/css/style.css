@@ -37,6 +37,7 @@
 body {
     margin: 0;
     overflow: hidden;
+    background-color: #0C120C;
 
     zoom: 1 !important;
 }
