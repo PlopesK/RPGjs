@@ -51,6 +51,7 @@
 
 .loader__inner img {
     width: 60%;
+    margin-bottom: 1.5vh;
 }
 
 .loadingTxt {
@@ -111,6 +112,7 @@
     padding: 2rem;
     border-radius: 12px;
     box-shadow: 0 0 10px #333;
+    line-height: 5vh;
 }
 
 .credit-group {
@@ -131,6 +133,11 @@ a {
     color: #9cf;
     text-decoration: underline;
     border-color: #9cf;
+    scale: (1);
+}
+
+.credit-group li:hover {
+    transform: scale(1.1);
 }
 
 h2 {

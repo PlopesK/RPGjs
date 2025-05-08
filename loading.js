@@ -20,12 +20,12 @@ function startIntro() {
               <section class="credits">
                   <div class="credit-group">
                     <h3>// Base Idea //</h3>
-                    <p><strong>Chris Courses</strong> — <a href="https://youtu.be/yP5DKzriqXA?si=ji_jy9SNNm9VJGuM" target="_blank">Video</a></p>
+                    <li><p><strong>Chris Courses</strong> — <a href="https://youtu.be/yP5DKzriqXA?si=ji_jy9SNNm9VJGuM" target="_blank">Video</a></p></li>
                   </div>
   
                   <div class="credit-group">
                     <h3>// Font //</h3>
-                    <p><strong>DaFont</strong> — <a href="https://www.dafont.com/pkmn-rbygsc.font" target="_blank">PKMN RBYGSC</a></p>
+                    <li><p><strong>DaFont</strong> — <a href="https://www.dafont.com/pkmn-rbygsc.font" target="_blank">PKMN RBYGSC</a></p></li>
                   </div>
                 
                   <div class="credit-group">
@@ -44,10 +44,10 @@ function startIntro() {
                 
                   <div class="credit-group">
                     <h3>// SFX //</h3>
-                    <p><strong>Hunter Audio Production</strong> — 
+                    <li><p><strong>Hunter Audio Production</strong> — 
                       <a href="https://hunteraudio.itch.io/8bit-sfx-and-music-pack" target="_blank">8-Bit SFX & Music Pack</a><br>
                       <em>(Menu, Healing, FireDance, Defense, Walking & Battle Music)</em>
-                    </p>
+                    </p></li>
                   </div>
               </section>
           </div>
