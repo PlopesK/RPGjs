@@ -34,9 +34,9 @@ function startIntro() {
                       <li><strong>Cyporkador</strong> — <a href="https://cypor.itch.io/12x12-rpg-tileset" target="_blank">Map & Characters</a></li>
                       <li><strong>Pixel_Poem</strong> — <a href="https://pixel-poem.itch.io/dungeon-assetpuck" target="_blank">Potion Sprites</a></li>
                       <li><strong>Pimen</strong> — 
-                        <li> <a href="https://pimen.itch.io/cutting-and-healing" target="_blank">Healing</a>, </li>
-                        <li> <a href="https://pimen.itch.io/pixel-battle-effects" target="_blank">Hit</a>, </li>
-                        <li> <a href="https://pimen.itch.io/magical-animation-effects" target="_blank">Fire & Defense Effects</a> </li>
+                        <a href="https://pimen.itch.io/cutting-and-healing" target="_blank">Healing</a>,
+                        <a href="https://pimen.itch.io/pixel-battle-effects" target="_blank">Hit</a>,
+                        <a href="https://pimen.itch.io/magical-animation-effects" target="_blank">Fire & Defense Effects</a>
                       </li>
                       <li><strong>Pixel-boy</strong> — <a href="https://pixel-boy.itch.io/ninja-adventure-asset-pack" target="_blank">Fireball & Monsters</a></li>
                     </ul>
@@ -82,7 +82,7 @@ function prepareLoading() {
 function runIntroAnimations() {
     console.clear();
     const sections = document.querySelectorAll(".ldSection");
-    const sectionTransitionTime = 5000;
+    const sectionTransitionTime = 2500;
     let currentIndex = 0;
 
     function transitionNextSection() {
@@ -133,6 +133,7 @@ function runIntroAnimations() {
 
         animate();
         setupMusicPrompt();
+        canvas.classList.add("fade-in");
     }
 
     setTimeout(transitionNextSection, sectionTransitionTime);

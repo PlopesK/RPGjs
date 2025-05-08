@@ -151,13 +151,19 @@ a {
 .fade-out {
     animation: fadeOut 1s forwards;
     opacity: 0;
-  }
-  
-  @keyframes fadeOut {
+}
+
+.fade-in {
+    animation: fadeOut 1s forwards reverse;
+    opacity: 1;
+}
+
+@keyframes fadeOut {
     from {
-      opacity: 1;
+        opacity: 1;
     }
+
     to {
-      opacity: 0;
+        opacity: 0;
     }
-  }
+}

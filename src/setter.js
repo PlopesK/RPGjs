@@ -27,7 +27,7 @@ function startMusic() {
     </div>
   `
 }
-document.body.innerHTML += startMusic();
+document.getElementById("musicPropmtWrapper").innerHTML = startMusic();
 
 // 🎵 Music prompt //
 let musicOption = null;
@@ -337,7 +337,7 @@ function createBattleMenu() {
     </div>
     `;
 }
-document.body.innerHTML += createBattleMenu();
+document.getElementById("battleMenuWrapper").innerHTML = createBattleMenu();
 
 const battleMenu = document.querySelector(".battle-menu");
 battleMenu.classList.add("hidden");
