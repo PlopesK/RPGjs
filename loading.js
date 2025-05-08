@@ -7,10 +7,10 @@ function startIntro() {
           </div>
   
           <div class="ldSection hidden" id="section2">
-              <h2>🎮 Developted by: 🎮</h2>
+              <h2 class="typewriter">🎮 Developted by: </h2>
               
               <a href="https://github.com/PlopesK">
-                  <p>PlopesK<br> (Gabriel Primo)</p>
+                  <p class="typewriter">PlopesK<br> (Gabriel Primo)</p>
                   <img src="https://avatars.githubusercontent.com/u/101651798?v=4" 
                   alt="PlopesK" title="PlopesK">
               </a>
@@ -82,7 +82,7 @@ function prepareLoading() {
 function runIntroAnimations() {
     console.clear();
     const sections = document.querySelectorAll(".ldSection");
-    const sectionTransitionTime = 2500;
+    const sectionTransitionTime = 3000;
     let currentIndex = 0;
 
     function transitionNextSection() {
@@ -99,7 +99,7 @@ function runIntroAnimations() {
             canSkip = false;
 
             gsap.fromTo(nextSection,
-                { opacity: 0, y: 20 },
+                { opacity: 0, y: 30 },
                 {
                     opacity: 1, y: 0, duration: 1, onComplete: () => {
                         canSkip = true;

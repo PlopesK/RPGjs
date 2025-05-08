@@ -20,7 +20,7 @@ function startMusic() {
   return `
     <div id="musicPrompt" class="modal fade-in hidden">
         <span class="modal-content">
-            <p>This site has background music. Do you want to listen to it?</p>
+            <p class="typewriter">This site has background music. Do you want to listen to it?</p>
             <button id="yesButton" class="button btn" onClick="startAudio()">Yes</button>
             <button id="noButton" class="button btn" onClick="muteAudio()">No</button>
         </span>

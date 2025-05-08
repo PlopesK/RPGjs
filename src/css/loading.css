@@ -117,6 +117,11 @@
     margin-bottom: 1.5rem;
 }
 
+.credit-group li {
+    list-style: none;
+    list-style-type: none;
+}
+
 .credit-group h3 {
     margin-bottom: 0.5rem;
     color: #5cf;
@@ -125,16 +130,35 @@
 a {
     color: #9cf;
     text-decoration: underline;
+    border-color: #9cf;
+}
+
+h2 {
+    max-width: fit-content;
+    height: 2em;
 }
 
 #section2 {
     display: flex;
     flex-direction: column;
+    line-height: 5vh;
 }
 
 #section2 img {
     margin-top: 2vh;
     border-radius: 50%;
+    width: 100%;
+    box-shadow: 5px 0 #343343, 10px 0 #404798;
+    transition: 0.1s ease;
+}
+
+#section2 img:hover {
+    transform: scale(1.1);
+    box-shadow: 5px 0 #343343, 10px 0 #404798, 15px 0 #1526ED;
+}
+
+#section2 p:hover {
+    transform: scale(1.1);
 }
 
 .row {
@@ -167,3 +191,27 @@ a {
         opacity: 0;
     }
 }
+
+/* Typing */
+.typewriter {
+    overflow: hidden; /* Ensures the content is not revealed until the animation */
+    border-right: .15em solid white; /* The typwriter cursor */
+    white-space: nowrap; /* Keeps the content on a single line */
+    margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+    letter-spacing: .15em; /* Adjust as needed */
+    animation: 
+      typing 1.5s steps(35, end),
+      blink-caret 1s step-end infinite;
+  }
+  
+  /* The typing effect */
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+  
+  /* The typewriter cursor effect */
+  @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: initial; }
+  }
