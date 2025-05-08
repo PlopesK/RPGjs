@@ -7,13 +7,14 @@
 
     <link rel="shortcut icon" href="assets/img/Map/tree.png" />
     <link rel="preload" href="src/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="stylesheet" href="src/css/loading.css">
+    <link rel="preload" href="src/css/loading.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <link rel="preload" href="src/css/types.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <title> RPGjs </title>
 </head>
 
 <body>
-    <div id="loading" class="modal loader">
+    <div>
+      <div class="modal loader" id="loading">
         <div class="loader__inner">
             <img src="./assets/img/Items/potionX.gif">
             <section class="loadingTxt cssanimation leSnake">
@@ -35,65 +36,17 @@
                 <span style="animation-delay: 2050ms;">.</span>
             </section>
         </div>
-    </div>
+      </div>
 
-    <section class="modal intro hidden">
-        <div class="ldSection" id="section1">
-            <p>This project is a non-commercial fan production inspired by the Pokémon franchise and features various assets sourced from itch.io</p>
-        </div>
+      <div id="introWrapper"></div>
+      <div class="transition" id="transitionStart"></div>
+      <div class="transition" id="transitionEnd"></div>
 
-        <div class="ldSection hidden" id="section2">
-            <h2>🎮 Developted by: 🎮</h2>
-            
-            <a href="https://github.com/PlopesK">
-                <p>PlopesK<br> (Gabriel Primo)</p>
-                <img src="https://avatars.githubusercontent.com/u/101651798?v=4" 
-                alt="PlopesK" title="PlopesK">
-            </a>
-        </div>
+      <canvas></canvas>
 
-        <div class="ldSection hidden" id="section3">
-            <section class="credits">
-                <div class="credit-group">
-                  <h3>// Font //</h3>
-                  <p><strong>DaFont</strong> — <a href="https://www.dafont.com/pkmn-rbygsc.font" target="_blank">PKMN RBYGSC</a></p>
-                </div>
-              
-                <div class="credit-group">
-                  <h3>// Pixel Art Sprites //</h3>
-                  <ul>
-                    <li><strong>Cyporkador</strong> — <a href="https://cypor.itch.io/12x12-rpg-tileset" target="_blank">Map & Characters</a></li>
-                    <li><strong>Pixel_Poem</strong> — <a href="https://pixel-poem.itch.io/dungeon-assetpuck" target="_blank">Potion Sprites</a></li>
-                    <li><strong>Pimen</strong> — 
-                      <li> <a href="https://pimen.itch.io/cutting-and-healing" target="_blank">Healing</a>, </li>
-                      <li> <a href="https://pimen.itch.io/pixel-battle-effects" target="_blank">Hit</a>, </li>
-                      <li> <a href="https://pimen.itch.io/magical-animation-effects" target="_blank">Fire & Defense Effects</a> </li>
-                    </li>
-                    <li><strong>Pixel-boy</strong> — <a href="https://pixel-boy.itch.io/ninja-adventure-asset-pack" target="_blank">Fireball & Monsters</a></li>
-                  </ul>
-                </div>
-              
-                <div class="credit-group">
-                  <h3>// SFX //</h3>
-                  <p><strong>Hunter Audio Production</strong> — 
-                    <a href="https://hunteraudio.itch.io/8bit-sfx-and-music-pack" target="_blank">8-Bit SFX & Music Pack</a><br>
-                    <em>(Menu, Healing, FireDance, Defense, Walking & Battle Music)</em>
-                  </p>
-                </div>
-            </section>
-        </div>
-    </section>
-
-    <div>
-        <div class="transition" id="transitionStart"></div>
-        <div class="transition" id="transitionEnd"></div>
-
-        <canvas id="canvas" class="hidden"></canvas>
-
-    <div class="message hidden"></div>
+      <div class="message hidden"></div>
     </div>
 
     <script src="config.js"></script>
-    <script src="loading.js"></script>
 </body>
 </html>

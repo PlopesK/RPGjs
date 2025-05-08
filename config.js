@@ -23,6 +23,7 @@ const scripts = [
     // Main Game Logic
     'src/game.js',
     'src/battle.js',
+    'loading.js',
 ];
 
 function loadScript(src, attributes = {}) {
