@@ -7,7 +7,7 @@ function startIntro() {
           </div>
   
           <div class="ldSection hidden" id="section2">
-              <h2 class="typewriter">🎮 Developted by: </h2>
+              <h2 class="typewriter">🎮 Developted by 🎮</h2>
               
               <a href="https://github.com/PlopesK">
                   <p class="typewriter">PlopesK<br> (Gabriel Primo)</p>
