@@ -10,6 +10,8 @@ It was designed both as a learning experience and a showcase of what's possible 
 
 <h2> 🎮 Controls 🎮 </h2>
 
+**❌This game (for now) has NO mobile compability❌**
+
 ```diff
 Action	            |  Keys / Buttons
 Move / Navigate	    |  W, A, S, D or Arrow Keys (↑, ←, ↓, →)
